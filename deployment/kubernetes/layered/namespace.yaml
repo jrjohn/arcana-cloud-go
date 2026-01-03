@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: arcana-cloud-layered
+  labels:
+    app.kubernetes.io/name: arcana-cloud
+    app.kubernetes.io/deployment-mode: layered

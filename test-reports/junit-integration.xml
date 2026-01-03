@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="55" failures="2" errors="0" time="28.509502">
+	<testsuite tests="55" failures="2" time="26.441000" name="github.com/jrjohn/arcana-cloud-go/tests/integration" timestamp="2026-01-03T07:08:21Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login" time="0.460000">
+			<failure message="Failed" type="">=== RUN   TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login&#xA;    layered_grpc_test.go:184: &#xA;        &#x9;Error Trace:&#x9;/app/tests/integration/layered_grpc_test.go:184&#xA;        &#x9;Error:      &#x9;Received unexpected error:&#xA;        &#x9;            &#x9;rpc error: code = Internal desc = internal error: Error 1062 (23000): Duplicate entry &#39;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmNhbmEtY2xvdWQ&#39; for key &#39;refresh_tokens.idx_refresh_tokens_token&#39;&#xA;        &#x9;Test:       &#x9;TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login&#xA;    --- FAIL: TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login (0.46s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_ServiceLayer_AuthService" time="0.950000">
+			<failure message="Failed" type="">=== RUN   TestIntegration_Layered_gRPC_ServiceLayer_AuthService&#xA;--- FAIL: TestIntegration_Layered_gRPC_ServiceLayer_AuthService (0.95s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Postgres_UserDAO" time="0.010000">
+			<skipped message="=== RUN   TestIntegration_Postgres_UserDAO&#xA;    testutil.go:259: PostgreSQL not available&#xA;--- SKIP: TestIntegration_Postgres_UserDAO (0.01s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Postgres_RefreshTokenDAO" time="0.000000">
+			<skipped message="=== RUN   TestIntegration_Postgres_RefreshTokenDAO&#xA;    testutil.go:259: PostgreSQL not available&#xA;--- SKIP: TestIntegration_Postgres_RefreshTokenDAO (0.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Postgres_PluginDAO" time="0.000000">
+			<skipped message="=== RUN   TestIntegration_Postgres_PluginDAO&#xA;    testutil.go:259: PostgreSQL not available&#xA;--- SKIP: TestIntegration_Postgres_PluginDAO (0.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Postgres_PluginExtensionDAO" time="0.000000">
+			<skipped message="=== RUN   TestIntegration_Postgres_PluginExtensionDAO&#xA;    testutil.go:259: PostgreSQL not available&#xA;--- SKIP: TestIntegration_Postgres_PluginExtensionDAO (0.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MongoDB_UserDAO" time="5.000000">
+			<skipped message="=== RUN   TestIntegration_MongoDB_UserDAO&#xA;    testutil.go:305: MongoDB not available&#xA;--- SKIP: TestIntegration_MongoDB_UserDAO (5.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MongoDB_RefreshTokenDAO" time="5.000000">
+			<skipped message="=== RUN   TestIntegration_MongoDB_RefreshTokenDAO&#xA;    testutil.go:305: MongoDB not available&#xA;--- SKIP: TestIntegration_MongoDB_RefreshTokenDAO (5.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MongoDB_PluginDAO" time="5.000000">
+			<skipped message="=== RUN   TestIntegration_MongoDB_PluginDAO&#xA;    testutil.go:305: MongoDB not available&#xA;--- SKIP: TestIntegration_MongoDB_PluginDAO (5.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MongoDB_PluginExtensionDAO" time="5.000000">
+			<skipped message="=== RUN   TestIntegration_MongoDB_PluginExtensionDAO&#xA;    testutil.go:305: MongoDB not available&#xA;--- SKIP: TestIntegration_MongoDB_PluginExtensionDAO (5.00s)&#xA;"></skipped>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/Create_and_FindByID" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/FindByUsername" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/FindByEmail" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/FindByUsernameOrEmail" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/ExistsByUsername" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/ExistsByEmail" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/Update" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/Delete" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/FindAll" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO/Count" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_UserDAO" time="0.100000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_RefreshTokenDAO/Create_and_FindByToken" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_RefreshTokenDAO/RevokeByToken" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_RefreshTokenDAO/RevokeAllByUserID" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_RefreshTokenDAO/DeleteExpired" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_RefreshTokenDAO/FindAll" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_RefreshTokenDAO" time="0.110000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginDAO/Create_and_FindByID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginDAO/FindByKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginDAO/FindByState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginDAO/UpdateState" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginDAO/ExistsByKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginDAO" time="0.040000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginExtensionDAO/Create_and_FindByID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginExtensionDAO/FindByPluginID" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginExtensionDAO/DeleteByPluginID" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_MySQL_PluginExtensionDAO" time="0.070000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_FullJobLifecycle" time="0.170000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_JobFailureAndRetry" time="2.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_JobMoveToDLQ" time="0.070000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_ScheduledJobs" time="0.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_PriorityQueue" time="0.220000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_DistributedLocking" time="0.570000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_IdempotencyCheck" time="0.560000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_GracefulShutdown" time="0.560000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_SchedulerLeaderElection" time="0.410000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_RepositoryLayer_UserService/CreateUser" time="0.210000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_RepositoryLayer_UserService/GetUserByUsername" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_RepositoryLayer_UserService/ExistsByUsername" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_RepositoryLayer_UserService/ListUsers" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_RepositoryLayer_UserService" time="0.230000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Register" time="0.270000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_ServiceLayer_AuthService/ValidateToken" time="0.220000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_FullFlow/EndToEndLayeredCommunication" time="0.230000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/tests/integration" name="TestIntegration_Layered_gRPC_FullFlow" time="0.230000"></testcase>
+	</testsuite>
+</testsuites>

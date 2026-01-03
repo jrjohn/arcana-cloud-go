@@ -1,0 +1,300 @@
+services:
+  redis-test:
+    image: redis:7-alpine
+    container_name: arcana-redis-test
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - arcana-test-network
+
+  mysql-test:
+    image: mysql:8.0
+    container_name: arcana-mysql-test
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: testroot
+      MYSQL_DATABASE: arcana_test
+      MYSQL_USER: arcana_test
+      MYSQL_PASSWORD: arcana_test
+    command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptestroot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - mysql-test-data:/var/lib/mysql
+    networks:
+      - arcana-test-network
+
+  postgres-test:
+    image: postgres:16-alpine
+    container_name: arcana-postgres-test
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: arcana_test
+      POSTGRES_USER: arcana_test
+      POSTGRES_PASSWORD: arcana_test
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U arcana_test -d arcana_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - postgres-test-data:/var/lib/postgresql/data
+    networks:
+      - arcana-test-network
+
+  mongo-test:
+    image: mongo:7.0
+    container_name: arcana-mongo-test
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: arcana_test
+      MONGO_INITDB_ROOT_PASSWORD: arcana_test
+      MONGO_INITDB_DATABASE: arcana_test
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - mongo-test-data:/data/db
+    networks:
+      - arcana-test-network
+
+  # Test runner service for MySQL
+  test-runner-mysql:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: arcana-test-runner-mysql
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    environment:
+      # Application
+      ARCANA_APP_NAME: arcana-cloud-go
+      ARCANA_APP_VERSION: 1.0.0
+      ARCANA_APP_ENVIRONMENT: test
+      ARCANA_APP_DEBUG: "true"
+      # Database - MySQL
+      ARCANA_DATABASE_DRIVER: mysql
+      ARCANA_DATABASE_HOST: mysql-test
+      ARCANA_DATABASE_PORT: "3306"
+      ARCANA_DATABASE_NAME: arcana_test
+      ARCANA_DATABASE_USER: arcana_test
+      ARCANA_DATABASE_PASSWORD: arcana_test
+      # Redis
+      ARCANA_REDIS_HOST: redis-test
+      ARCANA_REDIS_PORT: "6379"
+      ARCANA_REDIS_PASSWORD: ""
+      # JWT
+      JWT_SECRET: test-secret-key-for-testing-purposes-only-32chars
+      ARCANA_JWT_ACCESS_TOKEN_DURATION: 1h
+      ARCANA_JWT_REFRESH_TOKEN_DURATION: 720h
+      # Deployment - Monolithic mode
+      ARCANA_DEPLOYMENT_MODE: monolithic
+      ARCANA_DEPLOYMENT_LAYER: ""
+      ARCANA_DEPLOYMENT_PROTOCOL: http
+      # Plugin
+      ARCANA_PLUGIN_ENABLED: "true"
+      ARCANA_PLUGIN_PLUGINS_DIRECTORY: ./plugins
+      ARCANA_PLUGIN_AUTO_LOAD: "false"
+      ARCANA_PLUGIN_HOT_RELOAD: "false"
+      # SSR
+      ARCANA_SSR_ENABLED: "false"
+      # Test environment variables for integration tests
+      TEST_REDIS_ADDR: redis-test:6379
+      TEST_MYSQL_DSN: arcana_test:arcana_test@tcp(mysql-test:3306)/arcana_test?charset=utf8mb4&parseTime=True&loc=Local
+    volumes:
+      - ./coverage:/app/coverage
+      - ./test-reports:/app/test-reports
+    networks:
+      - arcana-test-network
+
+  # Test runner service for PostgreSQL
+  test-runner-postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: arcana-test-runner-postgres
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    environment:
+      # Application
+      ARCANA_APP_NAME: arcana-cloud-go
+      ARCANA_APP_VERSION: 1.0.0
+      ARCANA_APP_ENVIRONMENT: test
+      ARCANA_APP_DEBUG: "true"
+      # Database - PostgreSQL
+      ARCANA_DATABASE_DRIVER: postgres
+      ARCANA_DATABASE_HOST: postgres-test
+      ARCANA_DATABASE_PORT: "5432"
+      ARCANA_DATABASE_NAME: arcana_test
+      ARCANA_DATABASE_USER: arcana_test
+      ARCANA_DATABASE_PASSWORD: arcana_test
+      ARCANA_DATABASE_SSL_MODE: disable
+      # Redis
+      ARCANA_REDIS_HOST: redis-test
+      ARCANA_REDIS_PORT: "6379"
+      ARCANA_REDIS_PASSWORD: ""
+      # JWT
+      JWT_SECRET: test-secret-key-for-testing-purposes-only-32chars
+      ARCANA_JWT_ACCESS_TOKEN_DURATION: 1h
+      ARCANA_JWT_REFRESH_TOKEN_DURATION: 720h
+      # Deployment - Monolithic mode
+      ARCANA_DEPLOYMENT_MODE: monolithic
+      ARCANA_DEPLOYMENT_LAYER: ""
+      ARCANA_DEPLOYMENT_PROTOCOL: http
+      # Plugin
+      ARCANA_PLUGIN_ENABLED: "true"
+      ARCANA_PLUGIN_PLUGINS_DIRECTORY: ./plugins
+      ARCANA_PLUGIN_AUTO_LOAD: "false"
+      ARCANA_PLUGIN_HOT_RELOAD: "false"
+      # SSR
+      ARCANA_SSR_ENABLED: "false"
+      # Test environment variables for integration tests
+      TEST_REDIS_ADDR: redis-test:6379
+      TEST_POSTGRES_DSN: host=postgres-test port=5432 user=arcana_test password=arcana_test dbname=arcana_test sslmode=disable
+    volumes:
+      - ./coverage:/app/coverage
+      - ./test-reports:/app/test-reports
+    networks:
+      - arcana-test-network
+
+  # Test runner service for MongoDB
+  test-runner-mongo:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: arcana-test-runner-mongo
+    depends_on:
+      mongo-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    environment:
+      # Application
+      ARCANA_APP_NAME: arcana-cloud-go
+      ARCANA_APP_VERSION: 1.0.0
+      ARCANA_APP_ENVIRONMENT: test
+      ARCANA_APP_DEBUG: "true"
+      # Database - MongoDB
+      ARCANA_DATABASE_DRIVER: mongodb
+      ARCANA_DATABASE_HOST: mongo-test
+      ARCANA_DATABASE_PORT: "27017"
+      ARCANA_DATABASE_NAME: arcana_test
+      ARCANA_DATABASE_USER: arcana_test
+      ARCANA_DATABASE_PASSWORD: arcana_test
+      ARCANA_DATABASE_AUTH_SOURCE: admin
+      # Redis
+      ARCANA_REDIS_HOST: redis-test
+      ARCANA_REDIS_PORT: "6379"
+      ARCANA_REDIS_PASSWORD: ""
+      # JWT
+      JWT_SECRET: test-secret-key-for-testing-purposes-only-32chars
+      ARCANA_JWT_ACCESS_TOKEN_DURATION: 1h
+      ARCANA_JWT_REFRESH_TOKEN_DURATION: 720h
+      # Deployment - Monolithic mode
+      ARCANA_DEPLOYMENT_MODE: monolithic
+      ARCANA_DEPLOYMENT_LAYER: ""
+      ARCANA_DEPLOYMENT_PROTOCOL: http
+      # Plugin
+      ARCANA_PLUGIN_ENABLED: "true"
+      ARCANA_PLUGIN_PLUGINS_DIRECTORY: ./plugins
+      ARCANA_PLUGIN_AUTO_LOAD: "false"
+      ARCANA_PLUGIN_HOT_RELOAD: "false"
+      # SSR
+      ARCANA_SSR_ENABLED: "false"
+      # Test environment variables for integration tests
+      TEST_REDIS_ADDR: redis-test:6379
+      TEST_MONGO_URI: mongodb://arcana_test:arcana_test@mongo-test:27017/?authSource=admin
+      TEST_MONGO_DB: arcana_test
+    volumes:
+      - ./coverage:/app/coverage
+      - ./test-reports:/app/test-reports
+    networks:
+      - arcana-test-network
+
+  # Full monolithic test runner (all databases)
+  test-runner-full:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    container_name: arcana-test-runner-full
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+      postgres-test:
+        condition: service_healthy
+      mongo-test:
+        condition: service_healthy
+      redis-test:
+        condition: service_healthy
+    environment:
+      # Application
+      ARCANA_APP_NAME: arcana-cloud-go
+      ARCANA_APP_VERSION: 1.0.0
+      ARCANA_APP_ENVIRONMENT: test
+      ARCANA_APP_DEBUG: "true"
+      # Default Database - MySQL (for app config)
+      ARCANA_DATABASE_DRIVER: mysql
+      ARCANA_DATABASE_HOST: mysql-test
+      ARCANA_DATABASE_PORT: "3306"
+      ARCANA_DATABASE_NAME: arcana_test
+      ARCANA_DATABASE_USER: arcana_test
+      ARCANA_DATABASE_PASSWORD: arcana_test
+      # Redis
+      ARCANA_REDIS_HOST: redis-test
+      ARCANA_REDIS_PORT: "6379"
+      ARCANA_REDIS_PASSWORD: ""
+      # JWT
+      JWT_SECRET: test-secret-key-for-testing-purposes-only-32chars
+      ARCANA_JWT_ACCESS_TOKEN_DURATION: 1h
+      ARCANA_JWT_REFRESH_TOKEN_DURATION: 720h
+      # Deployment - Monolithic mode
+      ARCANA_DEPLOYMENT_MODE: monolithic
+      ARCANA_DEPLOYMENT_LAYER: ""
+      ARCANA_DEPLOYMENT_PROTOCOL: http
+      # Plugin
+      ARCANA_PLUGIN_ENABLED: "true"
+      ARCANA_PLUGIN_PLUGINS_DIRECTORY: ./plugins
+      ARCANA_PLUGIN_AUTO_LOAD: "false"
+      ARCANA_PLUGIN_HOT_RELOAD: "false"
+      # SSR
+      ARCANA_SSR_ENABLED: "false"
+      # Test environment variables for ALL integration tests
+      TEST_REDIS_ADDR: redis-test:6379
+      TEST_MYSQL_DSN: arcana_test:arcana_test@tcp(mysql-test:3306)/arcana_test?charset=utf8mb4&parseTime=True&loc=Local
+      TEST_POSTGRES_DSN: host=postgres-test port=5432 user=arcana_test password=arcana_test dbname=arcana_test sslmode=disable
+      TEST_MONGO_URI: mongodb://arcana_test:arcana_test@mongo-test:27017/?authSource=admin
+      TEST_MONGO_DB: arcana_test
+    volumes:
+      - ./coverage:/app/coverage
+      - ./test-reports:/app/test-reports
+    networks:
+      - arcana-test-network
+
+networks:
+  arcana-test-network:
+    driver: bridge
+
+volumes:
+  mysql-test-data:
+  postgres-test-data:
+  mongo-test-data:

@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package arcana.cloud;
+
+option go_package = "github.com/jrjohn/arcana-cloud-go/api/proto/pb";
+
+import "common.proto";
+
+// PluginService provides plugin management operations
+service PluginService {
+  // ListPlugins retrieves all plugins
+  rpc ListPlugins(ListPluginsRequest) returns (ListPluginsResponse);
+
+  // GetPlugin retrieves a plugin by key
+  rpc GetPlugin(GetPluginRequest) returns (PluginDetailResponse);
+
+  // EnablePlugin enables a plugin
+  rpc EnablePlugin(PluginKeyRequest) returns (PluginResponse);
+
+  // DisablePlugin disables a plugin
+  rpc DisablePlugin(PluginKeyRequest) returns (PluginResponse);
+
+  // UninstallPlugin removes a plugin
+  rpc UninstallPlugin(PluginKeyRequest) returns (Empty);
+
+  // GetPluginHealth returns the plugin system health
+  rpc GetPluginHealth(Empty) returns (PluginHealthResponse);
+}
+
+// PluginResponse represents a plugin
+message PluginResponse {
+  uint64 id = 1;
+  string key = 2;
+  string name = 3;
+  string description = 4;
+  string version = 5;
+  string author = 6;
+  string type = 7;
+  string state = 8;
+  Timestamp installed_at = 9;
+  optional Timestamp enabled_at = 10;
+}
+
+// PluginExtensionResponse represents a plugin extension
+message PluginExtensionResponse {
+  uint64 id = 1;
+  string name = 2;
+  string type = 3;
+  string path = 4;
+  string handler = 5;
+}
+
+// PluginDetailResponse represents detailed plugin information
+message PluginDetailResponse {
+  PluginResponse plugin = 1;
+  repeated PluginExtensionResponse extensions = 2;
+  map<string, string> config = 3;
+}
+
+// ListPluginsRequest is the request for ListPlugins
+message ListPluginsRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+// ListPluginsResponse is the response for ListPlugins
+message ListPluginsResponse {
+  repeated PluginResponse plugins = 1;
+  PageInfo page_info = 2;
+}
+
+// GetPluginRequest is the request for GetPlugin
+message GetPluginRequest {
+  string key = 1;
+}
+
+// PluginKeyRequest is used for plugin operations by key
+message PluginKeyRequest {
+  string key = 1;
+}
+
+// PluginHealthResponse represents the plugin system health
+message PluginHealthResponse {
+  string status = 1;
+  int32 total_plugins = 2;
+  int32 enabled_plugins = 3;
+  int32 disabled_plugins = 4;
+  int32 error_plugins = 5;
+}

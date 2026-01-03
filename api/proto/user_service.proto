@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package arcana.cloud;
+
+option go_package = "github.com/jrjohn/arcana-cloud-go/api/proto/pb";
+
+import "common.proto";
+
+// UserService provides user management operations
+service UserService {
+  // GetUser retrieves a user by ID
+  rpc GetUser(GetUserRequest) returns (UserResponse);
+
+  // CreateUser creates a new user
+  rpc CreateUser(CreateUserRequest) returns (UserResponse);
+
+  // UpdateUser updates an existing user
+  rpc UpdateUser(UpdateUserRequest) returns (UserResponse);
+
+  // DeleteUser deletes a user
+  rpc DeleteUser(DeleteUserRequest) returns (Empty);
+
+  // ListUsers retrieves users with pagination
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+
+  // GetUserByUsername retrieves a user by username
+  rpc GetUserByUsername(GetUserByUsernameRequest) returns (UserResponse);
+
+  // GetUserByEmail retrieves a user by email
+  rpc GetUserByEmail(GetUserByEmailRequest) returns (UserResponse);
+
+  // ExistsByUsername checks if a username exists
+  rpc ExistsByUsername(ExistsByUsernameRequest) returns (BoolValue);
+
+  // ExistsByEmail checks if an email exists
+  rpc ExistsByEmail(ExistsByEmailRequest) returns (BoolValue);
+}
+
+// UserResponse represents a user
+message UserResponse {
+  uint64 id = 1;
+  string username = 2;
+  string email = 3;
+  string first_name = 4;
+  string last_name = 5;
+  string role = 6;
+  bool is_active = 7;
+  bool is_verified = 8;
+  Timestamp created_at = 9;
+  Timestamp updated_at = 10;
+}
+
+// GetUserRequest is the request for GetUser
+message GetUserRequest {
+  uint64 id = 1;
+}
+
+// CreateUserRequest is the request for CreateUser
+message CreateUserRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  optional string first_name = 4;
+  optional string last_name = 5;
+}
+
+// UpdateUserRequest is the request for UpdateUser
+message UpdateUserRequest {
+  uint64 id = 1;
+  optional string first_name = 2;
+  optional string last_name = 3;
+  optional string email = 4;
+  optional bool is_active = 5;
+  optional bool is_verified = 6;
+  optional string password = 7;
+}
+
+// DeleteUserRequest is the request for DeleteUser
+message DeleteUserRequest {
+  uint64 id = 1;
+}
+
+// ListUsersRequest is the request for ListUsers
+message ListUsersRequest {
+  int32 page = 1;
+  int32 size = 2;
+}
+
+// ListUsersResponse is the response for ListUsers
+message ListUsersResponse {
+  repeated UserResponse users = 1;
+  PageInfo page_info = 2;
+}
+
+// GetUserByUsernameRequest is the request for GetUserByUsername
+message GetUserByUsernameRequest {
+  string username = 1;
+}
+
+// GetUserByEmailRequest is the request for GetUserByEmail
+message GetUserByEmailRequest {
+  string email = 1;
+}
+
+// ExistsByUsernameRequest is the request for ExistsByUsername
+message ExistsByUsernameRequest {
+  string username = 1;
+}
+
+// ExistsByEmailRequest is the request for ExistsByEmail
+message ExistsByEmailRequest {
+  string email = 1;
+}

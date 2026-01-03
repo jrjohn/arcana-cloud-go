@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: arcana-cloud
+  labels:
+    app.kubernetes.io/name: arcana-cloud
+    app.kubernetes.io/part-of: arcana-cloud

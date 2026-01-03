@@ -1,0 +1,75 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: arcana-cloud-worker-hpa
+  namespace: arcana-cloud
+  labels:
+    app.kubernetes.io/name: arcana-cloud
+    app.kubernetes.io/component: job-worker
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: arcana-cloud-worker
+  minReplicas: 2
+  maxReplicas: 20
+  metrics:
+    # Scale based on CPU usage
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    # Scale based on memory usage
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    # Scale based on queue depth (requires Prometheus Adapter)
+    - type: External
+      external:
+        metric:
+          name: arcana_jobs_pending
+          selector:
+            matchLabels:
+              queue: "all"
+        target:
+          type: AverageValue
+          averageValue: "100"
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 60
+        - type: Pods
+          value: 1
+          periodSeconds: 60
+      selectPolicy: Min
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 15
+        - type: Pods
+          value: 4
+          periodSeconds: 15
+      selectPolicy: Max
+---
+# PodDisruptionBudget to ensure minimum workers during updates
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: arcana-cloud-worker-pdb
+  namespace: arcana-cloud
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: arcana-cloud
+      app.kubernetes.io/component: job-worker

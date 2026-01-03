@@ -1,0 +1,104 @@
+PASS tests/integration.TestIntegration_MySQL_UserDAO/Create_and_FindByID (0.02s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/FindByUsername (0.01s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/FindByEmail (0.00s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/FindByUsernameOrEmail (0.00s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/ExistsByUsername (0.00s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/ExistsByEmail (0.01s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/Update (0.01s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/Delete (0.01s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/FindAll (0.01s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO/Count (0.00s)
+PASS tests/integration.TestIntegration_MySQL_UserDAO (0.10s)
+PASS tests/integration.TestIntegration_MySQL_RefreshTokenDAO/Create_and_FindByToken (0.01s)
+PASS tests/integration.TestIntegration_MySQL_RefreshTokenDAO/RevokeByToken (0.01s)
+PASS tests/integration.TestIntegration_MySQL_RefreshTokenDAO/RevokeAllByUserID (0.01s)
+PASS tests/integration.TestIntegration_MySQL_RefreshTokenDAO/DeleteExpired (0.01s)
+PASS tests/integration.TestIntegration_MySQL_RefreshTokenDAO/FindAll (0.00s)
+PASS tests/integration.TestIntegration_MySQL_RefreshTokenDAO (0.11s)
+PASS tests/integration.TestIntegration_MySQL_PluginDAO/Create_and_FindByID (0.00s)
+PASS tests/integration.TestIntegration_MySQL_PluginDAO/FindByKey (0.00s)
+PASS tests/integration.TestIntegration_MySQL_PluginDAO/FindByState (0.00s)
+PASS tests/integration.TestIntegration_MySQL_PluginDAO/UpdateState (0.01s)
+PASS tests/integration.TestIntegration_MySQL_PluginDAO/ExistsByKey (0.00s)
+PASS tests/integration.TestIntegration_MySQL_PluginDAO (0.04s)
+PASS tests/integration.TestIntegration_MySQL_PluginExtensionDAO/Create_and_FindByID (0.00s)
+PASS tests/integration.TestIntegration_MySQL_PluginExtensionDAO/FindByPluginID (0.01s)
+PASS tests/integration.TestIntegration_MySQL_PluginExtensionDAO/DeleteByPluginID (0.01s)
+PASS tests/integration.TestIntegration_MySQL_PluginExtensionDAO (0.07s)
+SKIP tests/integration.TestIntegration_Postgres_UserDAO (0.01s)
+SKIP tests/integration.TestIntegration_Postgres_RefreshTokenDAO (0.00s)
+SKIP tests/integration.TestIntegration_Postgres_PluginDAO (0.00s)
+SKIP tests/integration.TestIntegration_Postgres_PluginExtensionDAO (0.00s)
+SKIP tests/integration.TestIntegration_MongoDB_UserDAO (5.00s)
+SKIP tests/integration.TestIntegration_MongoDB_RefreshTokenDAO (5.00s)
+SKIP tests/integration.TestIntegration_MongoDB_PluginDAO (5.00s)
+SKIP tests/integration.TestIntegration_MongoDB_PluginExtensionDAO (5.00s)
+PASS tests/integration.TestIntegration_FullJobLifecycle (0.17s)
+PASS tests/integration.TestIntegration_JobFailureAndRetry (2.06s)
+PASS tests/integration.TestIntegration_JobMoveToDLQ (0.07s)
+PASS tests/integration.TestIntegration_ScheduledJobs (0.06s)
+PASS tests/integration.TestIntegration_PriorityQueue (0.22s)
+PASS tests/integration.TestIntegration_DistributedLocking (0.57s)
+PASS tests/integration.TestIntegration_IdempotencyCheck (0.56s)
+PASS tests/integration.TestIntegration_GracefulShutdown (0.56s)
+PASS tests/integration.TestIntegration_SchedulerLeaderElection (0.41s)
+PASS tests/integration.TestIntegration_Layered_gRPC_RepositoryLayer_UserService/CreateUser (0.21s)
+PASS tests/integration.TestIntegration_Layered_gRPC_RepositoryLayer_UserService/GetUserByUsername (0.01s)
+PASS tests/integration.TestIntegration_Layered_gRPC_RepositoryLayer_UserService/ExistsByUsername (0.00s)
+PASS tests/integration.TestIntegration_Layered_gRPC_RepositoryLayer_UserService/ListUsers (0.00s)
+PASS tests/integration.TestIntegration_Layered_gRPC_RepositoryLayer_UserService (0.23s)
+PASS tests/integration.TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Register (0.27s)
+=== RUN   TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login
+    layered_grpc_test.go:184: 
+        	Error Trace:	/app/tests/integration/layered_grpc_test.go:184
+        	Error:      	Received unexpected error:
+        	            	rpc error: code = Internal desc = internal error: Error 1062 (23000): Duplicate entry 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmNhbmEtY2xvdWQ' for key 'refresh_tokens.idx_refresh_tokens_token'
+        	Test:       	TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login
+    --- FAIL: TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login (0.46s)
+FAIL tests/integration.TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login (0.46s)
+PASS tests/integration.TestIntegration_Layered_gRPC_ServiceLayer_AuthService/ValidateToken (0.22s)
+=== RUN   TestIntegration_Layered_gRPC_ServiceLayer_AuthService
+--- FAIL: TestIntegration_Layered_gRPC_ServiceLayer_AuthService (0.95s)
+FAIL tests/integration.TestIntegration_Layered_gRPC_ServiceLayer_AuthService (0.95s)
+PASS tests/integration.TestIntegration_Layered_gRPC_FullFlow/EndToEndLayeredCommunication (0.23s)
+PASS tests/integration.TestIntegration_Layered_gRPC_FullFlow (0.23s)
+coverage: [no statements]
+FAIL tests/integration
+
+=== Skipped
+=== SKIP: tests/integration TestIntegration_Postgres_UserDAO (0.01s)
+    testutil.go:259: PostgreSQL not available
+
+=== SKIP: tests/integration TestIntegration_Postgres_RefreshTokenDAO (0.00s)
+    testutil.go:259: PostgreSQL not available
+
+=== SKIP: tests/integration TestIntegration_Postgres_PluginDAO (0.00s)
+    testutil.go:259: PostgreSQL not available
+
+=== SKIP: tests/integration TestIntegration_Postgres_PluginExtensionDAO (0.00s)
+    testutil.go:259: PostgreSQL not available
+
+=== SKIP: tests/integration TestIntegration_MongoDB_UserDAO (5.00s)
+    testutil.go:305: MongoDB not available
+
+=== SKIP: tests/integration TestIntegration_MongoDB_RefreshTokenDAO (5.00s)
+    testutil.go:305: MongoDB not available
+
+=== SKIP: tests/integration TestIntegration_MongoDB_PluginDAO (5.00s)
+    testutil.go:305: MongoDB not available
+
+=== SKIP: tests/integration TestIntegration_MongoDB_PluginExtensionDAO (5.00s)
+    testutil.go:305: MongoDB not available
+
+=== Failed
+=== FAIL: tests/integration TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login (0.46s)
+    layered_grpc_test.go:184: 
+        	Error Trace:	/app/tests/integration/layered_grpc_test.go:184
+        	Error:      	Received unexpected error:
+        	            	rpc error: code = Internal desc = internal error: Error 1062 (23000): Duplicate entry 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhcmNhbmEtY2xvdWQ' for key 'refresh_tokens.idx_refresh_tokens_token'
+        	Test:       	TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login
+    --- FAIL: TestIntegration_Layered_gRPC_ServiceLayer_AuthService/Login (0.46s)
+
+=== FAIL: tests/integration TestIntegration_Layered_gRPC_ServiceLayer_AuthService (0.95s)
+
+DONE 55 tests, 8 skipped, 2 failures in 28.507s

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: arcana-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: arcana_cloud
+      MYSQL_USER: arcana
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-arcanapassword}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: arcana-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Arcana Cloud Go - Monolithic
+  arcana-cloud:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    container_name: arcana-cloud-go
+    restart: unless-stopped
+    environment:
+      ARCANA_APP_ENVIRONMENT: production
+      ARCANA_APP_DEBUG: "false"
+      ARCANA_DATABASE_HOST: mysql
+      ARCANA_DATABASE_PORT: 3306
+      ARCANA_DATABASE_NAME: arcana_cloud
+      ARCANA_DATABASE_USER: arcana
+      ARCANA_DATABASE_PASSWORD: ${MYSQL_PASSWORD:-arcanapassword}
+      ARCANA_REDIS_HOST: redis
+      ARCANA_REDIS_PORT: 6379
+      JWT_SECRET: ${JWT_SECRET:-change-this-in-production}
+      ARCANA_DEPLOYMENT_MODE: monolithic
+      ARCANA_DEPLOYMENT_PROTOCOL: grpc
+    ports:
+      - "8080:8080"
+      - "9090:9090"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mysql_data:
+  redis_data:

@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: arcana-cloud-layered
+
+resources:
+  - namespace.yaml
+  - secrets.yaml
+  - mysql.yaml
+  - redis.yaml
+  - repository-layer.yaml
+  - service-layer.yaml
+  - controller-layer.yaml

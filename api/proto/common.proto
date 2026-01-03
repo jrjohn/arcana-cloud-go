@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package arcana.cloud;
+
+option go_package = "github.com/jrjohn/arcana-cloud-go/api/proto/pb";
+
+// PageInfo contains pagination information
+message PageInfo {
+  int32 page = 1;
+  int32 size = 2;
+  int64 total_items = 3;
+  int32 total_pages = 4;
+  bool has_next = 5;
+  bool has_prev = 6;
+}
+
+// Empty is used for requests/responses with no data
+message Empty {}
+
+// BoolValue wraps a boolean value
+message BoolValue {
+  bool value = 1;
+}
+
+// Timestamp represents a point in time
+message Timestamp {
+  int64 seconds = 1;
+  int32 nanos = 2;
+}

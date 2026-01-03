@@ -1,0 +1,81 @@
+syntax = "proto3";
+
+package arcana.cloud;
+
+option go_package = "github.com/jrjohn/arcana-cloud-go/api/proto/pb";
+
+import "common.proto";
+import "user_service.proto";
+
+// AuthService provides authentication operations
+service AuthService {
+  // Register creates a new user account
+  rpc Register(RegisterRequest) returns (AuthResponse);
+
+  // Login authenticates a user
+  rpc Login(LoginRequest) returns (AuthResponse);
+
+  // RefreshToken generates new tokens
+  rpc RefreshToken(RefreshTokenRequest) returns (AuthResponse);
+
+  // Logout invalidates the current token
+  rpc Logout(LogoutRequest) returns (Empty);
+
+  // LogoutAll invalidates all tokens for a user
+  rpc LogoutAll(LogoutAllRequest) returns (Empty);
+
+  // ValidateToken validates an access token
+  rpc ValidateToken(ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+// RegisterRequest is the request for Register
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  optional string first_name = 4;
+  optional string last_name = 5;
+}
+
+// LoginRequest is the request for Login
+message LoginRequest {
+  string username_or_email = 1;
+  string password = 2;
+}
+
+// RefreshTokenRequest is the request for RefreshToken
+message RefreshTokenRequest {
+  string refresh_token = 1;
+}
+
+// LogoutRequest is the request for Logout
+message LogoutRequest {
+  string token = 1;
+}
+
+// LogoutAllRequest is the request for LogoutAll
+message LogoutAllRequest {
+  uint64 user_id = 1;
+}
+
+// ValidateTokenRequest is the request for ValidateToken
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+// AuthResponse is the response for authentication operations
+message AuthResponse {
+  string access_token = 1;
+  string refresh_token = 2;
+  string token_type = 3;
+  int64 expires_in = 4;
+  UserResponse user = 5;
+}
+
+// ValidateTokenResponse is the response for ValidateToken
+message ValidateTokenResponse {
+  bool valid = 1;
+  uint64 user_id = 2;
+  string username = 3;
+  string role = 4;
+}

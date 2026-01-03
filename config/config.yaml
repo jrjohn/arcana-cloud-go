@@ -1,0 +1,62 @@
+app:
+  name: arcana-cloud-go
+  version: 1.0.0
+  environment: development
+  debug: true
+
+server:
+  host: 0.0.0.0
+  port: 8080
+  read_timeout: 30s
+  write_timeout: 30s
+  idle_timeout: 60s
+
+grpc:
+  host: 0.0.0.0
+  port: 9090
+  tls_enabled: false
+  cert_file: ""
+  key_file: ""
+  ca_file: ""
+
+database:
+  driver: mysql
+  host: localhost
+  port: 3306
+  name: arcana_cloud
+  user: root
+  password: ""
+  ssl_mode: disable
+  max_open_conns: 25
+  max_idle_conns: 10
+  conn_max_lifetime: 5m
+
+redis:
+  host: localhost
+  port: 6379
+  password: ""
+  db: 0
+
+jwt:
+  secret: ${JWT_SECRET}
+  access_token_duration: 1h
+  refresh_token_duration: 720h
+  issuer: arcana-cloud
+
+deployment:
+  mode: monolithic
+  layer: ""
+  protocol: grpc
+
+plugin:
+  enabled: true
+  plugins_directory: ./plugins
+  auto_load: true
+  hot_reload: true
+
+ssr:
+  enabled: true
+  react_path: ./arcana-web/react-app
+  angular_path: ./arcana-web/angular-app
+  cache_enabled: true
+  cache_ttl: 3600

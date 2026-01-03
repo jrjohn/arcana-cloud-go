@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="816" failures="9" errors="10" time="208.678789">
+	<testsuite tests="0" failures="0" time="0.060000" name="github.com/jrjohn/arcana-cloud-go/api/proto/pb" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.007000" name="github.com/jrjohn/arcana-cloud-go/cmd/server" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.008000" name="github.com/jrjohn/arcana-cloud-go/cmd/worker" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="41" failures="0" time="1.057000" name="github.com/jrjohn/arcana-cloud-go/internal/config" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentMode_Constants/monolithic" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentMode_Constants/layered" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentMode_Constants/kubernetes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentMode_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentLayer_Constants/controller" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentLayer_Constants/service" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentLayer_Constants/repository" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentLayer_Constants/all" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentLayer_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestCommunicationProtocol_Constants/http" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestCommunicationProtocol_Constants/grpc" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestCommunicationProtocol_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestConfig_Validate/valid_config" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestConfig_Validate/missing_JWT_secret" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestConfig_Validate/missing_database_name" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestConfig_Validate" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDatabaseConfig_DSN/mysql_DSN" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDatabaseConfig_DSN/postgres_DSN" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDatabaseConfig_DSN/unknown_driver_returns_empty" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDatabaseConfig_DSN" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsControllerLayer/LayerAll_returns_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsControllerLayer/LayerController_returns_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsControllerLayer/LayerService_returns_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsControllerLayer/LayerRepository_returns_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsControllerLayer" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsServiceLayer/LayerAll_returns_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsServiceLayer/LayerService_returns_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsServiceLayer/LayerController_returns_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsServiceLayer/LayerRepository_returns_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsServiceLayer" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsRepositoryLayer/LayerAll_returns_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsRepositoryLayer/LayerRepository_returns_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsRepositoryLayer/LayerController_returns_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsRepositoryLayer/LayerService_returns_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsRepositoryLayer" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsGRPC/gRPC_protocol" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsGRPC/HTTP_protocol" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestDeploymentConfig_IsGRPC" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestLoad_WithEnvVars" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestConfig_Structs" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/config" name="TestConfig_FullStruct" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="10" failures="0" time="1.049000" name="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestNewServer" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestNewServer_TLSEnabled_InvalidFiles" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestServer_GetServer" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestServer_Stop" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestLoggingInterceptor/success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestLoggingInterceptor/error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestLoggingInterceptor" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestRecoveryInterceptor/success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestRecoveryInterceptor/panic_recovery" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc" name="TestRecoveryInterceptor" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.014000" name="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc/repository" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.009000" name="github.com/jrjohn/arcana-cloud-go/internal/controller/grpc/service" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="82" failures="0" time="1.119000" name="github.com/jrjohn/arcana-cloud-go/internal/controller/http" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestNewAuthController" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Register_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Register_ValidationError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Register_UserExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Register_InternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Login_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Login_InvalidCredentials" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Login_UserInactive" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Login_ValidationError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Login_InternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_RefreshToken_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_RefreshToken_InvalidToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_RefreshToken_ValidationError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_RefreshToken_InternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Logout" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_Logout_NoToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_LogoutAll" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestAuthController_RegisterRoutes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestNewUserController" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_List_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_List_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetCurrentUser_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetCurrentUser_NotAuthenticated" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetCurrentUser_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetCurrentUser_InternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_UpdateCurrentUser_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_UpdateCurrentUser_NotAuthenticated" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_UpdateCurrentUser_ValidationError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_UpdateCurrentUser_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_UpdateCurrentUser_EmailConflict" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_UpdateCurrentUser_InternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_ChangePassword_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_ChangePassword_NotAuthenticated" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_ChangePassword_InvalidCredentials" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetByID_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetByID_InvalidID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_GetByUsername_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_Delete_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_Delete_InvalidID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_Delete_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestNewPluginController" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_List_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_GetByKey_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_GetByKey_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Install_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Install_NoFile" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Install_MissingFields" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Enable_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Enable_InvalidState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Disable_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_Uninstall_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_GetHealth_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_GetReadiness" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_GetLiveness" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestNewJobController" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_WithDelay" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_WithScheduledAt" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_InvalidScheduledAt" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_InvalidPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_AllPriorities/low" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_AllPriorities/normal" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_AllPriorities/high" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_AllPriorities/critical" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_AllPriorities/unknown" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_AllPriorities" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_WithTags" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_EnqueueJob_WithUniqueKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetJob_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetJob_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_CancelJob_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_RetryJob_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetQueueStats_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetDashboard" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetDLQJobs_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetDLQJobs_InvalidLimit" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_RetryDLQJob_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_PurgeDLQ_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_GetScheduledJobs_NoScheduler" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestJobController_RegisterRoutes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestUserController_RegisterRoutes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/controller/http" name="TestPluginController_RegisterRoutes" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.000000" name="github.com/jrjohn/arcana-cloud-go/internal/di" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="" name="TestMain" time="0.000000">
+			<failure message="Failed" type="">FAIL&#x9;github.com/jrjohn/arcana-cloud-go/internal/di [build failed]&#xA;</failure>
+		</testcase>
+	</testsuite>
+	<testsuite tests="17" failures="0" time="1.030000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestNewPageResult" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_TotalPages/exact_division" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_TotalPages/with_remainder" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_TotalPages/single_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_TotalPages/empty" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_TotalPages/zero_size" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_TotalPages" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasNext/has_next_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasNext/last_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasNext/only_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasNext/middle_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasNext" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasPrev/first_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasPrev/second_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasPrev/third_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestPageResult_HasPrev" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao" name="TestQueryOption" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="16" failures="0" time="1.225000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_Create" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_FindByID" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_FindByUsername" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_FindByEmail" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_FindByUsernameOrEmail" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_Update" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_Delete" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_FindAll" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_Count" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_ExistsByUsername" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_ExistsByEmail" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestUserDAO_ExistsBy" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestBaseGormDAO_Helpers" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestRefreshTokenDAO_Operations" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestPluginDAO_Operations" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm" name="TestPluginExtensionDAO_Operations" time="0.010000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.009000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="20" failures="0" time="1.020000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestUserDocument/CollectionName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestUserDocument/IsDeleted_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestUserDocument/IsDeleted_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestUserDocument" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/CollectionName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/IsExpired_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/IsExpired_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/IsValid_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/IsValid_false_-_revoked" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/IsValid_false_-_expired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument/IsDeleted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestRefreshTokenDocument" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginDocument/CollectionName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginDocument/IsEnabled_true" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginDocument/IsEnabled_false" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginDocument/IsDeleted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginDocument" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginExtensionDocument/CollectionName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginExtensionDocument/IsDeleted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document" name="TestPluginExtensionDocument" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="36" failures="0" time="1.038000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocument/nil_user" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocument/valid_user" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocument/user_with_deleted_at" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocument" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntity/nil_document" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntity/valid_document" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntity/document_with_deleted_at" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntity" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntities/nil_slice" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntities/valid_slice" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToEntities" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocuments/nil_slice" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocuments/valid_slice" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestUserMapper_ToDocuments" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper/ToDocument_nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper/ToDocument_valid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper/ToEntity_nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper/ToEntity_valid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper/ToEntities" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper/ToDocuments" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestRefreshTokenMapper" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper/ToDocument_nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper/ToDocument_valid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper/ToEntity_nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper/ToEntity_valid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper/ToEntities" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper/ToDocuments" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginMapper" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToDocument_nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToDocument_valid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToEntity_nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToEntity_valid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToEntity_with_deleted_at" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToEntities" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper/ToDocuments" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper" name="TestPluginExtensionMapper" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="18" failures="0" time="1.035000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestUserRole_Constants/USER_role" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestUserRole_Constants/ADMIN_role" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestUserRole_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestUser_TableName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestUser_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_TableName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsExpired/not_expired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsExpired/expired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsExpired/expires_now" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsExpired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsValid/valid_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsValid/revoked_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsValid/expired_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsValid/expired_and_revoked" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_IsValid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestUser_AdminRole" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/entity" name="TestRefreshToken_EdgeCases" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.000000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/repository" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.009000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/grpc" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="33" failures="0" time="1.054000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/Create" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/GetByID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/GetByUsername" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/GetByEmail" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/GetByUsernameOrEmail" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/Update" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/Delete" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/List" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/ExistsByUsername" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository/ExistsByEmail" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestUserRepository" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestRefreshTokenRepository/Create" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestRefreshTokenRepository/GetByToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestRefreshTokenRepository/RevokeByToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestRefreshTokenRepository/RevokeAllByUserID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestRefreshTokenRepository/DeleteExpired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestRefreshTokenRepository" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/Create" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/GetByID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/GetByKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/Update" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/Delete" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/DeleteByKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/List" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/ListByState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/ListEnabled" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/ExistsByKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository/UpdateState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginRepository" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginExtensionRepository/Create" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginExtensionRepository/GetByPluginID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginExtensionRepository/DeleteByPluginID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl" name="TestPluginExtensionRepository" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="134" failures="0" time="95.625000" name="github.com/jrjohn/arcana-cloud-go/internal/domain/service" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestNewAuthService" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_Success" time="5.900000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_UsernameExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_EmailExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_UsernameCheckError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_EmailCheckError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_CreateError" time="5.310000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Register_RefreshTokenCreateError" time="5.240000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Login_Success" time="10.260000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Login_ByEmail" time="10.580000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Login_UserNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Login_InvalidPassword" time="10.530000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Login_UserInactive" time="5.170000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Login_LookupError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_InvalidToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_TokenNotInDB" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_RevokedToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_UserNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_UserInactive" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_GetByTokenError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_RevokeError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_RefreshToken_GetUserError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Logout" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_Logout_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_LogoutAll" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestAuthService_LogoutAll_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestServiceErrors/ErrUserNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestServiceErrors/ErrInvalidCredentials" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestServiceErrors/ErrUserAlreadyExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestServiceErrors/ErrInvalidToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestServiceErrors/ErrUserInactive" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestServiceErrors" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestNewPluginService" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Install_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Install_WithConfig" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Install_AlreadyExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Install_ExistsByKeyError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Install_CreateError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_InstallFromPath_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_InstallFromPath_FileNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetByKey_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetByKey_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetByKey_GetByKeyError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetByKey_ExtensionsError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetByKey_InvalidConfigJSON" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_List_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_List_InvalidPage" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_List_InvalidSize" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_List_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_AlreadyEnabled" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_FromDisabled" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_InvalidState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_GetByKeyError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Enable_UpdateStateError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Disable_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Disable_AlreadyDisabled" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Disable_InvalidState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Disable_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Disable_GetByKeyError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Disable_UpdateStateError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Uninstall_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Uninstall_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Uninstall_GetByKeyError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Uninstall_ExtensionDeleteError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_Uninstall_DeleteByKeyError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetHealth_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetHealth_Degraded" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginService_GetHealth_EnabledError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginServiceErrors/ErrPluginNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginServiceErrors/ErrPluginAlreadyExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginServiceErrors/ErrPluginInvalidState" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginServiceErrors/ErrPluginLoadFailed" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestPluginServiceErrors" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestNewSSRService" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_RenderReact_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_RenderReact_WithCache" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_RenderAngular_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_RenderAngular_WithCache" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_GetStatus" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_GetStatus_NoCache" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_GetStatus_WithCacheEntries" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_ClearCache" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_CacheExpiration" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_Stats" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_RenderPlaceholder_NilProps" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRService_ConcurrentRenders" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRRenderResult_Fields" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRCacheEntry_Fields" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRStatus_Fields" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRServiceErrors/ErrSSREngineNotReady" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRServiceErrors/ErrSSRRenderFailed" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRServiceErrors/ErrComponentNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestSSRServiceErrors" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestToJSON/nil" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestToJSON/empty_map" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestToJSON/map_with_values" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestToJSON" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestNewUserService" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByID_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByID_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByID_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByUsername_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByUsername_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByUsername_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByEmail_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByEmail_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_GetByEmail_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_List_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_List_InvalidPage" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_List_InvalidSize" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_List_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_EmailChange" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_EmailExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_UserNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_GetByIDError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_EmailCheckError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Update_UpdateError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ChangePassword_Success" time="15.840000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ChangePassword_UserNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ChangePassword_WrongOldPassword" time="10.240000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ChangePassword_GetByIDError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ChangePassword_UpdateError" time="15.440000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Delete_Success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_Delete_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ExistsByUsername_True" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ExistsByUsername_False" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ExistsByUsername_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ExistsByEmail_True" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ExistsByEmail_False" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/domain/service" name="TestUserService_ExistsByEmail_Error" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.000000" name="github.com/jrjohn/arcana-cloud-go/internal/dto/request" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="17" failures="0" time="1.018000" name="github.com/jrjohn/arcana-cloud-go/internal/dto/response" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewSuccess" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewSuccessWithData" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewErrorWithDetails" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestApiResponse_GenericTypes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestPageInfo_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse/first_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse/middle_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse/last_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse/single_page" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse/empty_result" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse/exact_page_boundary" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestNewPagedResponse" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestPagedResponse_GenericTypes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestApiResponse_Timestamp" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestApiResponse_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/dto/response" name="TestPagedResponse_Struct" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.007000" name="github.com/jrjohn/arcana-cloud-go/internal/grpc/client" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="70" failures="1" time="0.095000" name="github.com/jrjohn/arcana-cloud-go/internal/jobs" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobService_EnqueueIn" time="0.010000">
+			<failure message="Failed" type="">=== RUN   TestJobService_EnqueueIn&#xA;--- FAIL: TestJobService_EnqueueIn (0.01s)&#xA;panic: runtime error: invalid memory address or nil pointer dereference [recovered]&#xA;&#x9;panic: runtime error: invalid memory address or nil pointer dereference&#xA;[signal SIGSEGV: segmentation violation code=0x1 addr=0x0 pc=0x5b0948]&#xA;&#xA;goroutine 338 [running]:&#xA;testing.tRunner.func1.2({0x627420, 0xac8e00})&#xA;&#x9;/usr/local/go/src/testing/testing.go:1632 +0x2c4&#xA;testing.tRunner.func1()&#xA;&#x9;/usr/local/go/src/testing/testing.go:1635 +0x47c&#xA;panic({0x627420?, 0xac8e00?})&#xA;&#x9;/usr/local/go/src/runtime/panic.go:791 +0x124&#xA;github.com/jrjohn/arcana-cloud-go/internal/jobs_test.TestJobService_EnqueueIn(0xc000400340)&#xA;&#x9;/app/internal/jobs/job_service_test.go:118 +0x138&#xA;testing.tRunner(0xc000400340, 0x710308)&#xA;&#x9;/usr/local/go/src/testing/testing.go:1690 +0x188&#xA;created by testing.(*T).Run in goroutine 1&#xA;&#x9;/usr/local/go/src/testing/testing.go:1743 +0x5e4&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_String/Low" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_String/Normal" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_String/High" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_String/Critical" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_String/Unknown" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_String" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_QueueName/Low" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_QueueName/Normal" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_QueueName/High" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_QueueName/Critical" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestPriority_QueueName" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants/Pending" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants/Running" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants/Completed" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants/Failed" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants/Retrying" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants/Dead" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobStatus_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryStrategy_Constants/Exponential" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryStrategy_Constants/Linear" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryStrategy_Constants/Fixed" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryStrategy_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestDefaultRetryPolicy" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Exponential_Attempt1" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Exponential_Attempt2" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Exponential_Attempt3" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Exponential_CappedAtMax" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Linear_Attempt1" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Linear_Attempt3" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Fixed_AnyAttempt" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay/Unknown_DefaultsToInitial" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestRetryPolicy_CalculateDelay" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestNewJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestNewJobPayload_WithOptions" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithPriority/low" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithPriority/normal" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithPriority/high" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithPriority/critical" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithPriority" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithRetryPolicy" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithTimeout" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithScheduledAt" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithDelay" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithCorrelationID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithUniqueKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestWithTags" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestNewJobPayload_InvalidPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobPayload_Serialization" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobResult" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobResult_WithError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestNewMetrics" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_RecordJobEnqueued" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_RecordJobStarted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_RecordJobCompleted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_RecordJobFailed_WithRetry" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_RecordJobFailed_NoRetry" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_RecordJobDead" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_PrometheusHandler" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_PrometheusHandler_NoDurations" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_GetHealthCheck_Healthy" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_GetHealthCheck_Degraded" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_GetHealthCheck_Boundary" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestHealthCheck_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestGlobalMetrics" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestMetrics_ConcurrentAccess" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestNewJobService" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobService_Enqueue" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobService_Enqueue_WithOptions" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs" name="TestJobService_EnqueueAt" time="0.010000"></testcase>
+	</testsuite>
+	<testsuite tests="15" failures="0" time="1.133000" name="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestNewRegistry" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestRegistry_Register_SimplePayload" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestRegistry_Register_MultipleHandlers" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestRegistry_ListHandlers" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestEmailJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestWebhookJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestCleanupJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestNotificationJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestReportJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestSyncJobPayload" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestHandlerExecution" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestHandlerWithError" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestHandlerWithContext" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestPayloadSerialization_Empty" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/handler" name="TestRegistry_ConcurrentRegistration" time="0.020000"></testcase>
+	</testsuite>
+	<testsuite tests="23" failures="1" time="1.819000" name="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_HeartbeatExtendsLock" time="1.520000">
+			<failure message="Failed" type="">=== RUN   TestLockManager_HeartbeatExtendsLock&#xA;    distributed_lock_test.go:365: Lock should still be held due to heartbeat&#xA;--- FAIL: TestLockManager_HeartbeatExtendsLock (1.52s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestDefaultLockManagerConfig" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestNewLockManager" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_GetWorkerID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_AcquireLock_Success" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_AcquireLock_AlreadyLocked" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_AcquireLock_DifferentJobs" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_ReleaseLock" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_ReleaseLock_Nil" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_ReleaseLock_NotHeld" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_CheckIdempotency_NotExists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_CheckIdempotency_EmptyKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_MarkCompleted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_MarkCompleted_EmptyKey" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_GetRunningJobs" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_GetWorkerJobs" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_CleanupStaleJobs" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_ReleaseAllLocks" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestLockManager_ConcurrentAcquire" time="0.040000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestErrors/ErrLockNotAcquired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestErrors/ErrLockNotHeld" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestErrors/ErrJobAlreadyDone" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/lock" name="TestErrors" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="30" failures="4" time="0.275000" name="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Dequeue" time="0.010000">
+			<failure message="Failed" type="">=== RUN   TestRedisQueue_Dequeue&#xA;    redis_queue_test.go:135: Dequeue() error = queue is empty&#xA;--- FAIL: TestRedisQueue_Dequeue (0.01s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Dequeue_PriorityOrder" time="0.020000">
+			<failure message="Failed" type="">=== RUN   TestRedisQueue_Dequeue_PriorityOrder&#xA;    redis_queue_test.go:171: Dequeue() 2 error = queue is empty&#xA;--- FAIL: TestRedisQueue_Dequeue_PriorityOrder (0.02s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_ProcessScheduled" time="0.030000">
+			<failure message="Failed" type="">=== RUN   TestRedisQueue_ProcessScheduled&#xA;    redis_queue_test.go:361: Dequeue() error = queue is empty&#xA;--- FAIL: TestRedisQueue_ProcessScheduled (0.03s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_RequeueJob" time="0.010000">
+			<failure message="Failed" type="">=== RUN   TestRedisQueue_RequeueJob&#xA;    redis_queue_test.go:483: Dequeue after requeue error = queue is empty&#xA;--- FAIL: TestRedisQueue_RequeueJob (0.01s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestNewRedisQueue" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_WithPriority/low" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_WithPriority/normal" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_WithPriority/high" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_WithPriority/critical" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_WithPriority" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_Scheduled" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Enqueue_UniqueKey" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Dequeue_Empty" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_GetJob" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_GetJob_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_UpdateJob" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Complete" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Fail_WithRetry" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Fail_MoveToDLQ" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_ProcessScheduled_FutureJob" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_GetDLQJobs" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_RetryDLQJob" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_DeleteJob" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_GetStats" time="0.020000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Errors/ErrJobNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Errors/ErrDuplicateJob" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Errors/ErrQueueEmpty" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Errors/ErrJobAlreadyTaken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/queue" name="TestRedisQueue_Errors" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="37" failures="0" time="1.636000" name="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestDefaultSchedulerConfig" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestNewScheduler" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_RegisterJob" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_RegisterJob_Duplicate" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_RegisterJob_InvalidCron" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/EveryMinute" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/EveryFiveMinutes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/EveryHour" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/DailyMidnight" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/WeeklyMonday" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/MonthlyFirst" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions/Custom" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ValidCronExpressions" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_StartStop" time="0.210000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_StartTwice" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_StopNotRunning" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_LeaderElection" time="0.310000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_IsLeader_NotStarted" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ListJobs" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_GetNextRun" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_GetNextRun_NotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_SingletonJob" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ExecutionWindow/*_*_*_*_*" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ExecutionWindow/0_*_*_*_*" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ExecutionWindow/0_0_*_*_*" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ExecutionWindow/0_0_*_*_1" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ExecutionWindow/0_0_1_*_*" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_ExecutionWindow" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduler_GetRecentExecutions" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestScheduledJob_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants/EveryMinute" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants/EveryFiveMinutes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants/EveryHour" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants/DailyMidnight" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants/WeeklyMonday" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants/MonthlyFirst" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler" name="TestCronExpressionConstants" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="19" failures="1" time="12.879000" name="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_ProcessJob" time="10.010000">
+			<failure message="Failed" type="">=== RUN   TestWorkerPool_ProcessJob&#xA;    logger.go:146: 2026-01-03T07:06:09.307Z&#x9;INFO&#x9;Lock manager configured&#x9;{&#34;worker_id&#34;: &#34;aeced911-f817-43f2-8eb8-fad731812b8c&#34;, &#34;locking_enabled&#34;: true, &#34;idempotency_enabled&#34;: true}&#xA;    logger.go:146: 2026-01-03T07:06:09.307Z&#x9;INFO&#x9;Registered job handler&#x9;{&#34;type&#34;: &#34;process-test&#34;}&#xA;    logger.go:146: 2026-01-03T07:06:09.307Z&#x9;INFO&#x9;Starting worker pool&#x9;{&#34;concurrency&#34;: 2, &#34;poll_interval&#34;: &#34;50ms&#34;, &#34;locking_enabled&#34;: true, &#34;idempotency_enabled&#34;: true}&#xA;    logger.go:146: 2026-01-03T07:06:09.307Z&#x9;DEBUG&#x9;Worker started&#x9;{&#34;worker_id&#34;: 0}&#xA;    logger.go:146: 2026-01-03T07:06:09.308Z&#x9;DEBUG&#x9;Worker started&#x9;{&#34;worker_id&#34;: 1}&#xA;    logger.go:146: 2026-01-03T07:06:09.361Z&#x9;INFO&#x9;Processing job&#x9;{&#34;worker_id&#34;: 0, &#34;job_id&#34;: &#34;72c29ef3-4ee5-4aa0-96b1-fed5bd433791&#34;, &#34;job_type&#34;: &#34;scheduled-test&#34;, &#34;attempt&#34;: 1}&#xA;    logger.go:146: 2026-01-03T07:06:09.362Z&#x9;ERROR&#x9;No handler registered for job type&#x9;{&#34;worker_id&#34;: 0, &#34;job_id&#34;: &#34;72c29ef3-4ee5-4aa0-96b1-fed5bd433791&#34;, &#34;job_type&#34;: &#34;scheduled-test&#34;, &#34;attempt&#34;: 1}&#xA;    logger.go:146: 2026-01-03T07:06:09.411Z&#x9;INFO&#x9;Processing job&#x9;{&#34;worker_id&#34;: 1, &#34;job_id&#34;: &#34;caf22df1-5f74-473e-bee4-27bd2c9e8c07&#34;, &#34;job_type&#34;: &#34;requeue-test&#34;, &#34;attempt&#34;: 2}&#xA;    logger.go:146: 2026-01-03T07:06:09.411Z&#x9;ERROR&#x9;No handler registered for job type&#x9;{&#34;worker_id&#34;: 1, &#34;job_id&#34;: &#34;caf22df1-5f74-473e-bee4-27bd2c9e8c07&#34;, &#34;job_type&#34;: &#34;requeue-test&#34;, &#34;attempt&#34;: 2}&#xA;    testutil.go:167: Timeout waiting for condition: Job should be processed&#xA;    logger.go:146: 2026-01-03T07:06:19.315Z&#x9;INFO&#x9;Stopping worker pool&#xA;    logger.go:146: 2026-01-03T07:06:19.315Z&#x9;INFO&#x9;Worker pool stopped gracefully&#xA;--- FAIL: TestWorkerPool_ProcessJob (10.01s)&#xA;</failure>
+		</testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestDefaultWorkerPoolConfig" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestNewWorkerPool" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_SetLockManager" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_RegisterHandler" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_StartStop" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_StartTwice" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_StopNotRunning" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_ProcessJobWithPayload" time="0.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_JobFailure" time="0.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_NoHandler" time="0.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_JobTimeout" time="0.170000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_IdempotencyCheck" time="0.070000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_Stats" time="0.160000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_GetRunningJobs" time="2.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_GetRunningJobs_NoLockManager" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_DisableLocking" time="0.070000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPool_DisableIdempotency" time="0.060000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/jobs/worker" name="TestWorkerPoolStats_Struct" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="44" failures="0" time="1.098000" name="github.com/jrjohn/arcana-cloud-go/internal/middleware" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRequestID/generates_new_request_ID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRequestID/uses_provided_request_ID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRequestID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestGetRequestID/request_ID_exists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestGetRequestID/request_ID_not_exists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestGetRequestID/wrong_type" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestGetRequestID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRequestIDConstants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestDefaultCORSConfig" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS/regular_request" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS/OPTIONS_preflight" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS/no_origin_header" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS_SpecificOrigins/allowed_origin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS_SpecificOrigins/disallowed_origin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestCORS_SpecificOrigins" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestLogger" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestLogger_StatusCodes/success" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestLogger_StatusCodes/client_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestLogger_StatusCodes/not_found" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestLogger_StatusCodes/server_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestLogger_StatusCodes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRecovery/recovers_from_panic" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRecovery/normal_request" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestRecovery" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_Authenticate/valid_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_Authenticate/missing_auth_header" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_Authenticate/invalid_format" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_Authenticate/invalid_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_Authenticate/case_insensitive_bearer" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_Authenticate" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_OptionalAuth/with_valid_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_OptionalAuth/without_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_OptionalAuth/with_invalid_token_format" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_OptionalAuth" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_RequireRole/admin_user" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_RequireRole/non-admin_user" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_RequireRole" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_RequireAdmin/admin_access" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestAuthMiddleware_RequireAdmin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestJoinStrings/empty" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestJoinStrings/single" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestJoinStrings/multiple" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/middleware" name="TestJoinStrings" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="20" failures="0" time="1.036000" name="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants/REST_ENDPOINT" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants/SERVICE" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants/EVENT_LISTENER" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants/SCHEDULED_JOB" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants/SSR_VIEW" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants/MIDDLEWARE" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginType_Constants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestPluginInfo_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestHealthStatus_Struct/healthy_status" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestHealthStatus_Struct/unhealthy_status" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestHealthStatus_Struct/degraded_status" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestHealthStatus_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestRoute_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestEvent_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestJob_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestSSRComponent_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestMockPlugin_Interface" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestMockRESTPlugin_Interface" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestMockEventPlugin_Interface" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/plugin/api" name="TestMockMiddlewarePlugin_Interface" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.000000" name="github.com/jrjohn/arcana-cloud-go/internal/plugin/manager" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="" name="TestMain" time="0.000000">
+			<failure message="Failed" type="">FAIL&#x9;github.com/jrjohn/arcana-cloud-go/internal/plugin/manager [build failed]&#xA;</failure>
+		</testcase>
+	</testsuite>
+	<testsuite tests="72" failures="0" time="131.670000" name="github.com/jrjohn/arcana-cloud-go/internal/security" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestNewJWTProvider" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_GenerateAccessToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_GenerateRefreshToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateAccessToken/valid_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateAccessToken/invalid_token_format" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateAccessToken/empty_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateAccessToken/wrong_signature" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateAccessToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateAccessToken_Expired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateRefreshToken" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateRefreshToken_Invalid/invalid_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateRefreshToken_Invalid/empty_token" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateRefreshToken_Invalid" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_ValidateRefreshToken_Expired" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_GetAccessTokenDuration" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestUserClaims_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestErrorConstants" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_DifferentRoles/USER" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_DifferentRoles/ADMIN" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestJWTProvider_DifferentRoles" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestNewPasswordHasher" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash/simple_password" time="5.660000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash/complex_password" time="5.140000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash/empty_password" time="5.290000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash/unicode_password" time="4.990000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash/very_long_password" time="5.210000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash" time="26.290000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Hash_UniqueSalts" time="15.700000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/correct_password" time="10.580000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/wrong_password" time="10.250000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/case_sensitive" time="10.490000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/empty_password_match" time="10.240000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/empty_password_no_match" time="9.940000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/unicode_password" time="8.530000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify/unicode_password_mismatch" time="7.860000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify" time="67.910000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify_InvalidHash/invalid_hash_format" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify_InvalidHash/empty_hash" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify_InvalidHash/truncated_hash" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_Verify_InvalidHash" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestDefaultCost" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_HashFormat" time="4.120000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_CrossVerification" time="8.260000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestPasswordHasher_LongPassword" time="8.340000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestNewSecurityService" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUser/user_exists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUser/user_not_exists" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUser/wrong_type_in_context" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUser" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUserID/claims_exist" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUserID/no_claims" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentUserID" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentClaims/claims_exist" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentClaims/claims_not_exist" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentClaims/wrong_type_in_context" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_GetCurrentClaims" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_SetCurrentUser" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_SetCurrentClaims" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAuthenticated/authenticated" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAuthenticated/not_authenticated" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAuthenticated" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_HasRole/has_admin_role" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_HasRole/has_user_role" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_HasRole/user_checking_for_admin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_HasRole/admin_checking_for_user" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_HasRole/no_claims" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_HasRole" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAdmin/is_admin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAdmin/not_admin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAdmin/no_claims" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestSecurityService_IsAdmin" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/internal/security" name="TestContextKeys" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.006000" name="github.com/jrjohn/arcana-cloud-go/internal/testutil" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="0" failures="0" time="0.007000" name="github.com/jrjohn/arcana-cloud-go/internal/testutil/mocks" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+	</testsuite>
+	<testsuite tests="36" failures="0" time="1.022000" name="github.com/jrjohn/arcana-cloud-go/pkg/errors" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_Error/error_without_wrapped_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_Error/error_with_wrapped_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_Error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_Unwrap" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestNew" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestWrap" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_WithMessage" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_WithError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs/same_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs/wrapped_error_with_same_code" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs/different_error_codes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs/non-AppError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs/nil_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs/wrapped_in_fmt.Errorf" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestIs" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/NotFound_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/BadRequest_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/Unauthorized_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/Forbidden_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/Conflict_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/InternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/ServiceUnavailable_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/wrapped_AppError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/plain_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus/nil_error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestGetStatus" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrNotFound" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrBadRequest" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrUnauthorized" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrForbidden" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrConflict" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrInternalError" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors/ErrServiceUnavailable" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestCommonErrors" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestErrorCodes" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/errors" name="TestAppError_ErrorsAs" time="0.000000"></testcase>
+	</testsuite>
+	<testsuite tests="26" failures="0" time="1.027000" name="github.com/jrjohn/arcana-cloud-go/pkg/logger" timestamp="2026-01-03T07:04:52Z">
+		<properties>
+			<property name="go.version" value="go1.23.12 linux/arm64"></property>
+		</properties>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew/development_config" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew/production_config" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew/invalid_level_falls_back_to_info" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew/error_level" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew/warn_level" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew/empty_encoding_uses_default" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew" time="0.010000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/debug" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/info" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/warn" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/error" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/dpanic" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/panic" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels/fatal" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_LogLevels" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestDefault/development_mode" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestDefault/production_mode" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestDefault/empty_env_vars" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestDefault" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestWithContext" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestConfig_Struct" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestNew_DevelopmentVsProduction" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestLoggerIntegration" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestWithContext_MultipleFields" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestWithContext_EmptyFields" time="0.000000"></testcase>
+		<testcase classname="github.com/jrjohn/arcana-cloud-go/pkg/logger" name="TestZapCoreLevelParsing" time="0.000000"></testcase>
+	</testsuite>
+</testsuites>

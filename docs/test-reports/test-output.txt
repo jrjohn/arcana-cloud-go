@@ -1,0 +1,1933 @@
+	github.com/jrjohn/arcana-cloud-go/cmd/server		coverage: 0.0% of statements
+	github.com/jrjohn/arcana-cloud-go/cmd/worker		coverage: 0.0% of statements
+=== RUN   TestDeploymentMode_Constants
+=== RUN   TestDeploymentMode_Constants/monolithic
+=== RUN   TestDeploymentMode_Constants/layered
+=== RUN   TestDeploymentMode_Constants/kubernetes
+--- PASS: TestDeploymentMode_Constants (0.00s)
+    --- PASS: TestDeploymentMode_Constants/monolithic (0.00s)
+    --- PASS: TestDeploymentMode_Constants/layered (0.00s)
+    --- PASS: TestDeploymentMode_Constants/kubernetes (0.00s)
+=== RUN   TestDeploymentLayer_Constants
+=== RUN   TestDeploymentLayer_Constants/controller
+=== RUN   TestDeploymentLayer_Constants/service
+=== RUN   TestDeploymentLayer_Constants/repository
+=== RUN   TestDeploymentLayer_Constants/all
+--- PASS: TestDeploymentLayer_Constants (0.00s)
+    --- PASS: TestDeploymentLayer_Constants/controller (0.00s)
+    --- PASS: TestDeploymentLayer_Constants/service (0.00s)
+    --- PASS: TestDeploymentLayer_Constants/repository (0.00s)
+    --- PASS: TestDeploymentLayer_Constants/all (0.00s)
+=== RUN   TestCommunicationProtocol_Constants
+=== RUN   TestCommunicationProtocol_Constants/http
+=== RUN   TestCommunicationProtocol_Constants/grpc
+--- PASS: TestCommunicationProtocol_Constants (0.00s)
+    --- PASS: TestCommunicationProtocol_Constants/http (0.00s)
+    --- PASS: TestCommunicationProtocol_Constants/grpc (0.00s)
+=== RUN   TestConfig_Validate
+=== RUN   TestConfig_Validate/valid_config
+=== RUN   TestConfig_Validate/missing_JWT_secret
+=== RUN   TestConfig_Validate/missing_database_name
+--- PASS: TestConfig_Validate (0.00s)
+    --- PASS: TestConfig_Validate/valid_config (0.00s)
+    --- PASS: TestConfig_Validate/missing_JWT_secret (0.00s)
+    --- PASS: TestConfig_Validate/missing_database_name (0.00s)
+=== RUN   TestDatabaseConfig_DSN
+=== RUN   TestDatabaseConfig_DSN/mysql_DSN
+=== RUN   TestDatabaseConfig_DSN/postgres_DSN
+=== RUN   TestDatabaseConfig_DSN/unknown_driver_returns_empty
+--- PASS: TestDatabaseConfig_DSN (0.00s)
+    --- PASS: TestDatabaseConfig_DSN/mysql_DSN (0.00s)
+    --- PASS: TestDatabaseConfig_DSN/postgres_DSN (0.00s)
+    --- PASS: TestDatabaseConfig_DSN/unknown_driver_returns_empty (0.00s)
+=== RUN   TestDeploymentConfig_IsControllerLayer
+=== RUN   TestDeploymentConfig_IsControllerLayer/LayerAll_returns_true
+=== RUN   TestDeploymentConfig_IsControllerLayer/LayerController_returns_true
+=== RUN   TestDeploymentConfig_IsControllerLayer/LayerService_returns_false
+=== RUN   TestDeploymentConfig_IsControllerLayer/LayerRepository_returns_false
+--- PASS: TestDeploymentConfig_IsControllerLayer (0.00s)
+    --- PASS: TestDeploymentConfig_IsControllerLayer/LayerAll_returns_true (0.00s)
+    --- PASS: TestDeploymentConfig_IsControllerLayer/LayerController_returns_true (0.00s)
+    --- PASS: TestDeploymentConfig_IsControllerLayer/LayerService_returns_false (0.00s)
+    --- PASS: TestDeploymentConfig_IsControllerLayer/LayerRepository_returns_false (0.00s)
+=== RUN   TestDeploymentConfig_IsServiceLayer
+=== RUN   TestDeploymentConfig_IsServiceLayer/LayerAll_returns_true
+=== RUN   TestDeploymentConfig_IsServiceLayer/LayerService_returns_true
+=== RUN   TestDeploymentConfig_IsServiceLayer/LayerController_returns_false
+=== RUN   TestDeploymentConfig_IsServiceLayer/LayerRepository_returns_false
+--- PASS: TestDeploymentConfig_IsServiceLayer (0.00s)
+    --- PASS: TestDeploymentConfig_IsServiceLayer/LayerAll_returns_true (0.00s)
+    --- PASS: TestDeploymentConfig_IsServiceLayer/LayerService_returns_true (0.00s)
+    --- PASS: TestDeploymentConfig_IsServiceLayer/LayerController_returns_false (0.00s)
+    --- PASS: TestDeploymentConfig_IsServiceLayer/LayerRepository_returns_false (0.00s)
+=== RUN   TestDeploymentConfig_IsRepositoryLayer
+=== RUN   TestDeploymentConfig_IsRepositoryLayer/LayerAll_returns_true
+=== RUN   TestDeploymentConfig_IsRepositoryLayer/LayerRepository_returns_true
+=== RUN   TestDeploymentConfig_IsRepositoryLayer/LayerController_returns_false
+=== RUN   TestDeploymentConfig_IsRepositoryLayer/LayerService_returns_false
+--- PASS: TestDeploymentConfig_IsRepositoryLayer (0.00s)
+    --- PASS: TestDeploymentConfig_IsRepositoryLayer/LayerAll_returns_true (0.00s)
+    --- PASS: TestDeploymentConfig_IsRepositoryLayer/LayerRepository_returns_true (0.00s)
+    --- PASS: TestDeploymentConfig_IsRepositoryLayer/LayerController_returns_false (0.00s)
+    --- PASS: TestDeploymentConfig_IsRepositoryLayer/LayerService_returns_false (0.00s)
+=== RUN   TestDeploymentConfig_IsGRPC
+=== RUN   TestDeploymentConfig_IsGRPC/gRPC_protocol
+=== RUN   TestDeploymentConfig_IsGRPC/HTTP_protocol
+--- PASS: TestDeploymentConfig_IsGRPC (0.00s)
+    --- PASS: TestDeploymentConfig_IsGRPC/gRPC_protocol (0.00s)
+    --- PASS: TestDeploymentConfig_IsGRPC/HTTP_protocol (0.00s)
+=== RUN   TestLoad_WithEnvVars
+--- PASS: TestLoad_WithEnvVars (0.00s)
+=== RUN   TestConfig_Structs
+--- PASS: TestConfig_Structs (0.00s)
+=== RUN   TestConfig_FullStruct
+--- PASS: TestConfig_FullStruct (0.00s)
+PASS
+coverage: 76.3% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/config	1.394s	coverage: 76.3% of statements
+# github.com/jrjohn/arcana-cloud-go/internal/di.test
+ld: warning: '/private/var/folders/7p/x1lf2bq108s2lm1hc7qfsxkw0000gn/T/go-link-731885123/000012.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestNewServer
+--- PASS: TestNewServer (0.00s)
+=== RUN   TestNewServer_TLSEnabled_InvalidFiles
+--- PASS: TestNewServer_TLSEnabled_InvalidFiles (0.00s)
+=== RUN   TestServer_GetServer
+--- PASS: TestServer_GetServer (0.00s)
+=== RUN   TestServer_Stop
+--- PASS: TestServer_Stop (0.00s)
+=== RUN   TestLoggingInterceptor
+=== RUN   TestLoggingInterceptor/success
+=== RUN   TestLoggingInterceptor/error
+--- PASS: TestLoggingInterceptor (0.00s)
+    --- PASS: TestLoggingInterceptor/success (0.00s)
+    --- PASS: TestLoggingInterceptor/error (0.00s)
+=== RUN   TestRecoveryInterceptor
+=== RUN   TestRecoveryInterceptor/success
+=== RUN   TestRecoveryInterceptor/panic_recovery
+--- PASS: TestRecoveryInterceptor (0.00s)
+    --- PASS: TestRecoveryInterceptor/success (0.00s)
+    --- PASS: TestRecoveryInterceptor/panic_recovery (0.00s)
+PASS
+coverage: 75.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/controller/grpc	1.823s	coverage: 75.0% of statements
+=== RUN   TestNewAuthController
+--- PASS: TestNewAuthController (0.00s)
+=== RUN   TestAuthController_Register_Success
+--- PASS: TestAuthController_Register_Success (0.00s)
+=== RUN   TestAuthController_Register_ValidationError
+--- PASS: TestAuthController_Register_ValidationError (0.00s)
+=== RUN   TestAuthController_Register_UserExists
+--- PASS: TestAuthController_Register_UserExists (0.00s)
+=== RUN   TestAuthController_Register_InternalError
+--- PASS: TestAuthController_Register_InternalError (0.00s)
+=== RUN   TestAuthController_Login_Success
+--- PASS: TestAuthController_Login_Success (0.00s)
+=== RUN   TestAuthController_Login_InvalidCredentials
+--- PASS: TestAuthController_Login_InvalidCredentials (0.00s)
+=== RUN   TestAuthController_Login_UserInactive
+--- PASS: TestAuthController_Login_UserInactive (0.00s)
+=== RUN   TestAuthController_Login_ValidationError
+--- PASS: TestAuthController_Login_ValidationError (0.00s)
+=== RUN   TestAuthController_Login_InternalError
+--- PASS: TestAuthController_Login_InternalError (0.00s)
+=== RUN   TestAuthController_RefreshToken_Success
+--- PASS: TestAuthController_RefreshToken_Success (0.00s)
+=== RUN   TestAuthController_RefreshToken_InvalidToken
+--- PASS: TestAuthController_RefreshToken_InvalidToken (0.00s)
+=== RUN   TestAuthController_RefreshToken_ValidationError
+--- PASS: TestAuthController_RefreshToken_ValidationError (0.00s)
+=== RUN   TestAuthController_RefreshToken_InternalError
+--- PASS: TestAuthController_RefreshToken_InternalError (0.00s)
+=== RUN   TestAuthController_Logout
+--- PASS: TestAuthController_Logout (0.00s)
+=== RUN   TestAuthController_Logout_NoToken
+--- PASS: TestAuthController_Logout_NoToken (0.00s)
+=== RUN   TestAuthController_LogoutAll
+--- PASS: TestAuthController_LogoutAll (0.00s)
+=== RUN   TestAuthController_RegisterRoutes
+--- PASS: TestAuthController_RegisterRoutes (0.00s)
+=== RUN   TestNewUserController
+--- PASS: TestNewUserController (0.00s)
+=== RUN   TestUserController_List_Success
+--- PASS: TestUserController_List_Success (0.00s)
+=== RUN   TestUserController_List_Error
+--- PASS: TestUserController_List_Error (0.00s)
+=== RUN   TestUserController_GetCurrentUser_Success
+--- PASS: TestUserController_GetCurrentUser_Success (0.00s)
+=== RUN   TestUserController_GetCurrentUser_NotAuthenticated
+--- PASS: TestUserController_GetCurrentUser_NotAuthenticated (0.00s)
+=== RUN   TestUserController_GetCurrentUser_NotFound
+--- PASS: TestUserController_GetCurrentUser_NotFound (0.00s)
+=== RUN   TestUserController_GetCurrentUser_InternalError
+--- PASS: TestUserController_GetCurrentUser_InternalError (0.00s)
+=== RUN   TestUserController_UpdateCurrentUser_Success
+--- PASS: TestUserController_UpdateCurrentUser_Success (0.00s)
+=== RUN   TestUserController_UpdateCurrentUser_NotAuthenticated
+--- PASS: TestUserController_UpdateCurrentUser_NotAuthenticated (0.00s)
+=== RUN   TestUserController_UpdateCurrentUser_ValidationError
+--- PASS: TestUserController_UpdateCurrentUser_ValidationError (0.00s)
+=== RUN   TestUserController_UpdateCurrentUser_NotFound
+--- PASS: TestUserController_UpdateCurrentUser_NotFound (0.00s)
+=== RUN   TestUserController_UpdateCurrentUser_EmailConflict
+--- PASS: TestUserController_UpdateCurrentUser_EmailConflict (0.00s)
+=== RUN   TestUserController_UpdateCurrentUser_InternalError
+--- PASS: TestUserController_UpdateCurrentUser_InternalError (0.00s)
+=== RUN   TestUserController_ChangePassword_Success
+--- PASS: TestUserController_ChangePassword_Success (0.00s)
+=== RUN   TestUserController_ChangePassword_NotAuthenticated
+--- PASS: TestUserController_ChangePassword_NotAuthenticated (0.00s)
+=== RUN   TestUserController_ChangePassword_InvalidCredentials
+--- PASS: TestUserController_ChangePassword_InvalidCredentials (0.00s)
+=== RUN   TestUserController_GetByID_Success
+--- PASS: TestUserController_GetByID_Success (0.00s)
+=== RUN   TestUserController_GetByID_InvalidID
+--- PASS: TestUserController_GetByID_InvalidID (0.00s)
+=== RUN   TestUserController_GetByUsername_Success
+--- PASS: TestUserController_GetByUsername_Success (0.00s)
+=== RUN   TestUserController_Delete_Success
+--- PASS: TestUserController_Delete_Success (0.00s)
+=== RUN   TestUserController_Delete_InvalidID
+--- PASS: TestUserController_Delete_InvalidID (0.00s)
+=== RUN   TestUserController_Delete_Error
+--- PASS: TestUserController_Delete_Error (0.00s)
+=== RUN   TestNewPluginController
+--- PASS: TestNewPluginController (0.00s)
+=== RUN   TestPluginController_List_Success
+--- PASS: TestPluginController_List_Success (0.00s)
+=== RUN   TestPluginController_GetByKey_Success
+--- PASS: TestPluginController_GetByKey_Success (0.00s)
+=== RUN   TestPluginController_GetByKey_NotFound
+--- PASS: TestPluginController_GetByKey_NotFound (0.00s)
+=== RUN   TestPluginController_Install_Success
+--- PASS: TestPluginController_Install_Success (0.00s)
+=== RUN   TestPluginController_Install_NoFile
+--- PASS: TestPluginController_Install_NoFile (0.00s)
+=== RUN   TestPluginController_Install_MissingFields
+--- PASS: TestPluginController_Install_MissingFields (0.00s)
+=== RUN   TestPluginController_Enable_Success
+--- PASS: TestPluginController_Enable_Success (0.00s)
+=== RUN   TestPluginController_Enable_InvalidState
+--- PASS: TestPluginController_Enable_InvalidState (0.00s)
+=== RUN   TestPluginController_Disable_Success
+--- PASS: TestPluginController_Disable_Success (0.00s)
+=== RUN   TestPluginController_Uninstall_Success
+--- PASS: TestPluginController_Uninstall_Success (0.00s)
+=== RUN   TestPluginController_GetHealth_Success
+--- PASS: TestPluginController_GetHealth_Success (0.00s)
+=== RUN   TestPluginController_GetReadiness
+--- PASS: TestPluginController_GetReadiness (0.00s)
+=== RUN   TestPluginController_GetLiveness
+--- PASS: TestPluginController_GetLiveness (0.00s)
+=== RUN   TestNewJobController
+--- PASS: TestNewJobController (0.00s)
+=== RUN   TestJobController_EnqueueJob_Success
+--- PASS: TestJobController_EnqueueJob_Success (0.00s)
+=== RUN   TestJobController_EnqueueJob_WithDelay
+--- PASS: TestJobController_EnqueueJob_WithDelay (0.00s)
+=== RUN   TestJobController_EnqueueJob_WithScheduledAt
+--- PASS: TestJobController_EnqueueJob_WithScheduledAt (0.00s)
+=== RUN   TestJobController_EnqueueJob_InvalidScheduledAt
+--- PASS: TestJobController_EnqueueJob_InvalidScheduledAt (0.00s)
+=== RUN   TestJobController_EnqueueJob_InvalidPayload
+--- PASS: TestJobController_EnqueueJob_InvalidPayload (0.00s)
+=== RUN   TestJobController_EnqueueJob_AllPriorities
+=== RUN   TestJobController_EnqueueJob_AllPriorities/low
+=== RUN   TestJobController_EnqueueJob_AllPriorities/normal
+=== RUN   TestJobController_EnqueueJob_AllPriorities/high
+=== RUN   TestJobController_EnqueueJob_AllPriorities/critical
+=== RUN   TestJobController_EnqueueJob_AllPriorities/unknown
+--- PASS: TestJobController_EnqueueJob_AllPriorities (0.00s)
+    --- PASS: TestJobController_EnqueueJob_AllPriorities/low (0.00s)
+    --- PASS: TestJobController_EnqueueJob_AllPriorities/normal (0.00s)
+    --- PASS: TestJobController_EnqueueJob_AllPriorities/high (0.00s)
+    --- PASS: TestJobController_EnqueueJob_AllPriorities/critical (0.00s)
+    --- PASS: TestJobController_EnqueueJob_AllPriorities/unknown (0.00s)
+=== RUN   TestJobController_EnqueueJob_WithTags
+--- PASS: TestJobController_EnqueueJob_WithTags (0.00s)
+=== RUN   TestJobController_EnqueueJob_WithUniqueKey
+--- PASS: TestJobController_EnqueueJob_WithUniqueKey (0.00s)
+=== RUN   TestJobController_GetJob_Success
+--- PASS: TestJobController_GetJob_Success (0.00s)
+=== RUN   TestJobController_GetJob_NotFound
+--- PASS: TestJobController_GetJob_NotFound (0.00s)
+=== RUN   TestJobController_CancelJob_Success
+--- PASS: TestJobController_CancelJob_Success (0.00s)
+=== RUN   TestJobController_RetryJob_Success
+--- PASS: TestJobController_RetryJob_Success (0.00s)
+=== RUN   TestJobController_GetQueueStats_Success
+--- PASS: TestJobController_GetQueueStats_Success (0.00s)
+=== RUN   TestJobController_GetDashboard
+--- PASS: TestJobController_GetDashboard (0.00s)
+=== RUN   TestJobController_GetDLQJobs_Success
+--- PASS: TestJobController_GetDLQJobs_Success (0.00s)
+=== RUN   TestJobController_GetDLQJobs_InvalidLimit
+--- PASS: TestJobController_GetDLQJobs_InvalidLimit (0.00s)
+=== RUN   TestJobController_RetryDLQJob_Success
+--- PASS: TestJobController_RetryDLQJob_Success (0.00s)
+=== RUN   TestJobController_PurgeDLQ_Success
+--- PASS: TestJobController_PurgeDLQ_Success (0.00s)
+=== RUN   TestJobController_GetScheduledJobs_NoScheduler
+--- PASS: TestJobController_GetScheduledJobs_NoScheduler (0.00s)
+=== RUN   TestJobController_RegisterRoutes
+--- PASS: TestJobController_RegisterRoutes (0.00s)
+=== RUN   TestUserController_RegisterRoutes
+--- PASS: TestUserController_RegisterRoutes (0.00s)
+=== RUN   TestPluginController_RegisterRoutes
+--- PASS: TestPluginController_RegisterRoutes (0.00s)
+PASS
+coverage: 68.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/controller/http	2.211s	coverage: 68.0% of statements
+=== RUN   TestPrintBanner
+--- PASS: TestPrintBanner (0.00s)
+=== RUN   TestProvideLogger
+--- PASS: TestProvideLogger (0.00s)
+=== RUN   TestProvideLogger_Production
+--- PASS: TestProvideLogger_Production (0.00s)
+=== RUN   TestModulesNotNil
+=== RUN   TestModulesNotNil/AppModule
+=== RUN   TestModulesNotNil/ConfigModule
+=== RUN   TestModulesNotNil/LoggerModule
+=== RUN   TestModulesNotNil/DatabaseModule
+=== RUN   TestModulesNotNil/RepositoryModule
+=== RUN   TestModulesNotNil/SecurityModule
+=== RUN   TestModulesNotNil/ServiceModule
+=== RUN   TestModulesNotNil/MiddlewareModule
+=== RUN   TestModulesNotNil/ControllerModule
+=== RUN   TestModulesNotNil/PluginModule
+=== RUN   TestModulesNotNil/JobsModule
+=== RUN   TestModulesNotNil/HTTPServerModule
+=== RUN   TestModulesNotNil/GRPCServerModule
+--- PASS: TestModulesNotNil (0.00s)
+    --- PASS: TestModulesNotNil/AppModule (0.00s)
+    --- PASS: TestModulesNotNil/ConfigModule (0.00s)
+    --- PASS: TestModulesNotNil/LoggerModule (0.00s)
+    --- PASS: TestModulesNotNil/DatabaseModule (0.00s)
+    --- PASS: TestModulesNotNil/RepositoryModule (0.00s)
+    --- PASS: TestModulesNotNil/SecurityModule (0.00s)
+    --- PASS: TestModulesNotNil/ServiceModule (0.00s)
+    --- PASS: TestModulesNotNil/MiddlewareModule (0.00s)
+    --- PASS: TestModulesNotNil/ControllerModule (0.00s)
+    --- PASS: TestModulesNotNil/PluginModule (0.00s)
+    --- PASS: TestModulesNotNil/JobsModule (0.00s)
+    --- PASS: TestModulesNotNil/HTTPServerModule (0.00s)
+    --- PASS: TestModulesNotNil/GRPCServerModule (0.00s)
+PASS
+coverage: 3.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/di	2.088s	coverage: 3.0% of statements
+=== RUN   TestNewPageResult
+--- PASS: TestNewPageResult (0.00s)
+=== RUN   TestPageResult_TotalPages
+=== RUN   TestPageResult_TotalPages/exact_division
+=== RUN   TestPageResult_TotalPages/with_remainder
+=== RUN   TestPageResult_TotalPages/single_page
+=== RUN   TestPageResult_TotalPages/empty
+=== RUN   TestPageResult_TotalPages/zero_size
+--- PASS: TestPageResult_TotalPages (0.00s)
+    --- PASS: TestPageResult_TotalPages/exact_division (0.00s)
+    --- PASS: TestPageResult_TotalPages/with_remainder (0.00s)
+    --- PASS: TestPageResult_TotalPages/single_page (0.00s)
+    --- PASS: TestPageResult_TotalPages/empty (0.00s)
+    --- PASS: TestPageResult_TotalPages/zero_size (0.00s)
+=== RUN   TestPageResult_HasNext
+=== RUN   TestPageResult_HasNext/has_next_page
+=== RUN   TestPageResult_HasNext/last_page
+=== RUN   TestPageResult_HasNext/only_page
+=== RUN   TestPageResult_HasNext/middle_page
+--- PASS: TestPageResult_HasNext (0.00s)
+    --- PASS: TestPageResult_HasNext/has_next_page (0.00s)
+    --- PASS: TestPageResult_HasNext/last_page (0.00s)
+    --- PASS: TestPageResult_HasNext/only_page (0.00s)
+    --- PASS: TestPageResult_HasNext/middle_page (0.00s)
+=== RUN   TestPageResult_HasPrev
+=== RUN   TestPageResult_HasPrev/first_page
+=== RUN   TestPageResult_HasPrev/second_page
+=== RUN   TestPageResult_HasPrev/third_page
+--- PASS: TestPageResult_HasPrev (0.00s)
+    --- PASS: TestPageResult_HasPrev/first_page (0.00s)
+    --- PASS: TestPageResult_HasPrev/second_page (0.00s)
+    --- PASS: TestPageResult_HasPrev/third_page (0.00s)
+=== RUN   TestQueryOption
+--- PASS: TestQueryOption (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/dao	1.496s	coverage: 100.0% of statements
+# github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm.test
+ld: warning: '/private/var/folders/7p/x1lf2bq108s2lm1hc7qfsxkw0000gn/T/go-link-928748388/000023.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestUserDAO_Create
+--- PASS: TestUserDAO_Create (0.01s)
+=== RUN   TestUserDAO_FindByID
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/base_dao.go:31 [35;1mrecord not found
+[0m[33m[0.042ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE `users`.`id` = 9999 AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+--- PASS: TestUserDAO_FindByID (0.00s)
+=== RUN   TestUserDAO_FindByUsername
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/user_dao.go:28 [35;1mrecord not found
+[0m[33m[0.041ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE username = "nonexistent" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+--- PASS: TestUserDAO_FindByUsername (0.01s)
+=== RUN   TestUserDAO_FindByEmail
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/user_dao.go:41 [35;1mrecord not found
+[0m[33m[0.038ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE email = "nonexistent@example.com" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+--- PASS: TestUserDAO_FindByEmail (0.00s)
+=== RUN   TestUserDAO_FindByUsernameOrEmail
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/user_dao.go:56 [35;1mrecord not found
+[0m[33m[0.043ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE (username = "nonexistent" OR email = "nonexistent") AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+--- PASS: TestUserDAO_FindByUsernameOrEmail (0.00s)
+=== RUN   TestUserDAO_Update
+--- PASS: TestUserDAO_Update (0.00s)
+=== RUN   TestUserDAO_Delete
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/base_dao.go:31 [35;1mrecord not found
+[0m[33m[0.042ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE `users`.`id` = 1 AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+--- PASS: TestUserDAO_Delete (0.00s)
+=== RUN   TestUserDAO_FindAll
+--- PASS: TestUserDAO_FindAll (0.01s)
+=== RUN   TestUserDAO_Count
+--- PASS: TestUserDAO_Count (0.00s)
+=== RUN   TestUserDAO_ExistsByUsername
+--- PASS: TestUserDAO_ExistsByUsername (0.00s)
+=== RUN   TestUserDAO_ExistsByEmail
+--- PASS: TestUserDAO_ExistsByEmail (0.00s)
+=== RUN   TestUserDAO_ExistsBy
+--- PASS: TestUserDAO_ExistsBy (0.00s)
+=== RUN   TestBaseGormDAO_Helpers
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/base_dao.go:101 [35;1mrecord not found
+[0m[33m[0.038ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE username = "nonexistent" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/base_dao.go:101 [35;1mrecord not found
+[0m[33m[0.036ms] [34;1m[rows:0][0m SELECT * FROM `users` WHERE username = "helperuser" AND `users`.`deleted_at` IS NULL ORDER BY `users`.`id` LIMIT 1
+--- PASS: TestBaseGormDAO_Helpers (0.00s)
+=== RUN   TestRefreshTokenDAO_Operations
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/refresh_token_dao.go:33 [35;1mrecord not found
+[0m[33m[0.068ms] [34;1m[rows:0][0m SELECT * FROM `refresh_tokens` WHERE (token = "test-refresh-token-123" AND revoked = false) AND `refresh_tokens`.`deleted_at` IS NULL ORDER BY `refresh_tokens`.`id` LIMIT 1
+--- PASS: TestRefreshTokenDAO_Operations (0.00s)
+=== RUN   TestPluginDAO_Operations
+
+2026/01/03 12:19:25 [31;1m/Users/jrjohn/Documents/projects/arcana-cloud-go/internal/domain/dao/gorm/plugin_dao.go:29 [35;1mrecord not found
+[0m[33m[0.038ms] [34;1m[rows:0][0m SELECT * FROM `plugins` WHERE key = "test-plugin" AND `plugins`.`deleted_at` IS NULL ORDER BY `plugins`.`id` LIMIT 1
+--- PASS: TestPluginDAO_Operations (0.00s)
+=== RUN   TestPluginExtensionDAO_Operations
+--- PASS: TestPluginExtensionDAO_Operations (0.00s)
+PASS
+coverage: 83.6% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm	1.473s	coverage: 83.6% of statements
+	github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo		coverage: 0.0% of statements
+=== RUN   TestUserDocument
+=== RUN   TestUserDocument/CollectionName
+=== RUN   TestUserDocument/IsDeleted_false
+=== RUN   TestUserDocument/IsDeleted_true
+--- PASS: TestUserDocument (0.00s)
+    --- PASS: TestUserDocument/CollectionName (0.00s)
+    --- PASS: TestUserDocument/IsDeleted_false (0.00s)
+    --- PASS: TestUserDocument/IsDeleted_true (0.00s)
+=== RUN   TestRefreshTokenDocument
+=== RUN   TestRefreshTokenDocument/CollectionName
+=== RUN   TestRefreshTokenDocument/IsExpired_false
+=== RUN   TestRefreshTokenDocument/IsExpired_true
+=== RUN   TestRefreshTokenDocument/IsValid_true
+=== RUN   TestRefreshTokenDocument/IsValid_false_-_revoked
+=== RUN   TestRefreshTokenDocument/IsValid_false_-_expired
+=== RUN   TestRefreshTokenDocument/IsDeleted
+--- PASS: TestRefreshTokenDocument (0.00s)
+    --- PASS: TestRefreshTokenDocument/CollectionName (0.00s)
+    --- PASS: TestRefreshTokenDocument/IsExpired_false (0.00s)
+    --- PASS: TestRefreshTokenDocument/IsExpired_true (0.00s)
+    --- PASS: TestRefreshTokenDocument/IsValid_true (0.00s)
+    --- PASS: TestRefreshTokenDocument/IsValid_false_-_revoked (0.00s)
+    --- PASS: TestRefreshTokenDocument/IsValid_false_-_expired (0.00s)
+    --- PASS: TestRefreshTokenDocument/IsDeleted (0.00s)
+=== RUN   TestPluginDocument
+=== RUN   TestPluginDocument/CollectionName
+=== RUN   TestPluginDocument/IsEnabled_true
+=== RUN   TestPluginDocument/IsEnabled_false
+=== RUN   TestPluginDocument/IsDeleted
+--- PASS: TestPluginDocument (0.00s)
+    --- PASS: TestPluginDocument/CollectionName (0.00s)
+    --- PASS: TestPluginDocument/IsEnabled_true (0.00s)
+    --- PASS: TestPluginDocument/IsEnabled_false (0.00s)
+    --- PASS: TestPluginDocument/IsDeleted (0.00s)
+=== RUN   TestPluginExtensionDocument
+=== RUN   TestPluginExtensionDocument/CollectionName
+=== RUN   TestPluginExtensionDocument/IsDeleted
+--- PASS: TestPluginExtensionDocument (0.00s)
+    --- PASS: TestPluginExtensionDocument/CollectionName (0.00s)
+    --- PASS: TestPluginExtensionDocument/IsDeleted (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document	2.481s	coverage: 100.0% of statements
+=== RUN   TestUserMapper_ToDocument
+=== RUN   TestUserMapper_ToDocument/nil_user
+=== RUN   TestUserMapper_ToDocument/valid_user
+=== RUN   TestUserMapper_ToDocument/user_with_deleted_at
+--- PASS: TestUserMapper_ToDocument (0.00s)
+    --- PASS: TestUserMapper_ToDocument/nil_user (0.00s)
+    --- PASS: TestUserMapper_ToDocument/valid_user (0.00s)
+    --- PASS: TestUserMapper_ToDocument/user_with_deleted_at (0.00s)
+=== RUN   TestUserMapper_ToEntity
+=== RUN   TestUserMapper_ToEntity/nil_document
+=== RUN   TestUserMapper_ToEntity/valid_document
+=== RUN   TestUserMapper_ToEntity/document_with_deleted_at
+--- PASS: TestUserMapper_ToEntity (0.00s)
+    --- PASS: TestUserMapper_ToEntity/nil_document (0.00s)
+    --- PASS: TestUserMapper_ToEntity/valid_document (0.00s)
+    --- PASS: TestUserMapper_ToEntity/document_with_deleted_at (0.00s)
+=== RUN   TestUserMapper_ToEntities
+=== RUN   TestUserMapper_ToEntities/nil_slice
+=== RUN   TestUserMapper_ToEntities/valid_slice
+--- PASS: TestUserMapper_ToEntities (0.00s)
+    --- PASS: TestUserMapper_ToEntities/nil_slice (0.00s)
+    --- PASS: TestUserMapper_ToEntities/valid_slice (0.00s)
+=== RUN   TestUserMapper_ToDocuments
+=== RUN   TestUserMapper_ToDocuments/nil_slice
+=== RUN   TestUserMapper_ToDocuments/valid_slice
+--- PASS: TestUserMapper_ToDocuments (0.00s)
+    --- PASS: TestUserMapper_ToDocuments/nil_slice (0.00s)
+    --- PASS: TestUserMapper_ToDocuments/valid_slice (0.00s)
+=== RUN   TestRefreshTokenMapper
+=== RUN   TestRefreshTokenMapper/ToDocument_nil
+=== RUN   TestRefreshTokenMapper/ToDocument_valid
+=== RUN   TestRefreshTokenMapper/ToEntity_nil
+=== RUN   TestRefreshTokenMapper/ToEntity_valid
+=== RUN   TestRefreshTokenMapper/ToEntities
+=== RUN   TestRefreshTokenMapper/ToDocuments
+--- PASS: TestRefreshTokenMapper (0.00s)
+    --- PASS: TestRefreshTokenMapper/ToDocument_nil (0.00s)
+    --- PASS: TestRefreshTokenMapper/ToDocument_valid (0.00s)
+    --- PASS: TestRefreshTokenMapper/ToEntity_nil (0.00s)
+    --- PASS: TestRefreshTokenMapper/ToEntity_valid (0.00s)
+    --- PASS: TestRefreshTokenMapper/ToEntities (0.00s)
+    --- PASS: TestRefreshTokenMapper/ToDocuments (0.00s)
+=== RUN   TestPluginMapper
+=== RUN   TestPluginMapper/ToDocument_nil
+=== RUN   TestPluginMapper/ToDocument_valid
+=== RUN   TestPluginMapper/ToEntity_nil
+=== RUN   TestPluginMapper/ToEntity_valid
+=== RUN   TestPluginMapper/ToEntities
+=== RUN   TestPluginMapper/ToDocuments
+--- PASS: TestPluginMapper (0.00s)
+    --- PASS: TestPluginMapper/ToDocument_nil (0.00s)
+    --- PASS: TestPluginMapper/ToDocument_valid (0.00s)
+    --- PASS: TestPluginMapper/ToEntity_nil (0.00s)
+    --- PASS: TestPluginMapper/ToEntity_valid (0.00s)
+    --- PASS: TestPluginMapper/ToEntities (0.00s)
+    --- PASS: TestPluginMapper/ToDocuments (0.00s)
+=== RUN   TestPluginExtensionMapper
+=== RUN   TestPluginExtensionMapper/ToDocument_nil
+=== RUN   TestPluginExtensionMapper/ToDocument_valid
+=== RUN   TestPluginExtensionMapper/ToEntity_nil
+=== RUN   TestPluginExtensionMapper/ToEntity_valid
+=== RUN   TestPluginExtensionMapper/ToEntity_with_deleted_at
+=== RUN   TestPluginExtensionMapper/ToEntities
+=== RUN   TestPluginExtensionMapper/ToDocuments
+--- PASS: TestPluginExtensionMapper (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToDocument_nil (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToDocument_valid (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToEntity_nil (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToEntity_valid (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToEntity_with_deleted_at (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToEntities (0.00s)
+    --- PASS: TestPluginExtensionMapper/ToDocuments (0.00s)
+PASS
+coverage: 89.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper	1.772s	coverage: 89.0% of statements
+=== RUN   TestUserRole_Constants
+=== RUN   TestUserRole_Constants/USER_role
+=== RUN   TestUserRole_Constants/ADMIN_role
+--- PASS: TestUserRole_Constants (0.00s)
+    --- PASS: TestUserRole_Constants/USER_role (0.00s)
+    --- PASS: TestUserRole_Constants/ADMIN_role (0.00s)
+=== RUN   TestUser_TableName
+--- PASS: TestUser_TableName (0.00s)
+=== RUN   TestUser_Struct
+--- PASS: TestUser_Struct (0.00s)
+=== RUN   TestRefreshToken_TableName
+--- PASS: TestRefreshToken_TableName (0.00s)
+=== RUN   TestRefreshToken_IsExpired
+=== RUN   TestRefreshToken_IsExpired/not_expired
+=== RUN   TestRefreshToken_IsExpired/expired
+=== RUN   TestRefreshToken_IsExpired/expires_now
+--- PASS: TestRefreshToken_IsExpired (0.00s)
+    --- PASS: TestRefreshToken_IsExpired/not_expired (0.00s)
+    --- PASS: TestRefreshToken_IsExpired/expired (0.00s)
+    --- PASS: TestRefreshToken_IsExpired/expires_now (0.00s)
+=== RUN   TestRefreshToken_IsValid
+=== RUN   TestRefreshToken_IsValid/valid_token
+=== RUN   TestRefreshToken_IsValid/revoked_token
+=== RUN   TestRefreshToken_IsValid/expired_token
+=== RUN   TestRefreshToken_IsValid/expired_and_revoked
+--- PASS: TestRefreshToken_IsValid (0.00s)
+    --- PASS: TestRefreshToken_IsValid/valid_token (0.00s)
+    --- PASS: TestRefreshToken_IsValid/revoked_token (0.00s)
+    --- PASS: TestRefreshToken_IsValid/expired_token (0.00s)
+    --- PASS: TestRefreshToken_IsValid/expired_and_revoked (0.00s)
+=== RUN   TestRefreshToken_Struct
+--- PASS: TestRefreshToken_Struct (0.00s)
+=== RUN   TestUser_AdminRole
+--- PASS: TestUser_AdminRole (0.00s)
+=== RUN   TestRefreshToken_EdgeCases
+--- PASS: TestRefreshToken_EdgeCases (0.00s)
+PASS
+coverage: 57.1% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/entity	2.120s	coverage: 57.1% of statements
+?   	github.com/jrjohn/arcana-cloud-go/internal/domain/repository	[no test files]
+# github.com/jrjohn/arcana-cloud-go/internal/plugin/manager.test
+ld: warning: '/private/var/folders/7p/x1lf2bq108s2lm1hc7qfsxkw0000gn/T/go-link-1917228768/000012.o' has malformed LC_DYSYMTAB, expected 98 undefined symbols to start at index 1626, found 95 undefined symbols starting at index 1626
+=== RUN   TestUserRepository
+=== RUN   TestUserRepository/Create
+=== RUN   TestUserRepository/GetByID
+=== RUN   TestUserRepository/GetByUsername
+=== RUN   TestUserRepository/GetByEmail
+=== RUN   TestUserRepository/GetByUsernameOrEmail
+=== RUN   TestUserRepository/Update
+=== RUN   TestUserRepository/Delete
+=== RUN   TestUserRepository/List
+=== RUN   TestUserRepository/ExistsByUsername
+=== RUN   TestUserRepository/ExistsByEmail
+--- PASS: TestUserRepository (0.00s)
+    --- PASS: TestUserRepository/Create (0.00s)
+    --- PASS: TestUserRepository/GetByID (0.00s)
+    --- PASS: TestUserRepository/GetByUsername (0.00s)
+    --- PASS: TestUserRepository/GetByEmail (0.00s)
+    --- PASS: TestUserRepository/GetByUsernameOrEmail (0.00s)
+    --- PASS: TestUserRepository/Update (0.00s)
+    --- PASS: TestUserRepository/Delete (0.00s)
+    --- PASS: TestUserRepository/List (0.00s)
+    --- PASS: TestUserRepository/ExistsByUsername (0.00s)
+    --- PASS: TestUserRepository/ExistsByEmail (0.00s)
+=== RUN   TestRefreshTokenRepository
+=== RUN   TestRefreshTokenRepository/Create
+=== RUN   TestRefreshTokenRepository/GetByToken
+=== RUN   TestRefreshTokenRepository/RevokeByToken
+=== RUN   TestRefreshTokenRepository/RevokeAllByUserID
+=== RUN   TestRefreshTokenRepository/DeleteExpired
+--- PASS: TestRefreshTokenRepository (0.00s)
+    --- PASS: TestRefreshTokenRepository/Create (0.00s)
+    --- PASS: TestRefreshTokenRepository/GetByToken (0.00s)
+    --- PASS: TestRefreshTokenRepository/RevokeByToken (0.00s)
+    --- PASS: TestRefreshTokenRepository/RevokeAllByUserID (0.00s)
+    --- PASS: TestRefreshTokenRepository/DeleteExpired (0.00s)
+=== RUN   TestPluginRepository
+=== RUN   TestPluginRepository/Create
+=== RUN   TestPluginRepository/GetByID
+=== RUN   TestPluginRepository/GetByKey
+=== RUN   TestPluginRepository/Update
+=== RUN   TestPluginRepository/Delete
+=== RUN   TestPluginRepository/DeleteByKey
+=== RUN   TestPluginRepository/List
+=== RUN   TestPluginRepository/ListByState
+=== RUN   TestPluginRepository/ListEnabled
+=== RUN   TestPluginRepository/ExistsByKey
+=== RUN   TestPluginRepository/UpdateState
+--- PASS: TestPluginRepository (0.00s)
+    --- PASS: TestPluginRepository/Create (0.00s)
+    --- PASS: TestPluginRepository/GetByID (0.00s)
+    --- PASS: TestPluginRepository/GetByKey (0.00s)
+    --- PASS: TestPluginRepository/Update (0.00s)
+    --- PASS: TestPluginRepository/Delete (0.00s)
+    --- PASS: TestPluginRepository/DeleteByKey (0.00s)
+    --- PASS: TestPluginRepository/List (0.00s)
+    --- PASS: TestPluginRepository/ListByState (0.00s)
+    --- PASS: TestPluginRepository/ListEnabled (0.00s)
+    --- PASS: TestPluginRepository/ExistsByKey (0.00s)
+    --- PASS: TestPluginRepository/UpdateState (0.00s)
+=== RUN   TestPluginExtensionRepository
+=== RUN   TestPluginExtensionRepository/Create
+=== RUN   TestPluginExtensionRepository/GetByPluginID
+=== RUN   TestPluginExtensionRepository/DeleteByPluginID
+--- PASS: TestPluginExtensionRepository (0.00s)
+    --- PASS: TestPluginExtensionRepository/Create (0.00s)
+    --- PASS: TestPluginExtensionRepository/GetByPluginID (0.00s)
+    --- PASS: TestPluginExtensionRepository/DeleteByPluginID (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/repository/impl	2.829s	coverage: 100.0% of statements
+=== RUN   TestNewAuthService
+--- PASS: TestNewAuthService (0.00s)
+=== RUN   TestAuthService_Register_Success
+--- PASS: TestAuthService_Register_Success (2.24s)
+=== RUN   TestAuthService_Register_UsernameExists
+--- PASS: TestAuthService_Register_UsernameExists (0.00s)
+=== RUN   TestAuthService_Register_EmailExists
+--- PASS: TestAuthService_Register_EmailExists (0.00s)
+=== RUN   TestAuthService_Register_UsernameCheckError
+--- PASS: TestAuthService_Register_UsernameCheckError (0.00s)
+=== RUN   TestAuthService_Register_EmailCheckError
+--- PASS: TestAuthService_Register_EmailCheckError (0.00s)
+=== RUN   TestAuthService_Register_CreateError
+--- PASS: TestAuthService_Register_CreateError (2.20s)
+=== RUN   TestAuthService_Register_RefreshTokenCreateError
+--- PASS: TestAuthService_Register_RefreshTokenCreateError (2.17s)
+=== RUN   TestAuthService_Login_Success
+--- PASS: TestAuthService_Login_Success (4.36s)
+=== RUN   TestAuthService_Login_ByEmail
+--- PASS: TestAuthService_Login_ByEmail (4.40s)
+=== RUN   TestAuthService_Login_UserNotFound
+--- PASS: TestAuthService_Login_UserNotFound (0.00s)
+=== RUN   TestAuthService_Login_InvalidPassword
+--- PASS: TestAuthService_Login_InvalidPassword (4.35s)
+=== RUN   TestAuthService_Login_UserInactive
+--- PASS: TestAuthService_Login_UserInactive (2.22s)
+=== RUN   TestAuthService_Login_LookupError
+--- PASS: TestAuthService_Login_LookupError (0.00s)
+=== RUN   TestAuthService_RefreshToken_Success
+--- PASS: TestAuthService_RefreshToken_Success (0.00s)
+=== RUN   TestAuthService_RefreshToken_InvalidToken
+--- PASS: TestAuthService_RefreshToken_InvalidToken (0.00s)
+=== RUN   TestAuthService_RefreshToken_TokenNotInDB
+--- PASS: TestAuthService_RefreshToken_TokenNotInDB (0.00s)
+=== RUN   TestAuthService_RefreshToken_RevokedToken
+--- PASS: TestAuthService_RefreshToken_RevokedToken (0.00s)
+=== RUN   TestAuthService_RefreshToken_UserNotFound
+--- PASS: TestAuthService_RefreshToken_UserNotFound (0.00s)
+=== RUN   TestAuthService_RefreshToken_UserInactive
+--- PASS: TestAuthService_RefreshToken_UserInactive (0.00s)
+=== RUN   TestAuthService_RefreshToken_GetByTokenError
+--- PASS: TestAuthService_RefreshToken_GetByTokenError (0.00s)
+=== RUN   TestAuthService_RefreshToken_RevokeError
+--- PASS: TestAuthService_RefreshToken_RevokeError (0.00s)
+=== RUN   TestAuthService_RefreshToken_GetUserError
+--- PASS: TestAuthService_RefreshToken_GetUserError (0.00s)
+=== RUN   TestAuthService_Logout
+--- PASS: TestAuthService_Logout (0.00s)
+=== RUN   TestAuthService_Logout_Error
+--- PASS: TestAuthService_Logout_Error (0.00s)
+=== RUN   TestAuthService_LogoutAll
+--- PASS: TestAuthService_LogoutAll (0.00s)
+=== RUN   TestAuthService_LogoutAll_Error
+--- PASS: TestAuthService_LogoutAll_Error (0.00s)
+=== RUN   TestServiceErrors
+=== RUN   TestServiceErrors/ErrUserNotFound
+=== RUN   TestServiceErrors/ErrInvalidCredentials
+=== RUN   TestServiceErrors/ErrUserAlreadyExists
+=== RUN   TestServiceErrors/ErrInvalidToken
+=== RUN   TestServiceErrors/ErrUserInactive
+--- PASS: TestServiceErrors (0.00s)
+    --- PASS: TestServiceErrors/ErrUserNotFound (0.00s)
+    --- PASS: TestServiceErrors/ErrInvalidCredentials (0.00s)
+    --- PASS: TestServiceErrors/ErrUserAlreadyExists (0.00s)
+    --- PASS: TestServiceErrors/ErrInvalidToken (0.00s)
+    --- PASS: TestServiceErrors/ErrUserInactive (0.00s)
+=== RUN   TestNewPluginService
+--- PASS: TestNewPluginService (0.00s)
+=== RUN   TestPluginService_Install_Success
+--- PASS: TestPluginService_Install_Success (0.00s)
+=== RUN   TestPluginService_Install_WithConfig
+--- PASS: TestPluginService_Install_WithConfig (0.00s)
+=== RUN   TestPluginService_Install_AlreadyExists
+--- PASS: TestPluginService_Install_AlreadyExists (0.00s)
+=== RUN   TestPluginService_Install_ExistsByKeyError
+--- PASS: TestPluginService_Install_ExistsByKeyError (0.00s)
+=== RUN   TestPluginService_Install_CreateError
+--- PASS: TestPluginService_Install_CreateError (0.00s)
+=== RUN   TestPluginService_InstallFromPath_Success
+--- PASS: TestPluginService_InstallFromPath_Success (0.00s)
+=== RUN   TestPluginService_InstallFromPath_FileNotFound
+--- PASS: TestPluginService_InstallFromPath_FileNotFound (0.00s)
+=== RUN   TestPluginService_GetByKey_Success
+--- PASS: TestPluginService_GetByKey_Success (0.00s)
+=== RUN   TestPluginService_GetByKey_NotFound
+--- PASS: TestPluginService_GetByKey_NotFound (0.00s)
+=== RUN   TestPluginService_GetByKey_GetByKeyError
+--- PASS: TestPluginService_GetByKey_GetByKeyError (0.00s)
+=== RUN   TestPluginService_GetByKey_ExtensionsError
+--- PASS: TestPluginService_GetByKey_ExtensionsError (0.00s)
+=== RUN   TestPluginService_GetByKey_InvalidConfigJSON
+--- PASS: TestPluginService_GetByKey_InvalidConfigJSON (0.00s)
+=== RUN   TestPluginService_List_Success
+--- PASS: TestPluginService_List_Success (0.00s)
+=== RUN   TestPluginService_List_InvalidPage
+--- PASS: TestPluginService_List_InvalidPage (0.00s)
+=== RUN   TestPluginService_List_InvalidSize
+--- PASS: TestPluginService_List_InvalidSize (0.00s)
+=== RUN   TestPluginService_List_Error
+--- PASS: TestPluginService_List_Error (0.00s)
+=== RUN   TestPluginService_Enable_Success
+--- PASS: TestPluginService_Enable_Success (0.00s)
+=== RUN   TestPluginService_Enable_AlreadyEnabled
+--- PASS: TestPluginService_Enable_AlreadyEnabled (0.00s)
+=== RUN   TestPluginService_Enable_FromDisabled
+--- PASS: TestPluginService_Enable_FromDisabled (0.00s)
+=== RUN   TestPluginService_Enable_InvalidState
+--- PASS: TestPluginService_Enable_InvalidState (0.00s)
+=== RUN   TestPluginService_Enable_NotFound
+--- PASS: TestPluginService_Enable_NotFound (0.00s)
+=== RUN   TestPluginService_Enable_GetByKeyError
+--- PASS: TestPluginService_Enable_GetByKeyError (0.00s)
+=== RUN   TestPluginService_Enable_UpdateStateError
+--- PASS: TestPluginService_Enable_UpdateStateError (0.00s)
+=== RUN   TestPluginService_Disable_Success
+--- PASS: TestPluginService_Disable_Success (0.00s)
+=== RUN   TestPluginService_Disable_AlreadyDisabled
+--- PASS: TestPluginService_Disable_AlreadyDisabled (0.00s)
+=== RUN   TestPluginService_Disable_InvalidState
+--- PASS: TestPluginService_Disable_InvalidState (0.00s)
+=== RUN   TestPluginService_Disable_NotFound
+--- PASS: TestPluginService_Disable_NotFound (0.00s)
+=== RUN   TestPluginService_Disable_GetByKeyError
+--- PASS: TestPluginService_Disable_GetByKeyError (0.00s)
+=== RUN   TestPluginService_Disable_UpdateStateError
+--- PASS: TestPluginService_Disable_UpdateStateError (0.00s)
+=== RUN   TestPluginService_Uninstall_Success
+--- PASS: TestPluginService_Uninstall_Success (0.00s)
+=== RUN   TestPluginService_Uninstall_NotFound
+--- PASS: TestPluginService_Uninstall_NotFound (0.00s)
+=== RUN   TestPluginService_Uninstall_GetByKeyError
+--- PASS: TestPluginService_Uninstall_GetByKeyError (0.00s)
+=== RUN   TestPluginService_Uninstall_ExtensionDeleteError
+--- PASS: TestPluginService_Uninstall_ExtensionDeleteError (0.00s)
+=== RUN   TestPluginService_Uninstall_DeleteByKeyError
+--- PASS: TestPluginService_Uninstall_DeleteByKeyError (0.00s)
+=== RUN   TestPluginService_GetHealth_Success
+--- PASS: TestPluginService_GetHealth_Success (0.00s)
+=== RUN   TestPluginService_GetHealth_Degraded
+--- PASS: TestPluginService_GetHealth_Degraded (0.00s)
+=== RUN   TestPluginService_GetHealth_EnabledError
+--- PASS: TestPluginService_GetHealth_EnabledError (0.00s)
+=== RUN   TestPluginServiceErrors
+=== RUN   TestPluginServiceErrors/ErrPluginNotFound
+=== RUN   TestPluginServiceErrors/ErrPluginAlreadyExists
+=== RUN   TestPluginServiceErrors/ErrPluginInvalidState
+=== RUN   TestPluginServiceErrors/ErrPluginLoadFailed
+--- PASS: TestPluginServiceErrors (0.00s)
+    --- PASS: TestPluginServiceErrors/ErrPluginNotFound (0.00s)
+    --- PASS: TestPluginServiceErrors/ErrPluginAlreadyExists (0.00s)
+    --- PASS: TestPluginServiceErrors/ErrPluginInvalidState (0.00s)
+    --- PASS: TestPluginServiceErrors/ErrPluginLoadFailed (0.00s)
+=== RUN   TestNewSSRService
+--- PASS: TestNewSSRService (0.00s)
+=== RUN   TestSSRService_RenderReact_Success
+--- PASS: TestSSRService_RenderReact_Success (0.00s)
+=== RUN   TestSSRService_RenderReact_WithCache
+--- PASS: TestSSRService_RenderReact_WithCache (0.00s)
+=== RUN   TestSSRService_RenderAngular_Success
+--- PASS: TestSSRService_RenderAngular_Success (0.00s)
+=== RUN   TestSSRService_RenderAngular_WithCache
+--- PASS: TestSSRService_RenderAngular_WithCache (0.00s)
+=== RUN   TestSSRService_GetStatus
+--- PASS: TestSSRService_GetStatus (0.00s)
+=== RUN   TestSSRService_GetStatus_NoCache
+--- PASS: TestSSRService_GetStatus_NoCache (0.00s)
+=== RUN   TestSSRService_GetStatus_WithCacheEntries
+--- PASS: TestSSRService_GetStatus_WithCacheEntries (0.00s)
+=== RUN   TestSSRService_ClearCache
+--- PASS: TestSSRService_ClearCache (0.00s)
+=== RUN   TestSSRService_CacheExpiration
+--- PASS: TestSSRService_CacheExpiration (0.02s)
+=== RUN   TestSSRService_Stats
+--- PASS: TestSSRService_Stats (0.00s)
+=== RUN   TestSSRService_RenderPlaceholder_NilProps
+--- PASS: TestSSRService_RenderPlaceholder_NilProps (0.00s)
+=== RUN   TestSSRService_ConcurrentRenders
+--- PASS: TestSSRService_ConcurrentRenders (0.00s)
+=== RUN   TestSSRRenderResult_Fields
+--- PASS: TestSSRRenderResult_Fields (0.00s)
+=== RUN   TestSSRCacheEntry_Fields
+--- PASS: TestSSRCacheEntry_Fields (0.00s)
+=== RUN   TestSSRStatus_Fields
+--- PASS: TestSSRStatus_Fields (0.00s)
+=== RUN   TestSSRServiceErrors
+=== RUN   TestSSRServiceErrors/ErrSSREngineNotReady
+=== RUN   TestSSRServiceErrors/ErrSSRRenderFailed
+=== RUN   TestSSRServiceErrors/ErrComponentNotFound
+--- PASS: TestSSRServiceErrors (0.00s)
+    --- PASS: TestSSRServiceErrors/ErrSSREngineNotReady (0.00s)
+    --- PASS: TestSSRServiceErrors/ErrSSRRenderFailed (0.00s)
+    --- PASS: TestSSRServiceErrors/ErrComponentNotFound (0.00s)
+=== RUN   TestToJSON
+=== RUN   TestToJSON/nil
+=== RUN   TestToJSON/empty_map
+=== RUN   TestToJSON/map_with_values
+--- PASS: TestToJSON (0.00s)
+    --- PASS: TestToJSON/nil (0.00s)
+    --- PASS: TestToJSON/empty_map (0.00s)
+    --- PASS: TestToJSON/map_with_values (0.00s)
+=== RUN   TestNewUserService
+--- PASS: TestNewUserService (0.00s)
+=== RUN   TestUserService_GetByID_Success
+--- PASS: TestUserService_GetByID_Success (0.00s)
+=== RUN   TestUserService_GetByID_NotFound
+--- PASS: TestUserService_GetByID_NotFound (0.00s)
+=== RUN   TestUserService_GetByID_Error
+--- PASS: TestUserService_GetByID_Error (0.00s)
+=== RUN   TestUserService_GetByUsername_Success
+--- PASS: TestUserService_GetByUsername_Success (0.00s)
+=== RUN   TestUserService_GetByUsername_NotFound
+--- PASS: TestUserService_GetByUsername_NotFound (0.00s)
+=== RUN   TestUserService_GetByUsername_Error
+--- PASS: TestUserService_GetByUsername_Error (0.00s)
+=== RUN   TestUserService_GetByEmail_Success
+--- PASS: TestUserService_GetByEmail_Success (0.00s)
+=== RUN   TestUserService_GetByEmail_NotFound
+--- PASS: TestUserService_GetByEmail_NotFound (0.00s)
+=== RUN   TestUserService_GetByEmail_Error
+--- PASS: TestUserService_GetByEmail_Error (0.00s)
+=== RUN   TestUserService_List_Success
+--- PASS: TestUserService_List_Success (0.00s)
+=== RUN   TestUserService_List_InvalidPage
+--- PASS: TestUserService_List_InvalidPage (0.00s)
+=== RUN   TestUserService_List_InvalidSize
+--- PASS: TestUserService_List_InvalidSize (0.00s)
+=== RUN   TestUserService_List_Error
+--- PASS: TestUserService_List_Error (0.00s)
+=== RUN   TestUserService_Update_Success
+--- PASS: TestUserService_Update_Success (0.00s)
+=== RUN   TestUserService_Update_EmailChange
+--- PASS: TestUserService_Update_EmailChange (0.00s)
+=== RUN   TestUserService_Update_EmailExists
+--- PASS: TestUserService_Update_EmailExists (0.00s)
+=== RUN   TestUserService_Update_UserNotFound
+--- PASS: TestUserService_Update_UserNotFound (0.00s)
+=== RUN   TestUserService_Update_GetByIDError
+--- PASS: TestUserService_Update_GetByIDError (0.00s)
+=== RUN   TestUserService_Update_EmailCheckError
+--- PASS: TestUserService_Update_EmailCheckError (0.00s)
+=== RUN   TestUserService_Update_UpdateError
+--- PASS: TestUserService_Update_UpdateError (0.00s)
+=== RUN   TestUserService_ChangePassword_Success
+--- PASS: TestUserService_ChangePassword_Success (6.56s)
+=== RUN   TestUserService_ChangePassword_UserNotFound
+--- PASS: TestUserService_ChangePassword_UserNotFound (0.00s)
+=== RUN   TestUserService_ChangePassword_WrongOldPassword
+--- PASS: TestUserService_ChangePassword_WrongOldPassword (4.38s)
+=== RUN   TestUserService_ChangePassword_GetByIDError
+--- PASS: TestUserService_ChangePassword_GetByIDError (0.00s)
+=== RUN   TestUserService_ChangePassword_UpdateError
+--- PASS: TestUserService_ChangePassword_UpdateError (6.53s)
+=== RUN   TestUserService_Delete_Success
+--- PASS: TestUserService_Delete_Success (0.00s)
+=== RUN   TestUserService_Delete_Error
+--- PASS: TestUserService_Delete_Error (0.00s)
+=== RUN   TestUserService_ExistsByUsername_True
+--- PASS: TestUserService_ExistsByUsername_True (0.00s)
+=== RUN   TestUserService_ExistsByUsername_False
+--- PASS: TestUserService_ExistsByUsername_False (0.00s)
+=== RUN   TestUserService_ExistsByUsername_Error
+--- PASS: TestUserService_ExistsByUsername_Error (0.00s)
+=== RUN   TestUserService_ExistsByEmail_True
+--- PASS: TestUserService_ExistsByEmail_True (0.00s)
+=== RUN   TestUserService_ExistsByEmail_False
+--- PASS: TestUserService_ExistsByEmail_False (0.00s)
+=== RUN   TestUserService_ExistsByEmail_Error
+--- PASS: TestUserService_ExistsByEmail_Error (0.00s)
+PASS
+coverage: 93.1% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/domain/service	42.639s	coverage: 93.1% of statements
+?   	github.com/jrjohn/arcana-cloud-go/internal/dto/request	[no test files]
+=== RUN   TestNewSuccess
+--- PASS: TestNewSuccess (0.00s)
+=== RUN   TestNewSuccessWithData
+--- PASS: TestNewSuccessWithData (0.00s)
+=== RUN   TestNewError
+--- PASS: TestNewError (0.00s)
+=== RUN   TestNewErrorWithDetails
+--- PASS: TestNewErrorWithDetails (0.00s)
+=== RUN   TestApiResponse_GenericTypes
+--- PASS: TestApiResponse_GenericTypes (0.00s)
+=== RUN   TestPageInfo_Struct
+--- PASS: TestPageInfo_Struct (0.00s)
+=== RUN   TestNewPagedResponse
+=== RUN   TestNewPagedResponse/first_page
+=== RUN   TestNewPagedResponse/middle_page
+=== RUN   TestNewPagedResponse/last_page
+=== RUN   TestNewPagedResponse/single_page
+=== RUN   TestNewPagedResponse/empty_result
+=== RUN   TestNewPagedResponse/exact_page_boundary
+--- PASS: TestNewPagedResponse (0.00s)
+    --- PASS: TestNewPagedResponse/first_page (0.00s)
+    --- PASS: TestNewPagedResponse/middle_page (0.00s)
+    --- PASS: TestNewPagedResponse/last_page (0.00s)
+    --- PASS: TestNewPagedResponse/single_page (0.00s)
+    --- PASS: TestNewPagedResponse/empty_result (0.00s)
+    --- PASS: TestNewPagedResponse/exact_page_boundary (0.00s)
+=== RUN   TestPagedResponse_GenericTypes
+--- PASS: TestPagedResponse_GenericTypes (0.00s)
+=== RUN   TestApiResponse_Timestamp
+--- PASS: TestApiResponse_Timestamp (0.00s)
+=== RUN   TestApiResponse_Struct
+--- PASS: TestApiResponse_Struct (0.00s)
+=== RUN   TestPagedResponse_Struct
+--- PASS: TestPagedResponse_Struct (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/dto/response	(cached)	coverage: 100.0% of statements
+=== RUN   TestPriority_String
+=== RUN   TestPriority_String/Low
+=== RUN   TestPriority_String/Normal
+=== RUN   TestPriority_String/High
+=== RUN   TestPriority_String/Critical
+=== RUN   TestPriority_String/Unknown
+--- PASS: TestPriority_String (0.00s)
+    --- PASS: TestPriority_String/Low (0.00s)
+    --- PASS: TestPriority_String/Normal (0.00s)
+    --- PASS: TestPriority_String/High (0.00s)
+    --- PASS: TestPriority_String/Critical (0.00s)
+    --- PASS: TestPriority_String/Unknown (0.00s)
+=== RUN   TestPriority_QueueName
+=== RUN   TestPriority_QueueName/Low
+=== RUN   TestPriority_QueueName/Normal
+=== RUN   TestPriority_QueueName/High
+=== RUN   TestPriority_QueueName/Critical
+--- PASS: TestPriority_QueueName (0.00s)
+    --- PASS: TestPriority_QueueName/Low (0.00s)
+    --- PASS: TestPriority_QueueName/Normal (0.00s)
+    --- PASS: TestPriority_QueueName/High (0.00s)
+    --- PASS: TestPriority_QueueName/Critical (0.00s)
+=== RUN   TestJobStatus_Constants
+=== RUN   TestJobStatus_Constants/Pending
+=== RUN   TestJobStatus_Constants/Running
+=== RUN   TestJobStatus_Constants/Completed
+=== RUN   TestJobStatus_Constants/Failed
+=== RUN   TestJobStatus_Constants/Retrying
+=== RUN   TestJobStatus_Constants/Dead
+--- PASS: TestJobStatus_Constants (0.00s)
+    --- PASS: TestJobStatus_Constants/Pending (0.00s)
+    --- PASS: TestJobStatus_Constants/Running (0.00s)
+    --- PASS: TestJobStatus_Constants/Completed (0.00s)
+    --- PASS: TestJobStatus_Constants/Failed (0.00s)
+    --- PASS: TestJobStatus_Constants/Retrying (0.00s)
+    --- PASS: TestJobStatus_Constants/Dead (0.00s)
+=== RUN   TestRetryStrategy_Constants
+=== RUN   TestRetryStrategy_Constants/Exponential
+=== RUN   TestRetryStrategy_Constants/Linear
+=== RUN   TestRetryStrategy_Constants/Fixed
+--- PASS: TestRetryStrategy_Constants (0.00s)
+    --- PASS: TestRetryStrategy_Constants/Exponential (0.00s)
+    --- PASS: TestRetryStrategy_Constants/Linear (0.00s)
+    --- PASS: TestRetryStrategy_Constants/Fixed (0.00s)
+=== RUN   TestDefaultRetryPolicy
+--- PASS: TestDefaultRetryPolicy (0.00s)
+=== RUN   TestRetryPolicy_CalculateDelay
+=== RUN   TestRetryPolicy_CalculateDelay/Exponential_Attempt1
+=== RUN   TestRetryPolicy_CalculateDelay/Exponential_Attempt2
+=== RUN   TestRetryPolicy_CalculateDelay/Exponential_Attempt3
+=== RUN   TestRetryPolicy_CalculateDelay/Exponential_CappedAtMax
+=== RUN   TestRetryPolicy_CalculateDelay/Linear_Attempt1
+=== RUN   TestRetryPolicy_CalculateDelay/Linear_Attempt3
+=== RUN   TestRetryPolicy_CalculateDelay/Fixed_AnyAttempt
+=== RUN   TestRetryPolicy_CalculateDelay/Unknown_DefaultsToInitial
+--- PASS: TestRetryPolicy_CalculateDelay (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Exponential_Attempt1 (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Exponential_Attempt2 (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Exponential_Attempt3 (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Exponential_CappedAtMax (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Linear_Attempt1 (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Linear_Attempt3 (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Fixed_AnyAttempt (0.00s)
+    --- PASS: TestRetryPolicy_CalculateDelay/Unknown_DefaultsToInitial (0.00s)
+=== RUN   TestNewJobPayload
+--- PASS: TestNewJobPayload (0.00s)
+=== RUN   TestNewJobPayload_WithOptions
+--- PASS: TestNewJobPayload_WithOptions (0.00s)
+=== RUN   TestWithPriority
+=== RUN   TestWithPriority/low
+=== RUN   TestWithPriority/normal
+=== RUN   TestWithPriority/high
+=== RUN   TestWithPriority/critical
+--- PASS: TestWithPriority (0.00s)
+    --- PASS: TestWithPriority/low (0.00s)
+    --- PASS: TestWithPriority/normal (0.00s)
+    --- PASS: TestWithPriority/high (0.00s)
+    --- PASS: TestWithPriority/critical (0.00s)
+=== RUN   TestWithRetryPolicy
+--- PASS: TestWithRetryPolicy (0.00s)
+=== RUN   TestWithTimeout
+--- PASS: TestWithTimeout (0.00s)
+=== RUN   TestWithScheduledAt
+--- PASS: TestWithScheduledAt (0.00s)
+=== RUN   TestWithDelay
+--- PASS: TestWithDelay (0.00s)
+=== RUN   TestWithCorrelationID
+--- PASS: TestWithCorrelationID (0.00s)
+=== RUN   TestWithUniqueKey
+--- PASS: TestWithUniqueKey (0.00s)
+=== RUN   TestWithTags
+--- PASS: TestWithTags (0.00s)
+=== RUN   TestNewJobPayload_InvalidPayload
+--- PASS: TestNewJobPayload_InvalidPayload (0.00s)
+=== RUN   TestJobPayload_Serialization
+--- PASS: TestJobPayload_Serialization (0.00s)
+=== RUN   TestJobResult
+--- PASS: TestJobResult (0.00s)
+=== RUN   TestJobResult_WithError
+--- PASS: TestJobResult_WithError (0.00s)
+=== RUN   TestNewMetrics
+--- PASS: TestNewMetrics (0.00s)
+=== RUN   TestMetrics_RecordJobEnqueued
+--- PASS: TestMetrics_RecordJobEnqueued (0.00s)
+=== RUN   TestMetrics_RecordJobStarted
+--- PASS: TestMetrics_RecordJobStarted (0.00s)
+=== RUN   TestMetrics_RecordJobCompleted
+--- PASS: TestMetrics_RecordJobCompleted (0.00s)
+=== RUN   TestMetrics_RecordJobFailed_WithRetry
+--- PASS: TestMetrics_RecordJobFailed_WithRetry (0.00s)
+=== RUN   TestMetrics_RecordJobFailed_NoRetry
+--- PASS: TestMetrics_RecordJobFailed_NoRetry (0.00s)
+=== RUN   TestMetrics_RecordJobDead
+--- PASS: TestMetrics_RecordJobDead (0.00s)
+=== RUN   TestMetrics_PrometheusHandler
+--- PASS: TestMetrics_PrometheusHandler (0.00s)
+=== RUN   TestMetrics_PrometheusHandler_NoDurations
+--- PASS: TestMetrics_PrometheusHandler_NoDurations (0.00s)
+=== RUN   TestMetrics_GetHealthCheck_Healthy
+--- PASS: TestMetrics_GetHealthCheck_Healthy (0.00s)
+=== RUN   TestMetrics_GetHealthCheck_Degraded
+--- PASS: TestMetrics_GetHealthCheck_Degraded (0.00s)
+=== RUN   TestMetrics_GetHealthCheck_Boundary
+--- PASS: TestMetrics_GetHealthCheck_Boundary (0.00s)
+=== RUN   TestHealthCheck_Struct
+--- PASS: TestHealthCheck_Struct (0.00s)
+=== RUN   TestGlobalMetrics
+--- PASS: TestGlobalMetrics (0.00s)
+=== RUN   TestMetrics_ConcurrentAccess
+--- PASS: TestMetrics_ConcurrentAccess (0.00s)
+=== RUN   TestNewJobService
+    testutil.go:184: Redis not available
+--- SKIP: TestNewJobService (0.07s)
+=== RUN   TestJobService_Enqueue
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_Enqueue (0.08s)
+=== RUN   TestJobService_Enqueue_WithOptions
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_Enqueue_WithOptions (0.11s)
+=== RUN   TestJobService_EnqueueAt
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_EnqueueAt (0.05s)
+=== RUN   TestJobService_EnqueueIn
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_EnqueueIn (0.10s)
+=== RUN   TestJobService_GetJob
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_GetJob (0.09s)
+=== RUN   TestJobService_GetJob_NotFound
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_GetJob_NotFound (0.11s)
+=== RUN   TestJobService_CancelJob
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_CancelJob (0.09s)
+=== RUN   TestJobService_RetryJob
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_RetryJob (0.09s)
+=== RUN   TestJobService_GetQueueStats
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_GetQueueStats (0.10s)
+=== RUN   TestJobService_GetDLQJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_GetDLQJobs (0.11s)
+=== RUN   TestJobService_RetryDLQJob
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_RetryDLQJob (0.12s)
+=== RUN   TestJobService_PurgeDLQ
+    testutil.go:184: Redis not available
+--- SKIP: TestJobService_PurgeDLQ (0.09s)
+=== RUN   TestQueueStats_Struct
+--- PASS: TestQueueStats_Struct (0.00s)
+=== RUN   TestWorkerStats_Struct
+--- PASS: TestWorkerStats_Struct (0.00s)
+=== RUN   TestSchedulerStats_Struct
+--- PASS: TestSchedulerStats_Struct (0.00s)
+=== RUN   TestScheduledJobInfo_Struct
+--- PASS: TestScheduledJobInfo_Struct (0.00s)
+PASS
+coverage: 69.9% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/jobs	4.412s	coverage: 69.9% of statements
+=== RUN   TestNewRegistry
+    testutil.go:184: Redis not available
+--- SKIP: TestNewRegistry (0.07s)
+=== RUN   TestRegistry_Register_SimplePayload
+    testutil.go:184: Redis not available
+--- SKIP: TestRegistry_Register_SimplePayload (0.08s)
+=== RUN   TestRegistry_Register_MultipleHandlers
+    testutil.go:184: Redis not available
+--- SKIP: TestRegistry_Register_MultipleHandlers (0.11s)
+=== RUN   TestRegistry_ListHandlers
+    testutil.go:184: Redis not available
+--- SKIP: TestRegistry_ListHandlers (0.05s)
+=== RUN   TestEmailJobPayload
+--- PASS: TestEmailJobPayload (0.00s)
+=== RUN   TestWebhookJobPayload
+--- PASS: TestWebhookJobPayload (0.00s)
+=== RUN   TestCleanupJobPayload
+--- PASS: TestCleanupJobPayload (0.00s)
+=== RUN   TestNotificationJobPayload
+--- PASS: TestNotificationJobPayload (0.00s)
+=== RUN   TestReportJobPayload
+--- PASS: TestReportJobPayload (0.00s)
+=== RUN   TestSyncJobPayload
+--- PASS: TestSyncJobPayload (0.00s)
+=== RUN   TestHandlerExecution
+    testutil.go:184: Redis not available
+--- SKIP: TestHandlerExecution (0.10s)
+=== RUN   TestHandlerWithError
+    testutil.go:184: Redis not available
+--- SKIP: TestHandlerWithError (0.09s)
+=== RUN   TestHandlerWithContext
+    testutil.go:184: Redis not available
+--- SKIP: TestHandlerWithContext (0.11s)
+=== RUN   TestPayloadSerialization_Empty
+--- PASS: TestPayloadSerialization_Empty (0.00s)
+=== RUN   TestRegistry_ConcurrentRegistration
+    testutil.go:184: Redis not available
+--- SKIP: TestRegistry_ConcurrentRegistration (0.09s)
+PASS
+coverage: 0.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/jobs/handler	4.184s	coverage: 0.0% of statements
+=== RUN   TestDefaultLockManagerConfig
+--- PASS: TestDefaultLockManagerConfig (0.00s)
+=== RUN   TestNewLockManager
+    testutil.go:184: Redis not available
+--- SKIP: TestNewLockManager (0.07s)
+=== RUN   TestLockManager_GetWorkerID
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_GetWorkerID (0.08s)
+=== RUN   TestLockManager_AcquireLock_Success
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_AcquireLock_Success (0.11s)
+=== RUN   TestLockManager_AcquireLock_AlreadyLocked
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_AcquireLock_AlreadyLocked (0.05s)
+=== RUN   TestLockManager_AcquireLock_DifferentJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_AcquireLock_DifferentJobs (0.10s)
+=== RUN   TestLockManager_ReleaseLock
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_ReleaseLock (0.09s)
+=== RUN   TestLockManager_ReleaseLock_Nil
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_ReleaseLock_Nil (0.11s)
+=== RUN   TestLockManager_ReleaseLock_NotHeld
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_ReleaseLock_NotHeld (0.10s)
+=== RUN   TestLockManager_CheckIdempotency_NotExists
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_CheckIdempotency_NotExists (0.09s)
+=== RUN   TestLockManager_CheckIdempotency_EmptyKey
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_CheckIdempotency_EmptyKey (0.10s)
+=== RUN   TestLockManager_MarkCompleted
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_MarkCompleted (0.10s)
+=== RUN   TestLockManager_MarkCompleted_EmptyKey
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_MarkCompleted_EmptyKey (0.12s)
+=== RUN   TestLockManager_GetRunningJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_GetRunningJobs (0.09s)
+=== RUN   TestLockManager_GetWorkerJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_GetWorkerJobs (0.09s)
+=== RUN   TestLockManager_CleanupStaleJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_CleanupStaleJobs (0.05s)
+=== RUN   TestLockManager_ReleaseAllLocks
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_ReleaseAllLocks (0.11s)
+=== RUN   TestLockManager_ConcurrentAcquire
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_ConcurrentAcquire (0.10s)
+=== RUN   TestLockManager_HeartbeatExtendsLock
+    testutil.go:184: Redis not available
+--- SKIP: TestLockManager_HeartbeatExtendsLock (0.09s)
+=== RUN   TestErrors
+=== RUN   TestErrors/ErrLockNotAcquired
+=== RUN   TestErrors/ErrLockNotHeld
+=== RUN   TestErrors/ErrJobAlreadyDone
+--- PASS: TestErrors (0.00s)
+    --- PASS: TestErrors/ErrLockNotAcquired (0.00s)
+    --- PASS: TestErrors/ErrLockNotHeld (0.00s)
+    --- PASS: TestErrors/ErrJobAlreadyDone (0.00s)
+PASS
+coverage: 1.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/jobs/lock	5.476s	coverage: 1.0% of statements
+=== RUN   TestNewRedisQueue
+    testutil.go:184: Redis not available
+--- SKIP: TestNewRedisQueue (0.07s)
+=== RUN   TestRedisQueue_Enqueue
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Enqueue (0.08s)
+=== RUN   TestRedisQueue_Enqueue_WithPriority
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Enqueue_WithPriority (0.13s)
+=== RUN   TestRedisQueue_Enqueue_Scheduled
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Enqueue_Scheduled (0.05s)
+=== RUN   TestRedisQueue_Enqueue_UniqueKey
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Enqueue_UniqueKey (0.10s)
+=== RUN   TestRedisQueue_Dequeue
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Dequeue (0.09s)
+=== RUN   TestRedisQueue_Dequeue_PriorityOrder
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Dequeue_PriorityOrder (0.11s)
+=== RUN   TestRedisQueue_Dequeue_Empty
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Dequeue_Empty (0.09s)
+=== RUN   TestRedisQueue_GetJob
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_GetJob (0.09s)
+=== RUN   TestRedisQueue_GetJob_NotFound
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_GetJob_NotFound (0.10s)
+=== RUN   TestRedisQueue_UpdateJob
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_UpdateJob (0.11s)
+=== RUN   TestRedisQueue_Complete
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Complete (0.12s)
+=== RUN   TestRedisQueue_Fail_WithRetry
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Fail_WithRetry (0.09s)
+=== RUN   TestRedisQueue_Fail_MoveToDLQ
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_Fail_MoveToDLQ (0.09s)
+=== RUN   TestRedisQueue_ProcessScheduled
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_ProcessScheduled (0.05s)
+=== RUN   TestRedisQueue_ProcessScheduled_FutureJob
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_ProcessScheduled_FutureJob (0.10s)
+=== RUN   TestRedisQueue_GetDLQJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_GetDLQJobs (0.11s)
+=== RUN   TestRedisQueue_RetryDLQJob
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_RetryDLQJob (0.09s)
+=== RUN   TestRedisQueue_DeleteJob
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_DeleteJob (0.08s)
+=== RUN   TestRedisQueue_RequeueJob
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_RequeueJob (0.09s)
+=== RUN   TestRedisQueue_GetStats
+    testutil.go:184: Redis not available
+--- SKIP: TestRedisQueue_GetStats (0.04s)
+=== RUN   TestRedisQueue_Errors
+=== RUN   TestRedisQueue_Errors/ErrJobNotFound
+=== RUN   TestRedisQueue_Errors/ErrDuplicateJob
+=== RUN   TestRedisQueue_Errors/ErrQueueEmpty
+=== RUN   TestRedisQueue_Errors/ErrJobAlreadyTaken
+--- PASS: TestRedisQueue_Errors (0.00s)
+    --- PASS: TestRedisQueue_Errors/ErrJobNotFound (0.00s)
+    --- PASS: TestRedisQueue_Errors/ErrDuplicateJob (0.00s)
+    --- PASS: TestRedisQueue_Errors/ErrQueueEmpty (0.00s)
+    --- PASS: TestRedisQueue_Errors/ErrJobAlreadyTaken (0.00s)
+PASS
+coverage: 0.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/jobs/queue	4.773s	coverage: 0.0% of statements
+=== RUN   TestDefaultSchedulerConfig
+--- PASS: TestDefaultSchedulerConfig (0.00s)
+=== RUN   TestNewScheduler
+    testutil.go:184: Redis not available
+--- SKIP: TestNewScheduler (0.07s)
+=== RUN   TestScheduler_RegisterJob
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_RegisterJob (0.08s)
+=== RUN   TestScheduler_RegisterJob_Duplicate
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_RegisterJob_Duplicate (0.11s)
+=== RUN   TestScheduler_RegisterJob_InvalidCron
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_RegisterJob_InvalidCron (0.04s)
+=== RUN   TestScheduler_ValidCronExpressions
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_ValidCronExpressions (0.10s)
+=== RUN   TestScheduler_StartStop
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_StartStop (0.09s)
+=== RUN   TestScheduler_StartTwice
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_StartTwice (0.11s)
+=== RUN   TestScheduler_StopNotRunning
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_StopNotRunning (0.09s)
+=== RUN   TestScheduler_LeaderElection
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_LeaderElection (0.09s)
+=== RUN   TestScheduler_IsLeader_NotStarted
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_IsLeader_NotStarted (0.10s)
+=== RUN   TestScheduler_ListJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_ListJobs (0.10s)
+=== RUN   TestScheduler_GetNextRun
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_GetNextRun (0.12s)
+=== RUN   TestScheduler_GetNextRun_NotFound
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_GetNextRun_NotFound (0.09s)
+=== RUN   TestScheduler_SingletonJob
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_SingletonJob (0.09s)
+=== RUN   TestScheduler_ExecutionWindow
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_ExecutionWindow (0.05s)
+=== RUN   TestScheduler_GetRecentExecutions
+    testutil.go:184: Redis not available
+--- SKIP: TestScheduler_GetRecentExecutions (0.10s)
+=== RUN   TestScheduledJob_Struct
+--- PASS: TestScheduledJob_Struct (0.00s)
+=== RUN   TestCronExpressionConstants
+=== RUN   TestCronExpressionConstants/EveryMinute
+=== RUN   TestCronExpressionConstants/EveryFiveMinutes
+=== RUN   TestCronExpressionConstants/EveryHour
+=== RUN   TestCronExpressionConstants/DailyMidnight
+=== RUN   TestCronExpressionConstants/WeeklyMonday
+=== RUN   TestCronExpressionConstants/MonthlyFirst
+--- PASS: TestCronExpressionConstants (0.00s)
+    --- PASS: TestCronExpressionConstants/EveryMinute (0.00s)
+    --- PASS: TestCronExpressionConstants/EveryFiveMinutes (0.00s)
+    --- PASS: TestCronExpressionConstants/EveryHour (0.00s)
+    --- PASS: TestCronExpressionConstants/DailyMidnight (0.00s)
+    --- PASS: TestCronExpressionConstants/WeeklyMonday (0.00s)
+    --- PASS: TestCronExpressionConstants/MonthlyFirst (0.00s)
+PASS
+coverage: 0.5% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/jobs/scheduler	4.432s	coverage: 0.5% of statements
+=== RUN   TestDefaultWorkerPoolConfig
+--- PASS: TestDefaultWorkerPoolConfig (0.00s)
+=== RUN   TestNewWorkerPool
+    testutil.go:184: Redis not available
+--- SKIP: TestNewWorkerPool (0.07s)
+=== RUN   TestWorkerPool_SetLockManager
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_SetLockManager (0.07s)
+=== RUN   TestWorkerPool_RegisterHandler
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_RegisterHandler (0.11s)
+=== RUN   TestWorkerPool_StartStop
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_StartStop (0.04s)
+=== RUN   TestWorkerPool_StartTwice
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_StartTwice (0.10s)
+=== RUN   TestWorkerPool_StopNotRunning
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_StopNotRunning (0.09s)
+=== RUN   TestWorkerPool_ProcessJob
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_ProcessJob (0.11s)
+=== RUN   TestWorkerPool_ProcessJobWithPayload
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_ProcessJobWithPayload (0.09s)
+=== RUN   TestWorkerPool_JobFailure
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_JobFailure (0.08s)
+=== RUN   TestWorkerPool_NoHandler
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_NoHandler (0.10s)
+=== RUN   TestWorkerPool_JobTimeout
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_JobTimeout (0.11s)
+=== RUN   TestWorkerPool_IdempotencyCheck
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_IdempotencyCheck (0.12s)
+=== RUN   TestWorkerPool_Stats
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_Stats (0.09s)
+=== RUN   TestWorkerPool_GetRunningJobs
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_GetRunningJobs (0.09s)
+=== RUN   TestWorkerPool_GetRunningJobs_NoLockManager
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_GetRunningJobs_NoLockManager (0.05s)
+=== RUN   TestWorkerPool_DisableLocking
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_DisableLocking (0.11s)
+=== RUN   TestWorkerPool_DisableIdempotency
+    testutil.go:184: Redis not available
+--- SKIP: TestWorkerPool_DisableIdempotency (0.10s)
+=== RUN   TestWorkerPoolStats_Struct
+--- PASS: TestWorkerPoolStats_Struct (0.00s)
+PASS
+coverage: 0.6% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/jobs/worker	4.550s	coverage: 0.6% of statements
+=== RUN   TestRequestID
+=== RUN   TestRequestID/generates_new_request_ID
+=== RUN   TestRequestID/uses_provided_request_ID
+--- PASS: TestRequestID (0.00s)
+    --- PASS: TestRequestID/generates_new_request_ID (0.00s)
+    --- PASS: TestRequestID/uses_provided_request_ID (0.00s)
+=== RUN   TestGetRequestID
+=== RUN   TestGetRequestID/request_ID_exists
+=== RUN   TestGetRequestID/request_ID_not_exists
+=== RUN   TestGetRequestID/wrong_type
+--- PASS: TestGetRequestID (0.00s)
+    --- PASS: TestGetRequestID/request_ID_exists (0.00s)
+    --- PASS: TestGetRequestID/request_ID_not_exists (0.00s)
+    --- PASS: TestGetRequestID/wrong_type (0.00s)
+=== RUN   TestRequestIDConstants
+--- PASS: TestRequestIDConstants (0.00s)
+=== RUN   TestDefaultCORSConfig
+--- PASS: TestDefaultCORSConfig (0.00s)
+=== RUN   TestCORS
+=== RUN   TestCORS/regular_request
+=== RUN   TestCORS/OPTIONS_preflight
+=== RUN   TestCORS/no_origin_header
+--- PASS: TestCORS (0.00s)
+    --- PASS: TestCORS/regular_request (0.00s)
+    --- PASS: TestCORS/OPTIONS_preflight (0.00s)
+    --- PASS: TestCORS/no_origin_header (0.00s)
+=== RUN   TestCORS_SpecificOrigins
+=== RUN   TestCORS_SpecificOrigins/allowed_origin
+=== RUN   TestCORS_SpecificOrigins/disallowed_origin
+--- PASS: TestCORS_SpecificOrigins (0.00s)
+    --- PASS: TestCORS_SpecificOrigins/allowed_origin (0.00s)
+    --- PASS: TestCORS_SpecificOrigins/disallowed_origin (0.00s)
+=== RUN   TestLogger
+--- PASS: TestLogger (0.00s)
+=== RUN   TestLogger_StatusCodes
+=== RUN   TestLogger_StatusCodes/success
+=== RUN   TestLogger_StatusCodes/client_error
+=== RUN   TestLogger_StatusCodes/not_found
+=== RUN   TestLogger_StatusCodes/server_error
+--- PASS: TestLogger_StatusCodes (0.00s)
+    --- PASS: TestLogger_StatusCodes/success (0.00s)
+    --- PASS: TestLogger_StatusCodes/client_error (0.00s)
+    --- PASS: TestLogger_StatusCodes/not_found (0.00s)
+    --- PASS: TestLogger_StatusCodes/server_error (0.00s)
+=== RUN   TestRecovery
+=== RUN   TestRecovery/recovers_from_panic
+=== RUN   TestRecovery/normal_request
+--- PASS: TestRecovery (0.00s)
+    --- PASS: TestRecovery/recovers_from_panic (0.00s)
+    --- PASS: TestRecovery/normal_request (0.00s)
+=== RUN   TestAuthMiddleware_Authenticate
+=== RUN   TestAuthMiddleware_Authenticate/valid_token
+=== RUN   TestAuthMiddleware_Authenticate/missing_auth_header
+=== RUN   TestAuthMiddleware_Authenticate/invalid_format
+=== RUN   TestAuthMiddleware_Authenticate/invalid_token
+=== RUN   TestAuthMiddleware_Authenticate/case_insensitive_bearer
+--- PASS: TestAuthMiddleware_Authenticate (0.00s)
+    --- PASS: TestAuthMiddleware_Authenticate/valid_token (0.00s)
+    --- PASS: TestAuthMiddleware_Authenticate/missing_auth_header (0.00s)
+    --- PASS: TestAuthMiddleware_Authenticate/invalid_format (0.00s)
+    --- PASS: TestAuthMiddleware_Authenticate/invalid_token (0.00s)
+    --- PASS: TestAuthMiddleware_Authenticate/case_insensitive_bearer (0.00s)
+=== RUN   TestAuthMiddleware_OptionalAuth
+=== RUN   TestAuthMiddleware_OptionalAuth/with_valid_token
+=== RUN   TestAuthMiddleware_OptionalAuth/without_token
+=== RUN   TestAuthMiddleware_OptionalAuth/with_invalid_token_format
+--- PASS: TestAuthMiddleware_OptionalAuth (0.00s)
+    --- PASS: TestAuthMiddleware_OptionalAuth/with_valid_token (0.00s)
+    --- PASS: TestAuthMiddleware_OptionalAuth/without_token (0.00s)
+    --- PASS: TestAuthMiddleware_OptionalAuth/with_invalid_token_format (0.00s)
+=== RUN   TestAuthMiddleware_RequireRole
+=== RUN   TestAuthMiddleware_RequireRole/admin_user
+=== RUN   TestAuthMiddleware_RequireRole/non-admin_user
+--- PASS: TestAuthMiddleware_RequireRole (0.00s)
+    --- PASS: TestAuthMiddleware_RequireRole/admin_user (0.00s)
+    --- PASS: TestAuthMiddleware_RequireRole/non-admin_user (0.00s)
+=== RUN   TestAuthMiddleware_RequireAdmin
+=== RUN   TestAuthMiddleware_RequireAdmin/admin_access
+--- PASS: TestAuthMiddleware_RequireAdmin (0.00s)
+    --- PASS: TestAuthMiddleware_RequireAdmin/admin_access (0.00s)
+=== RUN   TestJoinStrings
+=== RUN   TestJoinStrings/empty
+=== RUN   TestJoinStrings/single
+=== RUN   TestJoinStrings/multiple
+--- PASS: TestJoinStrings (0.00s)
+    --- PASS: TestJoinStrings/empty (0.00s)
+    --- PASS: TestJoinStrings/single (0.00s)
+    --- PASS: TestJoinStrings/multiple (0.00s)
+PASS
+coverage: 95.5% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/middleware	3.083s	coverage: 95.5% of statements
+=== RUN   TestPluginType_Constants
+=== RUN   TestPluginType_Constants/REST_ENDPOINT
+=== RUN   TestPluginType_Constants/SERVICE
+=== RUN   TestPluginType_Constants/EVENT_LISTENER
+=== RUN   TestPluginType_Constants/SCHEDULED_JOB
+=== RUN   TestPluginType_Constants/SSR_VIEW
+=== RUN   TestPluginType_Constants/MIDDLEWARE
+--- PASS: TestPluginType_Constants (0.00s)
+    --- PASS: TestPluginType_Constants/REST_ENDPOINT (0.00s)
+    --- PASS: TestPluginType_Constants/SERVICE (0.00s)
+    --- PASS: TestPluginType_Constants/EVENT_LISTENER (0.00s)
+    --- PASS: TestPluginType_Constants/SCHEDULED_JOB (0.00s)
+    --- PASS: TestPluginType_Constants/SSR_VIEW (0.00s)
+    --- PASS: TestPluginType_Constants/MIDDLEWARE (0.00s)
+=== RUN   TestPluginInfo_Struct
+--- PASS: TestPluginInfo_Struct (0.00s)
+=== RUN   TestHealthStatus_Struct
+=== RUN   TestHealthStatus_Struct/healthy_status
+=== RUN   TestHealthStatus_Struct/unhealthy_status
+=== RUN   TestHealthStatus_Struct/degraded_status
+--- PASS: TestHealthStatus_Struct (0.00s)
+    --- PASS: TestHealthStatus_Struct/healthy_status (0.00s)
+    --- PASS: TestHealthStatus_Struct/unhealthy_status (0.00s)
+    --- PASS: TestHealthStatus_Struct/degraded_status (0.00s)
+=== RUN   TestRoute_Struct
+--- PASS: TestRoute_Struct (0.00s)
+=== RUN   TestEvent_Struct
+--- PASS: TestEvent_Struct (0.00s)
+=== RUN   TestJob_Struct
+--- PASS: TestJob_Struct (0.00s)
+=== RUN   TestSSRComponent_Struct
+--- PASS: TestSSRComponent_Struct (0.00s)
+=== RUN   TestMockPlugin_Interface
+--- PASS: TestMockPlugin_Interface (0.00s)
+=== RUN   TestMockRESTPlugin_Interface
+--- PASS: TestMockRESTPlugin_Interface (0.00s)
+=== RUN   TestMockEventPlugin_Interface
+--- PASS: TestMockEventPlugin_Interface (0.00s)
+=== RUN   TestMockMiddlewarePlugin_Interface
+--- PASS: TestMockMiddlewarePlugin_Interface (0.00s)
+PASS
+coverage: [no statements]
+ok  	github.com/jrjohn/arcana-cloud-go/internal/plugin/api	(cached)	coverage: [no statements]
+=== RUN   TestPluginState_Constants
+=== RUN   TestPluginState_Constants/LOADED
+=== RUN   TestPluginState_Constants/STARTED
+=== RUN   TestPluginState_Constants/STOPPED
+=== RUN   TestPluginState_Constants/ERROR
+--- PASS: TestPluginState_Constants (0.00s)
+    --- PASS: TestPluginState_Constants/LOADED (0.00s)
+    --- PASS: TestPluginState_Constants/STARTED (0.00s)
+    --- PASS: TestPluginState_Constants/STOPPED (0.00s)
+    --- PASS: TestPluginState_Constants/ERROR (0.00s)
+=== RUN   TestNewManager
+--- PASS: TestNewManager (0.00s)
+=== RUN   TestManagedPlugin_Struct
+--- PASS: TestManagedPlugin_Struct (0.00s)
+=== RUN   TestManager_LoadAll_EmptyDir
+--- PASS: TestManager_LoadAll_EmptyDir (0.00s)
+=== RUN   TestManager_LoadAll_CreatesDirIfNotExists
+--- PASS: TestManager_LoadAll_CreatesDirIfNotExists (0.00s)
+=== RUN   TestManager_LoadAll_IgnoresNonSoFiles
+--- PASS: TestManager_LoadAll_IgnoresNonSoFiles (0.00s)
+=== RUN   TestManager_LoadAll_IgnoresDirectories
+--- PASS: TestManager_LoadAll_IgnoresDirectories (0.00s)
+=== RUN   TestManager_GetPlugin
+=== RUN   TestManager_GetPlugin/existing_plugin
+=== RUN   TestManager_GetPlugin/non-existing_plugin
+--- PASS: TestManager_GetPlugin (0.00s)
+    --- PASS: TestManager_GetPlugin/existing_plugin (0.00s)
+    --- PASS: TestManager_GetPlugin/non-existing_plugin (0.00s)
+=== RUN   TestManager_ListPlugins
+--- PASS: TestManager_ListPlugins (0.00s)
+=== RUN   TestManager_StartPlugin_NotFound
+--- PASS: TestManager_StartPlugin_NotFound (0.00s)
+=== RUN   TestManager_StopPlugin_NotFound
+--- PASS: TestManager_StopPlugin_NotFound (0.00s)
+=== RUN   TestManager_StopPlugin_NotStarted
+--- PASS: TestManager_StopPlugin_NotStarted (0.00s)
+=== RUN   TestManager_UnloadPlugin_NotFound
+--- PASS: TestManager_UnloadPlugin_NotFound (0.00s)
+=== RUN   TestManager_GetRESTRoutes_NoPlugins
+--- PASS: TestManager_GetRESTRoutes_NoPlugins (0.00s)
+=== RUN   TestManager_GetMiddlewares_NoPlugins
+--- PASS: TestManager_GetMiddlewares_NoPlugins (0.00s)
+=== RUN   TestManager_EmitEvent_NoListeners
+--- PASS: TestManager_EmitEvent_NoListeners (0.00s)
+=== RUN   TestManager_Shutdown
+--- PASS: TestManager_Shutdown (0.00s)
+=== RUN   TestManager_Concurrency
+--- PASS: TestManager_Concurrency (0.00s)
+=== RUN   TestManager_StartPlugin_WithMock
+--- PASS: TestManager_StartPlugin_WithMock (0.00s)
+=== RUN   TestManager_StartPlugin_AlreadyStarted
+--- PASS: TestManager_StartPlugin_AlreadyStarted (0.00s)
+=== RUN   TestManager_StopPlugin_WithMock
+--- PASS: TestManager_StopPlugin_WithMock (0.00s)
+=== RUN   TestManager_UnloadPlugin_WithMock
+--- PASS: TestManager_UnloadPlugin_WithMock (0.00s)
+=== RUN   TestManager_UnloadPlugin_StopsIfStarted
+--- PASS: TestManager_UnloadPlugin_StopsIfStarted (0.00s)
+PASS
+coverage: 62.5% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/plugin/manager	(cached)	coverage: 62.5% of statements
+=== RUN   TestNewJWTProvider
+--- PASS: TestNewJWTProvider (0.00s)
+=== RUN   TestJWTProvider_GenerateAccessToken
+--- PASS: TestJWTProvider_GenerateAccessToken (0.00s)
+=== RUN   TestJWTProvider_GenerateRefreshToken
+--- PASS: TestJWTProvider_GenerateRefreshToken (0.00s)
+=== RUN   TestJWTProvider_ValidateAccessToken
+=== RUN   TestJWTProvider_ValidateAccessToken/valid_token
+=== RUN   TestJWTProvider_ValidateAccessToken/invalid_token_format
+=== RUN   TestJWTProvider_ValidateAccessToken/empty_token
+=== RUN   TestJWTProvider_ValidateAccessToken/wrong_signature
+--- PASS: TestJWTProvider_ValidateAccessToken (0.00s)
+    --- PASS: TestJWTProvider_ValidateAccessToken/valid_token (0.00s)
+    --- PASS: TestJWTProvider_ValidateAccessToken/invalid_token_format (0.00s)
+    --- PASS: TestJWTProvider_ValidateAccessToken/empty_token (0.00s)
+    --- PASS: TestJWTProvider_ValidateAccessToken/wrong_signature (0.00s)
+=== RUN   TestJWTProvider_ValidateAccessToken_Expired
+--- PASS: TestJWTProvider_ValidateAccessToken_Expired (0.00s)
+=== RUN   TestJWTProvider_ValidateRefreshToken
+--- PASS: TestJWTProvider_ValidateRefreshToken (0.00s)
+=== RUN   TestJWTProvider_ValidateRefreshToken_Invalid
+=== RUN   TestJWTProvider_ValidateRefreshToken_Invalid/invalid_token
+=== RUN   TestJWTProvider_ValidateRefreshToken_Invalid/empty_token
+--- PASS: TestJWTProvider_ValidateRefreshToken_Invalid (0.00s)
+    --- PASS: TestJWTProvider_ValidateRefreshToken_Invalid/invalid_token (0.00s)
+    --- PASS: TestJWTProvider_ValidateRefreshToken_Invalid/empty_token (0.00s)
+=== RUN   TestJWTProvider_ValidateRefreshToken_Expired
+--- PASS: TestJWTProvider_ValidateRefreshToken_Expired (0.00s)
+=== RUN   TestJWTProvider_GetAccessTokenDuration
+--- PASS: TestJWTProvider_GetAccessTokenDuration (0.00s)
+=== RUN   TestUserClaims_Struct
+--- PASS: TestUserClaims_Struct (0.00s)
+=== RUN   TestErrorConstants
+--- PASS: TestErrorConstants (0.00s)
+=== RUN   TestJWTProvider_DifferentRoles
+=== RUN   TestJWTProvider_DifferentRoles/USER
+=== RUN   TestJWTProvider_DifferentRoles/ADMIN
+--- PASS: TestJWTProvider_DifferentRoles (0.00s)
+    --- PASS: TestJWTProvider_DifferentRoles/USER (0.00s)
+    --- PASS: TestJWTProvider_DifferentRoles/ADMIN (0.00s)
+=== RUN   TestNewPasswordHasher
+--- PASS: TestNewPasswordHasher (0.00s)
+=== RUN   TestPasswordHasher_Hash
+=== RUN   TestPasswordHasher_Hash/simple_password
+=== RUN   TestPasswordHasher_Hash/complex_password
+=== RUN   TestPasswordHasher_Hash/empty_password
+=== RUN   TestPasswordHasher_Hash/unicode_password
+=== RUN   TestPasswordHasher_Hash/very_long_password
+--- PASS: TestPasswordHasher_Hash (11.01s)
+    --- PASS: TestPasswordHasher_Hash/simple_password (2.20s)
+    --- PASS: TestPasswordHasher_Hash/complex_password (2.19s)
+    --- PASS: TestPasswordHasher_Hash/empty_password (2.19s)
+    --- PASS: TestPasswordHasher_Hash/unicode_password (2.21s)
+    --- PASS: TestPasswordHasher_Hash/very_long_password (2.21s)
+=== RUN   TestPasswordHasher_Hash_UniqueSalts
+--- PASS: TestPasswordHasher_Hash_UniqueSalts (6.58s)
+=== RUN   TestPasswordHasher_Verify
+=== RUN   TestPasswordHasher_Verify/correct_password
+=== RUN   TestPasswordHasher_Verify/wrong_password
+=== RUN   TestPasswordHasher_Verify/case_sensitive
+=== RUN   TestPasswordHasher_Verify/empty_password_match
+=== RUN   TestPasswordHasher_Verify/empty_password_no_match
+=== RUN   TestPasswordHasher_Verify/unicode_password
+=== RUN   TestPasswordHasher_Verify/unicode_password_mismatch
+--- PASS: TestPasswordHasher_Verify (30.79s)
+    --- PASS: TestPasswordHasher_Verify/correct_password (4.47s)
+    --- PASS: TestPasswordHasher_Verify/wrong_password (4.38s)
+    --- PASS: TestPasswordHasher_Verify/case_sensitive (4.41s)
+    --- PASS: TestPasswordHasher_Verify/empty_password_match (4.37s)
+    --- PASS: TestPasswordHasher_Verify/empty_password_no_match (4.39s)
+    --- PASS: TestPasswordHasher_Verify/unicode_password (4.39s)
+    --- PASS: TestPasswordHasher_Verify/unicode_password_mismatch (4.37s)
+=== RUN   TestPasswordHasher_Verify_InvalidHash
+=== RUN   TestPasswordHasher_Verify_InvalidHash/invalid_hash_format
+=== RUN   TestPasswordHasher_Verify_InvalidHash/empty_hash
+=== RUN   TestPasswordHasher_Verify_InvalidHash/truncated_hash
+--- PASS: TestPasswordHasher_Verify_InvalidHash (0.00s)
+    --- PASS: TestPasswordHasher_Verify_InvalidHash/invalid_hash_format (0.00s)
+    --- PASS: TestPasswordHasher_Verify_InvalidHash/empty_hash (0.00s)
+    --- PASS: TestPasswordHasher_Verify_InvalidHash/truncated_hash (0.00s)
+=== RUN   TestDefaultCost
+--- PASS: TestDefaultCost (0.00s)
+=== RUN   TestPasswordHasher_HashFormat
+--- PASS: TestPasswordHasher_HashFormat (2.23s)
+=== RUN   TestPasswordHasher_CrossVerification
+--- PASS: TestPasswordHasher_CrossVerification (4.35s)
+=== RUN   TestPasswordHasher_LongPassword
+--- PASS: TestPasswordHasher_LongPassword (4.37s)
+=== RUN   TestNewSecurityService
+--- PASS: TestNewSecurityService (0.00s)
+=== RUN   TestSecurityService_GetCurrentUser
+=== RUN   TestSecurityService_GetCurrentUser/user_exists
+=== RUN   TestSecurityService_GetCurrentUser/user_not_exists
+=== RUN   TestSecurityService_GetCurrentUser/wrong_type_in_context
+--- PASS: TestSecurityService_GetCurrentUser (0.00s)
+    --- PASS: TestSecurityService_GetCurrentUser/user_exists (0.00s)
+    --- PASS: TestSecurityService_GetCurrentUser/user_not_exists (0.00s)
+    --- PASS: TestSecurityService_GetCurrentUser/wrong_type_in_context (0.00s)
+=== RUN   TestSecurityService_GetCurrentUserID
+=== RUN   TestSecurityService_GetCurrentUserID/claims_exist
+=== RUN   TestSecurityService_GetCurrentUserID/no_claims
+--- PASS: TestSecurityService_GetCurrentUserID (0.00s)
+    --- PASS: TestSecurityService_GetCurrentUserID/claims_exist (0.00s)
+    --- PASS: TestSecurityService_GetCurrentUserID/no_claims (0.00s)
+=== RUN   TestSecurityService_GetCurrentClaims
+=== RUN   TestSecurityService_GetCurrentClaims/claims_exist
+=== RUN   TestSecurityService_GetCurrentClaims/claims_not_exist
+=== RUN   TestSecurityService_GetCurrentClaims/wrong_type_in_context
+--- PASS: TestSecurityService_GetCurrentClaims (0.00s)
+    --- PASS: TestSecurityService_GetCurrentClaims/claims_exist (0.00s)
+    --- PASS: TestSecurityService_GetCurrentClaims/claims_not_exist (0.00s)
+    --- PASS: TestSecurityService_GetCurrentClaims/wrong_type_in_context (0.00s)
+=== RUN   TestSecurityService_SetCurrentUser
+--- PASS: TestSecurityService_SetCurrentUser (0.00s)
+=== RUN   TestSecurityService_SetCurrentClaims
+--- PASS: TestSecurityService_SetCurrentClaims (0.00s)
+=== RUN   TestSecurityService_IsAuthenticated
+=== RUN   TestSecurityService_IsAuthenticated/authenticated
+=== RUN   TestSecurityService_IsAuthenticated/not_authenticated
+--- PASS: TestSecurityService_IsAuthenticated (0.00s)
+    --- PASS: TestSecurityService_IsAuthenticated/authenticated (0.00s)
+    --- PASS: TestSecurityService_IsAuthenticated/not_authenticated (0.00s)
+=== RUN   TestSecurityService_HasRole
+=== RUN   TestSecurityService_HasRole/has_admin_role
+=== RUN   TestSecurityService_HasRole/has_user_role
+=== RUN   TestSecurityService_HasRole/user_checking_for_admin
+=== RUN   TestSecurityService_HasRole/admin_checking_for_user
+=== RUN   TestSecurityService_HasRole/no_claims
+--- PASS: TestSecurityService_HasRole (0.00s)
+    --- PASS: TestSecurityService_HasRole/has_admin_role (0.00s)
+    --- PASS: TestSecurityService_HasRole/has_user_role (0.00s)
+    --- PASS: TestSecurityService_HasRole/user_checking_for_admin (0.00s)
+    --- PASS: TestSecurityService_HasRole/admin_checking_for_user (0.00s)
+    --- PASS: TestSecurityService_HasRole/no_claims (0.00s)
+=== RUN   TestSecurityService_IsAdmin
+=== RUN   TestSecurityService_IsAdmin/is_admin
+=== RUN   TestSecurityService_IsAdmin/not_admin
+=== RUN   TestSecurityService_IsAdmin/no_claims
+--- PASS: TestSecurityService_IsAdmin (0.00s)
+    --- PASS: TestSecurityService_IsAdmin/is_admin (0.00s)
+    --- PASS: TestSecurityService_IsAdmin/not_admin (0.00s)
+    --- PASS: TestSecurityService_IsAdmin/no_claims (0.00s)
+=== RUN   TestContextKeys
+--- PASS: TestContextKeys (0.00s)
+PASS
+coverage: 94.1% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/internal/security	62.482s	coverage: 94.1% of statements
+	github.com/jrjohn/arcana-cloud-go/internal/testutil		coverage: 0.0% of statements
+	github.com/jrjohn/arcana-cloud-go/internal/testutil/mocks		coverage: 0.0% of statements
+=== RUN   TestAppError_Error
+=== RUN   TestAppError_Error/error_without_wrapped_error
+=== RUN   TestAppError_Error/error_with_wrapped_error
+--- PASS: TestAppError_Error (0.00s)
+    --- PASS: TestAppError_Error/error_without_wrapped_error (0.00s)
+    --- PASS: TestAppError_Error/error_with_wrapped_error (0.00s)
+=== RUN   TestAppError_Unwrap
+--- PASS: TestAppError_Unwrap (0.00s)
+=== RUN   TestNew
+--- PASS: TestNew (0.00s)
+=== RUN   TestWrap
+--- PASS: TestWrap (0.00s)
+=== RUN   TestAppError_WithMessage
+--- PASS: TestAppError_WithMessage (0.00s)
+=== RUN   TestAppError_WithError
+--- PASS: TestAppError_WithError (0.00s)
+=== RUN   TestIs
+=== RUN   TestIs/same_error
+=== RUN   TestIs/wrapped_error_with_same_code
+=== RUN   TestIs/different_error_codes
+=== RUN   TestIs/non-AppError
+=== RUN   TestIs/nil_error
+=== RUN   TestIs/wrapped_in_fmt.Errorf
+--- PASS: TestIs (0.00s)
+    --- PASS: TestIs/same_error (0.00s)
+    --- PASS: TestIs/wrapped_error_with_same_code (0.00s)
+    --- PASS: TestIs/different_error_codes (0.00s)
+    --- PASS: TestIs/non-AppError (0.00s)
+    --- PASS: TestIs/nil_error (0.00s)
+    --- PASS: TestIs/wrapped_in_fmt.Errorf (0.00s)
+=== RUN   TestGetStatus
+=== RUN   TestGetStatus/NotFound_error
+=== RUN   TestGetStatus/BadRequest_error
+=== RUN   TestGetStatus/Unauthorized_error
+=== RUN   TestGetStatus/Forbidden_error
+=== RUN   TestGetStatus/Conflict_error
+=== RUN   TestGetStatus/InternalError
+=== RUN   TestGetStatus/ServiceUnavailable_error
+=== RUN   TestGetStatus/wrapped_AppError
+=== RUN   TestGetStatus/plain_error
+=== RUN   TestGetStatus/nil_error
+--- PASS: TestGetStatus (0.00s)
+    --- PASS: TestGetStatus/NotFound_error (0.00s)
+    --- PASS: TestGetStatus/BadRequest_error (0.00s)
+    --- PASS: TestGetStatus/Unauthorized_error (0.00s)
+    --- PASS: TestGetStatus/Forbidden_error (0.00s)
+    --- PASS: TestGetStatus/Conflict_error (0.00s)
+    --- PASS: TestGetStatus/InternalError (0.00s)
+    --- PASS: TestGetStatus/ServiceUnavailable_error (0.00s)
+    --- PASS: TestGetStatus/wrapped_AppError (0.00s)
+    --- PASS: TestGetStatus/plain_error (0.00s)
+    --- PASS: TestGetStatus/nil_error (0.00s)
+=== RUN   TestCommonErrors
+=== RUN   TestCommonErrors/ErrNotFound
+=== RUN   TestCommonErrors/ErrBadRequest
+=== RUN   TestCommonErrors/ErrUnauthorized
+=== RUN   TestCommonErrors/ErrForbidden
+=== RUN   TestCommonErrors/ErrConflict
+=== RUN   TestCommonErrors/ErrInternalError
+=== RUN   TestCommonErrors/ErrServiceUnavailable
+--- PASS: TestCommonErrors (0.00s)
+    --- PASS: TestCommonErrors/ErrNotFound (0.00s)
+    --- PASS: TestCommonErrors/ErrBadRequest (0.00s)
+    --- PASS: TestCommonErrors/ErrUnauthorized (0.00s)
+    --- PASS: TestCommonErrors/ErrForbidden (0.00s)
+    --- PASS: TestCommonErrors/ErrConflict (0.00s)
+    --- PASS: TestCommonErrors/ErrInternalError (0.00s)
+    --- PASS: TestCommonErrors/ErrServiceUnavailable (0.00s)
+=== RUN   TestErrorCodes
+--- PASS: TestErrorCodes (0.00s)
+=== RUN   TestAppError_ErrorsAs
+--- PASS: TestAppError_ErrorsAs (0.00s)
+PASS
+coverage: 100.0% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/pkg/errors	(cached)	coverage: 100.0% of statements
+=== RUN   TestNew
+=== RUN   TestNew/development_config
+=== RUN   TestNew/production_config
+=== RUN   TestNew/invalid_level_falls_back_to_info
+=== RUN   TestNew/error_level
+=== RUN   TestNew/warn_level
+=== RUN   TestNew/empty_encoding_uses_default
+--- PASS: TestNew (0.00s)
+    --- PASS: TestNew/development_config (0.00s)
+    --- PASS: TestNew/production_config (0.00s)
+    --- PASS: TestNew/invalid_level_falls_back_to_info (0.00s)
+    --- PASS: TestNew/error_level (0.00s)
+    --- PASS: TestNew/warn_level (0.00s)
+    --- PASS: TestNew/empty_encoding_uses_default (0.00s)
+=== RUN   TestNew_LogLevels
+=== RUN   TestNew_LogLevels/debug
+=== RUN   TestNew_LogLevels/info
+=== RUN   TestNew_LogLevels/warn
+=== RUN   TestNew_LogLevels/error
+=== RUN   TestNew_LogLevels/dpanic
+=== RUN   TestNew_LogLevels/panic
+=== RUN   TestNew_LogLevels/fatal
+--- PASS: TestNew_LogLevels (0.00s)
+    --- PASS: TestNew_LogLevels/debug (0.00s)
+    --- PASS: TestNew_LogLevels/info (0.00s)
+    --- PASS: TestNew_LogLevels/warn (0.00s)
+    --- PASS: TestNew_LogLevels/error (0.00s)
+    --- PASS: TestNew_LogLevels/dpanic (0.00s)
+    --- PASS: TestNew_LogLevels/panic (0.00s)
+    --- PASS: TestNew_LogLevels/fatal (0.00s)
+=== RUN   TestDefault
+=== RUN   TestDefault/development_mode
+=== RUN   TestDefault/production_mode
+=== RUN   TestDefault/empty_env_vars
+--- PASS: TestDefault (0.00s)
+    --- PASS: TestDefault/development_mode (0.00s)
+    --- PASS: TestDefault/production_mode (0.00s)
+    --- PASS: TestDefault/empty_env_vars (0.00s)
+=== RUN   TestWithContext
+--- PASS: TestWithContext (0.00s)
+=== RUN   TestConfig_Struct
+--- PASS: TestConfig_Struct (0.00s)
+=== RUN   TestNew_DevelopmentVsProduction
+--- PASS: TestNew_DevelopmentVsProduction (0.00s)
+=== RUN   TestLoggerIntegration
+2026-01-02T20:15:02.561+0800	[35mDEBUG[0m	logger/logger_test.go:242	debug message	{"key": "value"}
+2026-01-02T20:15:02.561+0800	[34mINFO[0m	logger/logger_test.go:243	info message	{"count": 42}
+2026-01-02T20:15:02.561+0800	[33mWARN[0m	logger/logger_test.go:244	warn message	{"flag": true}
+github.com/jrjohn/arcana-cloud-go/pkg/logger.TestLoggerIntegration
+	/Users/jrjohn/Documents/projects/arcana-cloud-go/pkg/logger/logger_test.go:244
+testing.tRunner
+	/opt/homebrew/Cellar/go/1.25.5/libexec/src/testing/testing.go:1934
+2026-01-02T20:15:02.561+0800	[31mERROR[0m	logger/logger_test.go:245	error message
+github.com/jrjohn/arcana-cloud-go/pkg/logger.TestLoggerIntegration
+	/Users/jrjohn/Documents/projects/arcana-cloud-go/pkg/logger/logger_test.go:245
+testing.tRunner
+	/opt/homebrew/Cellar/go/1.25.5/libexec/src/testing/testing.go:1934
+--- PASS: TestLoggerIntegration (0.00s)
+=== RUN   TestWithContext_MultipleFields
+--- PASS: TestWithContext_MultipleFields (0.00s)
+=== RUN   TestWithContext_EmptyFields
+--- PASS: TestWithContext_EmptyFields (0.00s)
+=== RUN   TestZapCoreLevelParsing
+--- PASS: TestZapCoreLevelParsing (0.00s)
+PASS
+coverage: 94.7% of statements
+ok  	github.com/jrjohn/arcana-cloud-go/pkg/logger	(cached)	coverage: 94.7% of statements
