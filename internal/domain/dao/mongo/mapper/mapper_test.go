@@ -11,6 +11,17 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
 )
 
+const (
+	testEmail     = "test@example.com"
+	testToken     = "test-token"
+	testPluginKey = "test-plugin"
+	testExtension = "Test Extension"
+	toDocumentNil   = "nil user"
+	toDocumentValid = "valid user"
+	toEntityNil     = "nil document"
+	toEntityValid   = "valid document"
+)
+
 func TestUserMapper_ToDocument(t *testing.T) {
 	mapper := NewUserMapper()
 
@@ -24,7 +35,7 @@ func TestUserMapper_ToDocument(t *testing.T) {
 		user := &entity.User{
 			ID:         1,
 			Username:   "testuser",
-			Email:      "test@example.com",
+			Email:      testEmail,
 			Password:   "hashedpass",
 			FirstName:  "Test",
 			LastName:   "User",
@@ -39,7 +50,7 @@ func TestUserMapper_ToDocument(t *testing.T) {
 		assert.NotNil(t, doc)
 		assert.Equal(t, uint(1), doc.NumericID)
 		assert.Equal(t, "testuser", doc.Username)
-		assert.Equal(t, "test@example.com", doc.Email)
+		assert.Equal(t, testEmail, doc.Email)
 		assert.Equal(t, "hashedpass", doc.Password)
 		assert.Equal(t, "Test", doc.FirstName)
 		assert.Equal(t, "User", doc.LastName)
@@ -79,7 +90,7 @@ func TestUserMapper_ToEntity(t *testing.T) {
 		doc := &document.UserDocument{
 			NumericID:  1,
 			Username:   "testuser",
-			Email:      "test@example.com",
+			Email:      testEmail,
 			Password:   "hashedpass",
 			FirstName:  "Test",
 			LastName:   "User",
@@ -94,7 +105,7 @@ func TestUserMapper_ToEntity(t *testing.T) {
 		assert.NotNil(t, user)
 		assert.Equal(t, uint(1), user.ID)
 		assert.Equal(t, "testuser", user.Username)
-		assert.Equal(t, "test@example.com", user.Email)
+		assert.Equal(t, testEmail, user.Email)
 		assert.Equal(t, entity.RoleAdmin, user.Role)
 		assert.True(t, user.IsActive)
 		assert.False(t, user.DeletedAt.Valid)
@@ -172,7 +183,7 @@ func TestRefreshTokenMapper(t *testing.T) {
 		token := &entity.RefreshToken{
 			ID:        1,
 			UserID:    10,
-			Token:     "test-token",
+			Token:     testToken,
 			ExpiresAt: now.Add(24 * time.Hour),
 			Revoked:   false,
 			CreatedAt: now,
@@ -182,7 +193,7 @@ func TestRefreshTokenMapper(t *testing.T) {
 		assert.NotNil(t, doc)
 		assert.Equal(t, uint(1), doc.NumericID)
 		assert.Equal(t, uint(10), doc.UserID)
-		assert.Equal(t, "test-token", doc.Token)
+		assert.Equal(t, testToken, doc.Token)
 		assert.False(t, doc.Revoked)
 	})
 
@@ -196,7 +207,7 @@ func TestRefreshTokenMapper(t *testing.T) {
 		doc := &document.RefreshTokenDocument{
 			NumericID: 1,
 			UserID:    10,
-			Token:     "test-token",
+			Token:     testToken,
 			ExpiresAt: now.Add(24 * time.Hour),
 			Revoked:   false,
 			CreatedAt: now,
@@ -206,7 +217,7 @@ func TestRefreshTokenMapper(t *testing.T) {
 		assert.NotNil(t, token)
 		assert.Equal(t, uint(1), token.ID)
 		assert.Equal(t, uint(10), token.UserID)
-		assert.Equal(t, "test-token", token.Token)
+		assert.Equal(t, testToken, token.Token)
 	})
 
 	t.Run("ToEntities", func(t *testing.T) {

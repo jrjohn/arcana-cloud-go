@@ -11,6 +11,17 @@ import (
 	pluginapi "github.com/jrjohn/arcana-cloud-go/internal/plugin/api"
 )
 
+const (
+	testPluginName   = testPluginName
+	pluginName1      = pluginName1
+	pluginName2      = pluginName2
+	nonExistingPlugin = nonExistingPlugin
+	msgStateFormat   = msgStateFormat
+	msgLoadAllError  = msgLoadAllError
+	msgListLength    = msgListLength
+	msgGetPlugin     = msgGetPlugin
+)
+
 func newTestManager(t *testing.T) (*Manager, string) {
 	t.Helper()
 	dir := t.TempDir()
@@ -64,7 +75,7 @@ func TestNewManager(t *testing.T) {
 
 func TestManagedPlugin_Struct(t *testing.T) {
 	info := pluginapi.PluginInfo{
-		Key:     "test-plugin",
+		Key:     testPluginName,
 		Name:    "Test Plugin",
 		Version: "1.0.0",
 	}
@@ -78,11 +89,11 @@ func TestManagedPlugin_Struct(t *testing.T) {
 		Config: map[string]any{"key": "value"},
 	}
 
-	if managed.Info.Key != "test-plugin" {
+	if managed.Info.Key != testPluginName {
 		t.Errorf("Info.Key = %v, want test-plugin", managed.Info.Key)
 	}
 	if managed.State != StateLoaded {
-		t.Errorf("State = %v, want %v", managed.State, StateLoaded)
+		t.Errorf(msgStateFormat, managed.State, StateLoaded)
 	}
 	if managed.Path != "/path/to/plugin.so" {
 		t.Errorf("Path = %v, want /path/to/plugin.so", managed.Path)
@@ -98,7 +109,7 @@ func TestManager_LoadAll_EmptyDir(t *testing.T) {
 
 	err := manager.LoadAll(ctx)
 	if err != nil {
-		t.Errorf("LoadAll() error = %v", err)
+		t.Errorf(msgLoadAllError, err)
 	}
 
 	plugins := manager.ListPlugins()
@@ -115,7 +126,7 @@ func TestManager_LoadAll_CreatesDirIfNotExists(t *testing.T) {
 	ctx := context.Background()
 	err := manager.LoadAll(ctx)
 	if err != nil {
-		t.Errorf("LoadAll() error = %v", err)
+		t.Errorf(msgLoadAllError, err)
 	}
 
 	// Directory should exist now
@@ -139,7 +150,7 @@ func TestManager_LoadAll_IgnoresNonSoFiles(t *testing.T) {
 
 	err := manager.LoadAll(ctx)
 	if err != nil {
-		t.Errorf("LoadAll() error = %v", err)
+		t.Errorf(msgLoadAllError, err)
 	}
 
 	// Should not load any plugins
@@ -161,7 +172,7 @@ func TestManager_LoadAll_IgnoresDirectories(t *testing.T) {
 
 	err := manager.LoadAll(ctx)
 	if err != nil {
-		t.Errorf("LoadAll() error = %v", err)
+		t.Errorf(msgLoadAllError, err)
 	}
 
 	plugins := manager.ListPlugins()
@@ -174,29 +185,29 @@ func TestManager_GetPlugin(t *testing.T) {
 	manager, _ := newTestManager(t)
 
 	// Add a mock plugin manually
-	manager.plugins["test-plugin"] = &ManagedPlugin{
+	manager.plugins[testPluginName] = &ManagedPlugin{
 		Info: pluginapi.PluginInfo{
-			Key:  "test-plugin",
+			Key:  testPluginName,
 			Name: "Test",
 		},
 		State: StateLoaded,
 	}
 
 	t.Run("existing plugin", func(t *testing.T) {
-		plugin, exists := manager.GetPlugin("test-plugin")
+		plugin, exists := manager.GetPlugin(testPluginName)
 		if !exists {
 			t.Error("Plugin should exist")
 		}
 		if plugin == nil {
 			t.Error("Plugin should not be nil")
 		}
-		if plugin.Info.Key != "test-plugin" {
+		if plugin.Info.Key != testPluginName {
 			t.Errorf("Plugin Key = %v, want test-plugin", plugin.Info.Key)
 		}
 	})
 
 	t.Run("non-existing plugin", func(t *testing.T) {
-		plugin, exists := manager.GetPlugin("non-existing")
+		plugin, exists := manager.GetPlugin(nonExistingPlugin)
 		if exists {
 			t.Error("Plugin should not exist")
 		}
@@ -210,12 +221,12 @@ func TestManager_ListPlugins(t *testing.T) {
 	manager, _ := newTestManager(t)
 
 	// Add mock plugins
-	manager.plugins["plugin-1"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "plugin-1"},
+	manager.plugins[pluginName1] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: pluginName1},
 		State: StateLoaded,
 	}
-	manager.plugins["plugin-2"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "plugin-2"},
+	manager.plugins[pluginName2] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: pluginName2},
 		State: StateStarted,
 	}
 
@@ -229,7 +240,7 @@ func TestManager_StartPlugin_NotFound(t *testing.T) {
 	manager, _ := newTestManager(t)
 	ctx := context.Background()
 
-	err := manager.StartPlugin(ctx, "non-existing", nil)
+	err := manager.StartPlugin(ctx, nonExistingPlugin, nil)
 	if err == nil {
 		t.Error("StartPlugin() should return error for non-existing plugin")
 	}
@@ -239,7 +250,7 @@ func TestManager_StopPlugin_NotFound(t *testing.T) {
 	manager, _ := newTestManager(t)
 	ctx := context.Background()
 
-	err := manager.StopPlugin(ctx, "non-existing")
+	err := manager.StopPlugin(ctx, nonExistingPlugin)
 	if err == nil {
 		t.Error("StopPlugin() should return error for non-existing plugin")
 	}
@@ -249,12 +260,12 @@ func TestManager_StopPlugin_NotStarted(t *testing.T) {
 	manager, _ := newTestManager(t)
 	ctx := context.Background()
 
-	manager.plugins["test-plugin"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "test-plugin"},
+	manager.plugins[testPluginName] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: testPluginName},
 		State: StateLoaded, // Not started
 	}
 
-	err := manager.StopPlugin(ctx, "test-plugin")
+	err := manager.StopPlugin(ctx, testPluginName)
 	if err != nil {
 		t.Errorf("StopPlugin() for non-started plugin should not return error, got %v", err)
 	}
@@ -264,7 +275,7 @@ func TestManager_UnloadPlugin_NotFound(t *testing.T) {
 	manager, _ := newTestManager(t)
 	ctx := context.Background()
 
-	err := manager.UnloadPlugin(ctx, "non-existing")
+	err := manager.UnloadPlugin(ctx, nonExistingPlugin)
 	if err == nil {
 		t.Error("UnloadPlugin() should return error for non-existing plugin")
 	}
@@ -308,12 +319,12 @@ func TestManager_Shutdown(t *testing.T) {
 	ctx := context.Background()
 
 	// Add some mock plugins
-	manager.plugins["plugin-1"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "plugin-1"},
+	manager.plugins[pluginName1] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: pluginName1},
 		State: StateLoaded,
 	}
-	manager.plugins["plugin-2"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "plugin-2"},
+	manager.plugins[pluginName2] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: pluginName2},
 		State: StateStopped,
 	}
 
@@ -331,8 +342,8 @@ func TestManager_Concurrency(t *testing.T) {
 	manager, _ := newTestManager(t)
 
 	// Add a plugin
-	manager.plugins["test-plugin"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "test-plugin"},
+	manager.plugins[testPluginName] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: testPluginName},
 		State: StateLoaded,
 	}
 
@@ -341,7 +352,7 @@ func TestManager_Concurrency(t *testing.T) {
 	// Concurrent reads
 	for i := 0; i < 10; i++ {
 		go func() {
-			manager.GetPlugin("test-plugin")
+			manager.GetPlugin(testPluginName)
 			manager.ListPlugins()
 			manager.GetRESTRoutes()
 			manager.GetMiddlewares()
@@ -408,7 +419,7 @@ func TestManager_StartPlugin_WithMock(t *testing.T) {
 
 	plugin, _ := manager.GetPlugin("mock-plugin")
 	if plugin.State != StateStarted {
-		t.Errorf("State = %v, want %v", plugin.State, StateStarted)
+		t.Errorf(msgStateFormat, plugin.State, StateStarted)
 	}
 }
 
@@ -453,7 +464,7 @@ func TestManager_StopPlugin_WithMock(t *testing.T) {
 
 	plugin, _ := manager.GetPlugin("mock-plugin")
 	if plugin.State != StateStopped {
-		t.Errorf("State = %v, want %v", plugin.State, StateStopped)
+		t.Errorf(msgStateFormat, plugin.State, StateStopped)
 	}
 }
 
@@ -510,14 +521,14 @@ func TestManager_UnloadPlugin_StopsIfStarted(t *testing.T) {
 // Benchmarks
 func BenchmarkManager_GetPlugin(b *testing.B) {
 	manager := NewManager("/tmp/plugins", zap.NewNop())
-	manager.plugins["test-plugin"] = &ManagedPlugin{
-		Info:  pluginapi.PluginInfo{Key: "test-plugin"},
+	manager.plugins[testPluginName] = &ManagedPlugin{
+		Info:  pluginapi.PluginInfo{Key: testPluginName},
 		State: StateLoaded,
 	}
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		manager.GetPlugin("test-plugin")
+		manager.GetPlugin(testPluginName)
 	}
 }
 
