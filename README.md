@@ -367,3 +367,6 @@ Go implementation of [arcana-cloud-springboot](https://github.com/jrjohn/arcana-
 | gRPC Speedup | 2.5x | 1.8x |
 | Plugin System | OSGi | Go plugins |
 | Config | Spring Cloud | Viper |
+
+## CI/CD
+This repository uses PR-Agent for automated AI code review on all pull requests.
