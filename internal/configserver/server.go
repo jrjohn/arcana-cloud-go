@@ -16,6 +16,13 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+
+const (
+	headerContentType   = "Content-Type"
+	contentTypeJSON     = "application/json"
+	msgMethodNotAllowed = "Method not allowed"
+)
+
 // ConfigServerConfig holds configuration server settings
 type ConfigServerConfig struct {
 	Enabled       bool          `mapstructure:"enabled"`
@@ -133,63 +140,73 @@ func (cs *ConfigServer) loadConfigs() error {
 	}
 
 	// Walk through config directory
-	return filepath.Walk(cs.config.ConfigDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
+	return filepath.Walk(cs.config.ConfigDir, cs.processConfigFile)
+}
 
-		if info.IsDir() {
-			return nil
-		}
-
-		// Only process YAML and JSON files
-		ext := strings.ToLower(filepath.Ext(path))
-		if ext != ".yaml" && ext != ".yml" && ext != ".json" {
-			return nil
-		}
-
-		// Parse filename: {application}-{profile}.{ext}
-		filename := strings.TrimSuffix(filepath.Base(path), ext)
-		parts := strings.Split(filename, "-")
-
-		application := parts[0]
-		profile := "default"
-		if len(parts) > 1 {
-			profile = strings.Join(parts[1:], "-")
-		}
-
-		// Read and parse file
-		data, err := os.ReadFile(path)
-		if err != nil {
-			cs.logger.Warn("Failed to read config file", zap.String("path", path), zap.Error(err))
-			return nil
-		}
-
-		var config map[string]interface{}
-		if ext == ".json" {
-			if err := json.Unmarshal(data, &config); err != nil {
-				cs.logger.Warn("Failed to parse JSON config", zap.String("path", path), zap.Error(err))
-				return nil
-			}
-		} else {
-			if err := yaml.Unmarshal(data, &config); err != nil {
-				cs.logger.Warn("Failed to parse YAML config", zap.String("path", path), zap.Error(err))
-				return nil
-			}
-		}
-
-		// Store config
-		key := fmt.Sprintf("%s/%s", application, profile)
-		cs.configs[key] = config
-
-		cs.logger.Debug("Loaded config",
-			zap.String("application", application),
-			zap.String("profile", profile),
-			zap.String("path", path),
-		)
-
+// processConfigFile handles a single config file during directory walk
+func (cs *ConfigServer) processConfigFile(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+	if info.IsDir() {
 		return nil
-	})
+	}
+
+	// Only process YAML and JSON files
+	ext := strings.ToLower(filepath.Ext(path))
+	if ext != ".yaml" && ext != ".yml" && ext != ".json" {
+		return nil
+	}
+
+	application, profile := cs.parseConfigFileName(path, ext)
+	config, err := cs.readAndParseConfigFile(path, ext)
+	if err != nil {
+		return nil // already logged
+	}
+
+	key := fmt.Sprintf("%s/%s", application, profile)
+	cs.configs[key] = config
+	cs.logger.Debug("Loaded config",
+		zap.String("application", application),
+		zap.String("profile", profile),
+		zap.String("path", path),
+	)
+	return nil
+}
+
+// parseConfigFileName extracts application and profile from a config filename
+func (cs *ConfigServer) parseConfigFileName(path, ext string) (application, profile string) {
+	filename := strings.TrimSuffix(filepath.Base(path), ext)
+	parts := strings.Split(filename, "-")
+	application = parts[0]
+	profile = "default"
+	if len(parts) > 1 {
+		profile = strings.Join(parts[1:], "-")
+	}
+	return application, profile
+}
+
+// readAndParseConfigFile reads and parses a config file into a map
+func (cs *ConfigServer) readAndParseConfigFile(path, ext string) (map[string]interface{}, error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		cs.logger.Warn("Failed to read config file", zap.String("path", path), zap.Error(err))
+		return nil, err
+	}
+
+	var config map[string]interface{}
+	if ext == ".json" {
+		if err := json.Unmarshal(data, &config); err != nil {
+			cs.logger.Warn("Failed to parse JSON config", zap.String("path", path), zap.Error(err))
+			return nil, err
+		}
+	} else {
+		if err := yaml.Unmarshal(data, &config); err != nil {
+			cs.logger.Warn("Failed to parse YAML config", zap.String("path", path), zap.Error(err))
+			return nil, err
+		}
+	}
+	return config, nil
 }
 
 // setupWatcher sets up file system watcher for config changes
@@ -200,29 +217,37 @@ func (cs *ConfigServer) setupWatcher() error {
 	}
 	cs.watcher = watcher
 
-	go func() {
-		for {
-			select {
-			case event, ok := <-watcher.Events:
-				if !ok {
-					return
-				}
-				if event.Op&(fsnotify.Write|fsnotify.Create) != 0 {
-					cs.logger.Info("Config file changed", zap.String("file", event.Name))
-					if err := cs.loadConfigs(); err != nil {
-						cs.logger.Error("Failed to reload configs", zap.Error(err))
-					}
-				}
-			case err, ok := <-watcher.Errors:
-				if !ok {
-					return
-				}
-				cs.logger.Error("Watcher error", zap.Error(err))
-			}
-		}
-	}()
+	go cs.watchConfigChanges(watcher)
 
 	return watcher.Add(cs.config.ConfigDir)
+}
+
+// watchConfigChanges runs the file system watcher event loop
+func (cs *ConfigServer) watchConfigChanges(watcher *fsnotify.Watcher) {
+	for {
+		select {
+		case event, ok := <-watcher.Events:
+			if !ok {
+				return
+			}
+			cs.handleWatcherEvent(event)
+		case err, ok := <-watcher.Errors:
+			if !ok {
+				return
+			}
+			cs.logger.Error("Watcher error", zap.Error(err))
+		}
+	}
+}
+
+// handleWatcherEvent processes a single file system event
+func (cs *ConfigServer) handleWatcherEvent(event fsnotify.Event) {
+	if event.Op&(fsnotify.Write|fsnotify.Create) != 0 {
+		cs.logger.Info("Config file changed", zap.String("file", event.Name))
+		if err := cs.loadConfigs(); err != nil {
+			cs.logger.Error("Failed to reload configs", zap.Error(err))
+		}
+	}
 }
 
 // GetConfig returns configuration for an application and profile
@@ -295,7 +320,7 @@ func (cs *ConfigServer) Subscribe() <-chan ConfigChangeEvent {
 // HTTP Handlers
 
 func (cs *ConfigServer) handleRoot(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(headerContentType, contentTypeJSON)
 	json.NewEncoder(w).Encode(map[string]string{
 		"name":    "Arcana Config Server",
 		"version": "1.0.0",
@@ -303,7 +328,7 @@ func (cs *ConfigServer) handleRoot(w http.ResponseWriter, r *http.Request) {
 }
 
 func (cs *ConfigServer) handleHealth(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(headerContentType, contentTypeJSON)
 	json.NewEncoder(w).Encode(map[string]string{"status": "UP"})
 }
 
@@ -328,7 +353,7 @@ func (cs *ConfigServer) handleConfig(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(headerContentType, contentTypeJSON)
 	json.NewEncoder(w).Encode(map[string]interface{}{
 		"name":     application,
 		"profiles": []string{profile},
@@ -343,7 +368,7 @@ func (cs *ConfigServer) handleConfig(w http.ResponseWriter, r *http.Request) {
 
 func (cs *ConfigServer) handleRefresh(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, msgMethodNotAllowed, http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -352,13 +377,13 @@ func (cs *ConfigServer) handleRefresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set(headerContentType, contentTypeJSON)
 	json.NewEncoder(w).Encode(map[string]string{"status": "refreshed"})
 }
 
 func (cs *ConfigServer) handleEncrypt(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, msgMethodNotAllowed, http.StatusMethodNotAllowed)
 		return
 	}
 
@@ -368,7 +393,7 @@ func (cs *ConfigServer) handleEncrypt(w http.ResponseWriter, r *http.Request) {
 
 func (cs *ConfigServer) handleDecrypt(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		http.Error(w, msgMethodNotAllowed, http.StatusMethodNotAllowed)
 		return
 	}
 

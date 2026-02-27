@@ -22,14 +22,55 @@ import (
 )
 
 func main() {
-	// Load configuration
+	cfg, log := mustLoadConfig()
+	defer log.Sync()
+
+	log.Info("Starting Arcana Cloud Worker",
+		zap.String("version", cfg.App.Version),
+		zap.String("environment", cfg.App.Environment),
+	)
+
+	ctx := context.Background()
+	redisClient := mustConnectRedis(cfg, ctx, log)
+	defer redisClient.Close()
+
+	jobQueue := queue.NewRedisQueue(redisClient)
+	lockManager := setupLockManager(redisClient, log)
+	pool := setupWorkerPool(jobQueue, lockManager, log)
+
+	registry := handler.NewRegistry(pool, log)
+	registerHandlers(registry, log)
+
+	sched := setupScheduler(redisClient, jobQueue, log)
+	registerScheduledJobs(sched, log)
+
+	ctx, cancel := context.WithCancel(ctx)
+	defer cancel()
+
+	if err := pool.Start(ctx); err != nil {
+		log.Fatal("Failed to start worker pool", zap.Error(err))
+	}
+	if err := sched.Start(ctx); err != nil {
+		log.Fatal("Failed to start scheduler", zap.Error(err))
+	}
+
+	go startMetricsServer(sched, lockManager, log)
+
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+
+	log.Info("Shutdown signal received, stopping workers...")
+	cancel()
+	gracefulShutdown(pool, sched, lockManager, log)
+}
+
+func mustLoadConfig() (*config.Config, *zap.Logger) {
 	cfg, err := config.Load()
 	if err != nil {
 		fmt.Printf("Failed to load config: %v\n", err)
 		os.Exit(1)
 	}
-
-	// Initialize logger
 	log, err := logger.New(logger.Config{
 		Level:       "info",
 		Development: cfg.App.Debug,
@@ -39,158 +80,129 @@ func main() {
 		fmt.Printf("Failed to create logger: %v\n", err)
 		os.Exit(1)
 	}
-	defer log.Sync()
+	return cfg, log
+}
 
-	log.Info("Starting Arcana Cloud Worker",
-		zap.String("version", cfg.App.Version),
-		zap.String("environment", cfg.App.Environment),
-	)
-
-	// Connect to Redis
-	redisClient := redis.NewClient(&redis.Options{
+func mustConnectRedis(cfg *config.Config, ctx context.Context, log *zap.Logger) *redis.Client {
+	client := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", cfg.Redis.Host, cfg.Redis.Port),
 		Password: cfg.Redis.Password,
 		DB:       cfg.Redis.DB,
 	})
-
-	ctx := context.Background()
-	if err := redisClient.Ping(ctx).Err(); err != nil {
+	if err := client.Ping(ctx).Err(); err != nil {
 		log.Fatal("Failed to connect to Redis", zap.Error(err))
 	}
-	defer redisClient.Close()
-
 	log.Info("Connected to Redis", zap.String("host", cfg.Redis.Host))
+	return client
+}
 
-	// Initialize job queue
-	jobQueue := queue.NewRedisQueue(redisClient)
-
-	// Initialize lock manager for distributed locking
+func setupLockManager(redisClient *redis.Client, log *zap.Logger) *lock.LockManager {
 	lockConfig := lock.DefaultLockManagerConfig()
-	lockManager := lock.NewLockManager(redisClient, lockConfig)
+	lm := lock.NewLockManager(redisClient, lockConfig)
 	log.Info("Lock manager initialized",
-		zap.String("worker_id", lockManager.GetWorkerID()),
+		zap.String("worker_id", lm.GetWorkerID()),
 		zap.Duration("lock_ttl", lockConfig.LockTTL),
 		zap.Duration("idempotency_ttl", lockConfig.IdempotencyTTL),
 	)
+	return lm
+}
 
-	// Initialize worker pool
+func setupWorkerPool(jobQueue *queue.RedisQueue, lockManager *lock.LockManager, log *zap.Logger) *worker.WorkerPool {
 	workerConfig := worker.DefaultWorkerPoolConfig()
 	if concurrency := os.Getenv("ARCANA_WORKER_CONCURRENCY"); concurrency != "" {
 		fmt.Sscanf(concurrency, "%d", &workerConfig.Concurrency)
 	}
-
-	// Configure locking/idempotency from environment
 	if os.Getenv("ARCANA_WORKER_DISABLE_LOCKING") == "true" {
 		workerConfig.EnableLocking = false
 	}
 	if os.Getenv("ARCANA_WORKER_DISABLE_IDEMPOTENCY") == "true" {
 		workerConfig.EnableIdempotency = false
 	}
-
 	pool := worker.NewWorkerPool(jobQueue, log, workerConfig)
 	pool.SetLockManager(lockManager)
+	return pool
+}
 
-	// Initialize handler registry and register handlers
-	registry := handler.NewRegistry(pool, log)
-	registerHandlers(registry, log)
-
-	// Initialize scheduler
+func setupScheduler(redisClient *redis.Client, jobQueue *queue.RedisQueue, log *zap.Logger) *scheduler.Scheduler {
 	schedConfig := scheduler.DefaultSchedulerConfig()
-	sched := scheduler.NewSchedulerWithConfig(redisClient, jobQueue, log, schedConfig)
-	registerScheduledJobs(sched, log)
+	return scheduler.NewSchedulerWithConfig(redisClient, jobQueue, log, schedConfig)
+}
 
-	// Create context for graceful shutdown
-	ctx, cancel := context.WithCancel(context.Background())
+func startMetricsServer(sched *scheduler.Scheduler, lockManager *lock.LockManager, log *zap.Logger) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/metrics", jobs.GlobalMetrics.PrometheusHandler())
+	mux.HandleFunc("/health", handleHealth(sched, lockManager))
+	mux.HandleFunc("/ready", handleReady())
+	mux.HandleFunc("/running", handleRunning(lockManager))
+
+	metricsPort := os.Getenv("METRICS_PORT")
+	if metricsPort == "" {
+		metricsPort = "9100"
+	}
+	log.Info("Starting metrics server", zap.String("port", metricsPort))
+	if err := http.ListenAndServe(":"+metricsPort, mux); err != nil {
+		log.Error("Metrics server error", zap.Error(err))
+	}
+}
+
+func handleHealth(sched *scheduler.Scheduler, lockManager *lock.LockManager) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		health := jobs.GlobalMetrics.GetHealthCheck(sched.IsLeader())
+		w.Header().Set("Content-Type", "application/json")
+		if health.Status == "healthy" {
+			w.WriteHeader(http.StatusOK)
+		} else {
+			w.WriteHeader(http.StatusServiceUnavailable)
+		}
+		fmt.Fprintf(w, `{"status":"%s","workers_active":%d,"jobs_pending":%d,"is_leader":%t,"worker_id":"%s"}`,
+			health.Status, health.WorkersActive, health.JobsPending, health.IsLeader, lockManager.GetWorkerID())
+	}
+}
+
+func handleReady() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte(`{"status":"ready"}`))
+	}
+}
+
+func handleRunning(lockManager *lock.LockManager) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		runningJobs, err := lockManager.GetRunningJobs(r.Context())
+		w.Header().Set("Content-Type", "application/json")
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			fmt.Fprintf(w, `{"error":"%s"}`, err.Error())
+			return
+		}
+		w.WriteHeader(http.StatusOK)
+		fmt.Fprintf(w, `{"running_jobs":%d,"jobs":{`, len(runningJobs))
+		first := true
+		for jobID, workerInfo := range runningJobs {
+			if !first {
+				w.Write([]byte(","))
+			}
+			fmt.Fprintf(w, `"%s":"%s"`, jobID, workerInfo)
+			first = false
+		}
+		w.Write([]byte("}}"))
+	}
+}
+
+func gracefulShutdown(pool *worker.WorkerPool, sched *scheduler.Scheduler, lockManager *lock.LockManager, log *zap.Logger) {
+	workerConfig := worker.DefaultWorkerPoolConfig()
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), workerConfig.ShutdownTimeout)
 	defer cancel()
-
-	// Start worker pool
-	if err := pool.Start(ctx); err != nil {
-		log.Fatal("Failed to start worker pool", zap.Error(err))
-	}
-
-	// Start scheduler
-	if err := sched.Start(ctx); err != nil {
-		log.Fatal("Failed to start scheduler", zap.Error(err))
-	}
-
-	// Start metrics server
-	go func() {
-		mux := http.NewServeMux()
-		mux.HandleFunc("/metrics", jobs.GlobalMetrics.PrometheusHandler())
-		mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
-			health := jobs.GlobalMetrics.GetHealthCheck(sched.IsLeader())
-			w.Header().Set("Content-Type", "application/json")
-			if health.Status == "healthy" {
-				w.WriteHeader(http.StatusOK)
-			} else {
-				w.WriteHeader(http.StatusServiceUnavailable)
-			}
-			fmt.Fprintf(w, `{"status":"%s","workers_active":%d,"jobs_pending":%d,"is_leader":%t,"worker_id":"%s"}`,
-				health.Status, health.WorkersActive, health.JobsPending, health.IsLeader, lockManager.GetWorkerID())
-		})
-		mux.HandleFunc("/ready", func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`{"status":"ready"}`))
-		})
-
-		// Running jobs endpoint
-		mux.HandleFunc("/running", func(w http.ResponseWriter, r *http.Request) {
-			runningJobs, err := lockManager.GetRunningJobs(r.Context())
-			w.Header().Set("Content-Type", "application/json")
-			if err != nil {
-				w.WriteHeader(http.StatusInternalServerError)
-				fmt.Fprintf(w, `{"error":"%s"}`, err.Error())
-				return
-			}
-			w.WriteHeader(http.StatusOK)
-			fmt.Fprintf(w, `{"running_jobs":%d,"jobs":{`, len(runningJobs))
-			first := true
-			for jobID, workerInfo := range runningJobs {
-				if !first {
-					w.Write([]byte(","))
-				}
-				fmt.Fprintf(w, `"%s":"%s"`, jobID, workerInfo)
-				first = false
-			}
-			w.Write([]byte("}}"))
-		})
-
-		metricsPort := os.Getenv("METRICS_PORT")
-		if metricsPort == "" {
-			metricsPort = "9100"
-		}
-
-		log.Info("Starting metrics server", zap.String("port", metricsPort))
-		if err := http.ListenAndServe(":"+metricsPort, mux); err != nil {
-			log.Error("Metrics server error", zap.Error(err))
-		}
-	}()
-
-	// Wait for shutdown signal
-	quit := make(chan os.Signal, 1)
-	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-	<-quit
-
-	log.Info("Shutdown signal received, stopping workers...")
-	cancel()
-
-	// Graceful shutdown
-	shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), workerConfig.ShutdownTimeout)
-	defer shutdownCancel()
 
 	if err := sched.Stop(shutdownCtx); err != nil {
 		log.Error("Error stopping scheduler", zap.Error(err))
 	}
-
 	if err := pool.Stop(shutdownCtx); err != nil {
 		log.Error("Error stopping worker pool", zap.Error(err))
 	}
-
-	// Release all locks held by this worker
 	if err := lockManager.ReleaseAllLocks(shutdownCtx); err != nil {
 		log.Error("Error releasing locks", zap.Error(err))
 	}
-
 	log.Info("Worker shutdown complete")
 }
 

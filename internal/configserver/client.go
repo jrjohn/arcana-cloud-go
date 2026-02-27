@@ -127,55 +127,64 @@ func (c *ConfigClient) fetchConfig() error {
 		if i > 0 {
 			time.Sleep(c.config.RetryInterval)
 		}
-
-		resp, err := c.httpClient.Get(url)
-		if err != nil {
+		if err := c.fetchConfigOnce(url); err != nil {
 			lastErr = err
 			continue
 		}
-		defer resp.Body.Close()
-
-		if resp.StatusCode != http.StatusOK {
-			body, _ := io.ReadAll(resp.Body)
-			lastErr = fmt.Errorf("config server returned %d: %s", resp.StatusCode, string(body))
-			continue
-		}
-
-		var configResp ConfigResponse
-		if err := json.NewDecoder(resp.Body).Decode(&configResp); err != nil {
-			lastErr = err
-			continue
-		}
-
-		// Merge all property sources
-		newConfig := make(map[string]interface{})
-		for i := len(configResp.PropertySources) - 1; i >= 0; i-- {
-			for k, v := range configResp.PropertySources[i].Source {
-				newConfig[k] = v
-			}
-		}
-
-		// Update cache
-		c.mutex.Lock()
-		oldConfig := c.cache
-		c.cache = newConfig
-		c.mutex.Unlock()
-
-		// Notify listeners if config changed
-		if !configEqual(oldConfig, newConfig) {
-			c.notifyListeners(newConfig)
-		}
-
-		c.logger.Info("Configuration loaded",
-			zap.String("application", c.config.Application),
-			zap.String("profile", c.config.Profile),
-			zap.Int("properties", len(newConfig)),
-		)
-
 		return nil
 	}
-
 	return lastErr
+}
+
+// fetchConfigOnce performs a single fetch attempt and updates the cache on success
+func (c *ConfigClient) fetchConfigOnce(url string) error {
+	resp, err := c.httpClient.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return fmt.Errorf("config server returned %d: %s", resp.StatusCode, string(body))
+	}
+
+	var configResp ConfigResponse
+	if err := json.NewDecoder(resp.Body).Decode(&configResp); err != nil {
+		return err
+	}
+
+	newConfig := mergePropertySources(configResp.PropertySources)
+	c.updateCache(newConfig)
+	c.logger.Info("Configuration loaded",
+		zap.String("application", c.config.Application),
+		zap.String("profile", c.config.Profile),
+		zap.Int("properties", len(newConfig)),
+	)
+	return nil
+}
+
+// mergePropertySources merges all property sources into a single map
+func mergePropertySources(sources []PropertySource) map[string]interface{} {
+	merged := make(map[string]interface{})
+	for i := len(sources) - 1; i >= 0; i-- {
+		for k, v := range sources[i].Source {
+			merged[k] = v
+		}
+	}
+	return merged
+}
+
+// updateCache replaces the config cache and notifies listeners if changed
+func (c *ConfigClient) updateCache(newConfig map[string]interface{}) {
+	c.mutex.Lock()
+	oldConfig := c.cache
+	c.cache = newConfig
+	c.mutex.Unlock()
+
+	if !configEqual(oldConfig, newConfig) {
+		c.notifyListeners(newConfig)
+	}
 }
 
 // Refresh refreshes configuration from the server

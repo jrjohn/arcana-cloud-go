@@ -13,6 +13,11 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/repository"
 )
 
+const (
+	errFmtFailedGetUser = "failed to get user: %v"
+	errMsgUserNotFound  = "user not found"
+)
+
 // UserServiceServer implements the gRPC UserService for the Repository layer
 type UserServiceServer struct {
 	pb.UnimplementedUserServiceServer
@@ -33,10 +38,10 @@ func (s *UserServiceServer) GetUser(ctx context.Context, req *pb.GetUserRequest)
 	user, err := s.userRepo.GetByID(ctx, uint(req.Id))
 	if err != nil {
 		s.logger.Error("failed to get user", zap.Error(err), zap.Uint64("id", req.Id))
-		return nil, status.Errorf(codes.Internal, "failed to get user: %v", err)
+		return nil, status.Errorf(codes.Internal, errFmtFailedGetUser, err)
 	}
 	if user == nil {
-		return nil, status.Error(codes.NotFound, "user not found")
+		return nil, status.Error(codes.NotFound, errMsgUserNotFound)
 	}
 	return s.toProtoUser(user), nil
 }
@@ -71,10 +76,10 @@ func (s *UserServiceServer) UpdateUser(ctx context.Context, req *pb.UpdateUserRe
 	user, err := s.userRepo.GetByID(ctx, uint(req.Id))
 	if err != nil {
 		s.logger.Error("failed to get user for update", zap.Error(err))
-		return nil, status.Errorf(codes.Internal, "failed to get user: %v", err)
+		return nil, status.Errorf(codes.Internal, errFmtFailedGetUser, err)
 	}
 	if user == nil {
-		return nil, status.Error(codes.NotFound, "user not found")
+		return nil, status.Error(codes.NotFound, errMsgUserNotFound)
 	}
 
 	if req.Email != nil {
@@ -151,10 +156,10 @@ func (s *UserServiceServer) GetUserByUsername(ctx context.Context, req *pb.GetUs
 	user, err := s.userRepo.GetByUsername(ctx, req.Username)
 	if err != nil {
 		s.logger.Error("failed to get user by username", zap.Error(err))
-		return nil, status.Errorf(codes.Internal, "failed to get user: %v", err)
+		return nil, status.Errorf(codes.Internal, errFmtFailedGetUser, err)
 	}
 	if user == nil {
-		return nil, status.Error(codes.NotFound, "user not found")
+		return nil, status.Error(codes.NotFound, errMsgUserNotFound)
 	}
 	return s.toProtoUser(user), nil
 }
@@ -164,10 +169,10 @@ func (s *UserServiceServer) GetUserByEmail(ctx context.Context, req *pb.GetUserB
 	user, err := s.userRepo.GetByEmail(ctx, req.Email)
 	if err != nil {
 		s.logger.Error("failed to get user by email", zap.Error(err))
-		return nil, status.Errorf(codes.Internal, "failed to get user: %v", err)
+		return nil, status.Errorf(codes.Internal, errFmtFailedGetUser, err)
 	}
 	if user == nil {
-		return nil, status.Error(codes.NotFound, "user not found")
+		return nil, status.Error(codes.NotFound, errMsgUserNotFound)
 	}
 	return s.toProtoUser(user), nil
 }

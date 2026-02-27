@@ -112,12 +112,12 @@ func UnaryServerInterceptor(serviceName string) grpc.UnaryServerInterceptor {
 			span.SetStatus(codes.Error, s.Message())
 			span.RecordError(err)
 			span.SetAttributes(
-				attribute.String("rpc.grpc.status_code", s.Code().String()),
+				attribute.String(attrGRPCStatusCode, s.Code().String()),
 			)
 		} else {
 			span.SetStatus(codes.Ok, "")
 			span.SetAttributes(
-				attribute.String("rpc.grpc.status_code", "OK"),
+				attribute.String(attrGRPCStatusCode, "OK"),
 			)
 		}
 
@@ -216,17 +216,19 @@ func UnaryClientInterceptor(serviceName string) grpc.UnaryClientInterceptor {
 			attribute.Int64("rpc.response_time_ms", duration.Milliseconds()),
 		)
 
+const attrGRPCStatusCode = "rpc.grpc.status_code"
+
 		if err != nil {
 			s, _ := status.FromError(err)
 			span.SetStatus(codes.Error, s.Message())
 			span.RecordError(err)
 			span.SetAttributes(
-				attribute.String("rpc.grpc.status_code", s.Code().String()),
+				attribute.String(attrGRPCStatusCode, s.Code().String()),
 			)
 		} else {
 			span.SetStatus(codes.Ok, "")
 			span.SetAttributes(
-				attribute.String("rpc.grpc.status_code", "OK"),
+				attribute.String(attrGRPCStatusCode, "OK"),
 			)
 		}
 

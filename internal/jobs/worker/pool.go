@@ -188,15 +188,79 @@ func (p *WorkerPool) worker(ctx context.Context, id int) {
 	}
 }
 
+// checkIdempotency verifies the job hasn't already been processed; returns true if it should be skipped
+func (p *WorkerPool) checkIdempotency(ctx context.Context, job *jobs.JobPayload, logger *zap.Logger) bool {
+	if !p.config.EnableIdempotency || p.lockManager == nil || job.UniqueKey == "" {
+		return false
+	}
+	completed, err := p.lockManager.CheckIdempotency(ctx, job.UniqueKey)
+	if err != nil {
+		logger.Warn("Failed to check idempotency", zap.Error(err))
+		return false
+	}
+	if completed {
+		logger.Info("Job already completed (idempotency check), skipping")
+		p.queue.Complete(ctx, job.ID)
+		p.skippedJobs.Add(1)
+		return true
+	}
+	return false
+}
+
+// acquireLock tries to acquire a distributed lock for the job; returns (lock, acquired).
+// When acquired=false the job has already been handled (skipped or re-queued).
+func (p *WorkerPool) acquireLock(ctx context.Context, job *jobs.JobPayload, logger *zap.Logger) (*lock.JobLock, bool) {
+	if !p.config.EnableLocking || p.lockManager == nil {
+		return nil, true
+	}
+	jobLock, err := p.lockManager.AcquireLock(ctx, job.ID)
+	if err != nil {
+		if err == lock.ErrLockNotAcquired {
+			logger.Debug("Job already locked by another worker, skipping")
+			p.requeueJob(ctx, job, logger)
+		} else {
+			logger.Error("Failed to acquire job lock", zap.Error(err))
+		}
+		p.skippedJobs.Add(1)
+		return nil, false
+	}
+	return jobLock, true
+}
+
+// executeJob runs the handler and records the outcome
+func (p *WorkerPool) executeJob(ctx context.Context, job *jobs.JobPayload, handler JobHandler, logger *zap.Logger) {
+	execCtx, cancel := context.WithTimeout(ctx, job.Timeout)
+	defer cancel()
+
+	start := time.Now()
+	err := handler(execCtx, job.Payload)
+	duration := time.Since(start)
+
+	if err != nil {
+		logger.Error("Job failed", zap.Error(err), zap.Duration("duration", duration))
+		p.queue.Fail(ctx, job.ID, err)
+		p.failedJobs.Add(1)
+		jobs.GlobalMetrics.RecordJobFailed(job.Attempts < job.MaxRetries)
+		return
+	}
+	logger.Info("Job completed", zap.Duration("duration", duration))
+	p.queue.Complete(ctx, job.ID)
+	p.processedJobs.Add(1)
+	jobs.GlobalMetrics.RecordJobCompleted(duration)
+	if p.config.EnableIdempotency && p.lockManager != nil && job.UniqueKey != "" {
+		if err := p.lockManager.MarkCompleted(ctx, job.UniqueKey, job.ID); err != nil {
+			logger.Warn("Failed to mark job as completed for idempotency", zap.Error(err))
+		}
+	}
+}
+
 // processNextJob attempts to process the next available job
 func (p *WorkerPool) processNextJob(ctx context.Context, logger *zap.Logger) {
-	// Dequeue job
 	job, err := p.queue.Dequeue(ctx)
 	if err == jobs.ErrQueueEmpty {
 		return
 	}
 	if err != nil {
-		// Don't log errors during shutdown
 		if p.running.Load() {
 			logger.Error("Failed to dequeue job", zap.Error(err))
 		}
@@ -209,35 +273,15 @@ func (p *WorkerPool) processNextJob(ctx context.Context, logger *zap.Logger) {
 		zap.Int("attempt", job.Attempts),
 	)
 
-	// Check idempotency before processing
-	if p.config.EnableIdempotency && p.lockManager != nil && job.UniqueKey != "" {
-		completed, err := p.lockManager.CheckIdempotency(ctx, job.UniqueKey)
-		if err != nil {
-			logger.Warn("Failed to check idempotency", zap.Error(err))
-		} else if completed {
-			logger.Info("Job already completed (idempotency check), skipping")
-			p.queue.Complete(ctx, job.ID)
-			p.skippedJobs.Add(1)
-			return
-		}
+	if p.checkIdempotency(ctx, job, logger) {
+		return
 	}
 
-	// Acquire distributed lock if enabled
-	var jobLock *lock.JobLock
-	if p.config.EnableLocking && p.lockManager != nil {
-		var err error
-		jobLock, err = p.lockManager.AcquireLock(ctx, job.ID)
-		if err != nil {
-			if err == lock.ErrLockNotAcquired {
-				logger.Debug("Job already locked by another worker, skipping")
-				// Re-queue the job since we couldn't acquire the lock
-				p.requeueJob(ctx, job, logger)
-			} else {
-				logger.Error("Failed to acquire job lock", zap.Error(err))
-			}
-			p.skippedJobs.Add(1)
-			return
-		}
+	jobLock, acquired := p.acquireLock(ctx, job, logger)
+	if !acquired {
+		return
+	}
+	if jobLock != nil {
 		defer func() {
 			if err := p.lockManager.ReleaseLock(ctx, jobLock); err != nil {
 				logger.Warn("Failed to release job lock", zap.Error(err))
@@ -247,13 +291,10 @@ func (p *WorkerPool) processNextJob(ctx context.Context, logger *zap.Logger) {
 
 	p.activeWorkers.Add(1)
 	jobs.GlobalMetrics.RecordJobStarted()
-	defer func() {
-		p.activeWorkers.Add(-1)
-	}()
+	defer p.activeWorkers.Add(-1)
 
 	logger.Info("Processing job")
 
-	// Get handler
 	p.mu.RLock()
 	handler, ok := p.handlers[job.Type]
 	p.mu.RUnlock()
@@ -266,38 +307,7 @@ func (p *WorkerPool) processNextJob(ctx context.Context, logger *zap.Logger) {
 		return
 	}
 
-	// Execute with timeout
-	execCtx, cancel := context.WithTimeout(ctx, job.Timeout)
-	defer cancel()
-
-	start := time.Now()
-	err = handler(execCtx, job.Payload)
-	duration := time.Since(start)
-
-	if err != nil {
-		logger.Error("Job failed",
-			zap.Error(err),
-			zap.Duration("duration", duration),
-		)
-		p.queue.Fail(ctx, job.ID, err)
-		p.failedJobs.Add(1)
-		willRetry := job.Attempts < job.MaxRetries
-		jobs.GlobalMetrics.RecordJobFailed(willRetry)
-	} else {
-		logger.Info("Job completed",
-			zap.Duration("duration", duration),
-		)
-		p.queue.Complete(ctx, job.ID)
-		p.processedJobs.Add(1)
-		jobs.GlobalMetrics.RecordJobCompleted(duration)
-
-		// Mark as completed for idempotency
-		if p.config.EnableIdempotency && p.lockManager != nil && job.UniqueKey != "" {
-			if err := p.lockManager.MarkCompleted(ctx, job.UniqueKey, job.ID); err != nil {
-				logger.Warn("Failed to mark job as completed for idempotency", zap.Error(err))
-			}
-		}
-	}
+	p.executeJob(ctx, job, handler, logger)
 }
 
 // requeueJob re-queues a job that couldn't be processed

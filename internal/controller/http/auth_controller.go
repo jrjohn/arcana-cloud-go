@@ -12,6 +12,8 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/security"
 )
 
+const msgValidationFailed = "validation failed"
+
 // AuthController handles authentication endpoints
 type AuthController struct {
 	authService     service.AuthService
@@ -51,7 +53,7 @@ func (c *AuthController) RegisterRoutes(router *gin.RouterGroup) {
 func (c *AuthController) Register(ctx *gin.Context) {
 	var req request.RegisterRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any]("validation failed", err.Error()))
+		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any](msgValidationFailed, err.Error()))
 		return
 	}
 
@@ -82,7 +84,7 @@ func (c *AuthController) Register(ctx *gin.Context) {
 func (c *AuthController) Login(ctx *gin.Context) {
 	var req request.LoginRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any]("validation failed", err.Error()))
+		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any](msgValidationFailed, err.Error()))
 		return
 	}
 
@@ -115,7 +117,7 @@ func (c *AuthController) Login(ctx *gin.Context) {
 func (c *AuthController) RefreshToken(ctx *gin.Context) {
 	var req request.RefreshTokenRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any]("validation failed", err.Error()))
+		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any](msgValidationFailed, err.Error()))
 		return
 	}
 

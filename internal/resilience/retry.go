@@ -28,6 +28,29 @@ func DefaultRetryConfig() *RetryConfig {
 	}
 }
 
+// isRetryableError checks whether err should be retried given the configured retryable errors
+func isRetryableError(err error, retryableErrors []error) bool {
+	if len(retryableErrors) == 0 {
+		return true
+	}
+	for _, re := range retryableErrors {
+		if err == re {
+			return true
+		}
+	}
+	return false
+}
+
+// nextBackoffInterval advances the exponential backoff interval and returns the sleep duration
+func nextBackoffInterval(current time.Duration, config *RetryConfig) (sleep, next time.Duration) {
+	sleep = calculateInterval(current, config)
+	next = time.Duration(float64(current) * config.Multiplier)
+	if next > config.MaxInterval {
+		next = config.MaxInterval
+	}
+	return sleep, next
+}
+
 // Retry executes a function with retry logic
 func Retry(ctx context.Context, config *RetryConfig, fn func(context.Context) error) error {
 	var lastErr error
@@ -45,35 +68,18 @@ func Retry(ctx context.Context, config *RetryConfig, fn func(context.Context) er
 			return nil
 		}
 
-		// Check if error is retryable
-		if len(config.RetryableErrors) > 0 {
-			retryable := false
-			for _, re := range config.RetryableErrors {
-				if lastErr == re {
-					retryable = true
-					break
-				}
-			}
-			if !retryable {
-				return lastErr
-			}
+		if !isRetryableError(lastErr, config.RetryableErrors) {
+			return lastErr
 		}
 
 		if attempt < config.MaxAttempts {
-			// Calculate next interval with jitter
-			nextInterval := calculateInterval(interval, config)
-
+			sleepDur, next := nextBackoffInterval(interval, config)
 			select {
 			case <-ctx.Done():
 				return ctx.Err()
-			case <-time.After(nextInterval):
+			case <-time.After(sleepDur):
 			}
-
-			// Update interval for next iteration
-			interval = time.Duration(float64(interval) * config.Multiplier)
-			if interval > config.MaxInterval {
-				interval = config.MaxInterval
-			}
+			interval = next
 		}
 	}
 

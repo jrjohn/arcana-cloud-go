@@ -12,6 +12,11 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/middleware"
 )
 
+const (
+	msgPluginKeyRequired = "plugin key is required"
+	msgPluginNotFound    = "plugin not found"
+)
+
 // PluginController handles plugin management endpoints
 type PluginController struct {
 	pluginService  service.PluginService
@@ -84,7 +89,7 @@ func (c *PluginController) List(ctx *gin.Context) {
 func (c *PluginController) GetByKey(ctx *gin.Context) {
 	key := ctx.Param("key")
 	if key == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("plugin key is required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgPluginKeyRequired))
 		return
 	}
 
@@ -92,7 +97,7 @@ func (c *PluginController) GetByKey(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrPluginNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("plugin not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgPluginNotFound))
 		default:
 			ctx.JSON(http.StatusInternalServerError, response.NewError[any]("failed to fetch plugin"))
 		}
@@ -164,7 +169,7 @@ func (c *PluginController) Install(ctx *gin.Context) {
 func (c *PluginController) Enable(ctx *gin.Context) {
 	key := ctx.Param("key")
 	if key == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("plugin key is required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgPluginKeyRequired))
 		return
 	}
 
@@ -172,7 +177,7 @@ func (c *PluginController) Enable(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrPluginNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("plugin not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgPluginNotFound))
 		case service.ErrPluginInvalidState:
 			ctx.JSON(http.StatusBadRequest, response.NewError[any]("plugin cannot be enabled in current state"))
 		default:
@@ -196,7 +201,7 @@ func (c *PluginController) Enable(ctx *gin.Context) {
 func (c *PluginController) Disable(ctx *gin.Context) {
 	key := ctx.Param("key")
 	if key == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("plugin key is required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgPluginKeyRequired))
 		return
 	}
 
@@ -204,7 +209,7 @@ func (c *PluginController) Disable(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrPluginNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("plugin not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgPluginNotFound))
 		case service.ErrPluginInvalidState:
 			ctx.JSON(http.StatusBadRequest, response.NewError[any]("plugin cannot be disabled in current state"))
 		default:
@@ -228,14 +233,14 @@ func (c *PluginController) Disable(ctx *gin.Context) {
 func (c *PluginController) Uninstall(ctx *gin.Context) {
 	key := ctx.Param("key")
 	if key == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("plugin key is required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgPluginKeyRequired))
 		return
 	}
 
 	if err := c.pluginService.Uninstall(ctx.Request.Context(), key); err != nil {
 		switch err {
 		case service.ErrPluginNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("plugin not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgPluginNotFound))
 		default:
 			ctx.JSON(http.StatusInternalServerError, response.NewError[any]("failed to uninstall plugin"))
 		}

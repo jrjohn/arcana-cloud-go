@@ -13,6 +13,12 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/security"
 )
 
+const (
+	msgNotAuthenticated = "not authenticated"
+	msgUserNotFound     = "user not found"
+	msgFailedFetchUser  = "failed to fetch user"
+)
+
 // UserController handles user management endpoints
 type UserController struct {
 	userService     service.UserService
@@ -82,7 +88,7 @@ func (c *UserController) List(ctx *gin.Context) {
 func (c *UserController) GetCurrentUser(ctx *gin.Context) {
 	userID := c.securityService.GetCurrentUserID(ctx)
 	if userID == 0 {
-		ctx.JSON(http.StatusUnauthorized, response.NewError[any]("not authenticated"))
+		ctx.JSON(http.StatusUnauthorized, response.NewError[any](msgNotAuthenticated))
 		return
 	}
 
@@ -90,9 +96,9 @@ func (c *UserController) GetCurrentUser(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrUserNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("user not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgUserNotFound))
 		default:
-			ctx.JSON(http.StatusInternalServerError, response.NewError[any]("failed to fetch user"))
+			ctx.JSON(http.StatusInternalServerError, response.NewError[any](msgFailedFetchUser))
 		}
 		return
 	}
@@ -112,7 +118,7 @@ func (c *UserController) GetCurrentUser(ctx *gin.Context) {
 func (c *UserController) UpdateCurrentUser(ctx *gin.Context) {
 	userID := c.securityService.GetCurrentUserID(ctx)
 	if userID == 0 {
-		ctx.JSON(http.StatusUnauthorized, response.NewError[any]("not authenticated"))
+		ctx.JSON(http.StatusUnauthorized, response.NewError[any](msgNotAuthenticated))
 		return
 	}
 
@@ -126,7 +132,7 @@ func (c *UserController) UpdateCurrentUser(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrUserNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("user not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgUserNotFound))
 		case service.ErrUserAlreadyExists:
 			ctx.JSON(http.StatusConflict, response.NewError[any]("email already in use"))
 		default:
@@ -150,7 +156,7 @@ func (c *UserController) UpdateCurrentUser(ctx *gin.Context) {
 func (c *UserController) ChangePassword(ctx *gin.Context) {
 	userID := c.securityService.GetCurrentUserID(ctx)
 	if userID == 0 {
-		ctx.JSON(http.StatusUnauthorized, response.NewError[any]("not authenticated"))
+		ctx.JSON(http.StatusUnauthorized, response.NewError[any](msgNotAuthenticated))
 		return
 	}
 
@@ -164,7 +170,7 @@ func (c *UserController) ChangePassword(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrUserNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("user not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgUserNotFound))
 		case service.ErrInvalidCredentials:
 			ctx.JSON(http.StatusBadRequest, response.NewError[any]("current password is incorrect"))
 		default:
@@ -197,9 +203,9 @@ func (c *UserController) GetByID(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrUserNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("user not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgUserNotFound))
 		default:
-			ctx.JSON(http.StatusInternalServerError, response.NewError[any]("failed to fetch user"))
+			ctx.JSON(http.StatusInternalServerError, response.NewError[any](msgFailedFetchUser))
 		}
 		return
 	}
@@ -227,9 +233,9 @@ func (c *UserController) GetByUsername(ctx *gin.Context) {
 	if err != nil {
 		switch err {
 		case service.ErrUserNotFound:
-			ctx.JSON(http.StatusNotFound, response.NewError[any]("user not found"))
+			ctx.JSON(http.StatusNotFound, response.NewError[any](msgUserNotFound))
 		default:
-			ctx.JSON(http.StatusInternalServerError, response.NewError[any]("failed to fetch user"))
+			ctx.JSON(http.StatusInternalServerError, response.NewError[any](msgFailedFetchUser))
 		}
 		return
 	}

@@ -32,63 +32,64 @@ func NewRedisQueue(client *redis.Client) *RedisQueue {
 	return &RedisQueue{client: client}
 }
 
+// checkDuplicate returns ErrDuplicateJob if the unique key already exists
+func (q *RedisQueue) checkDuplicate(ctx context.Context, uniqueKey string) error {
+	exists, err := q.client.Exists(ctx, keyPrefixUnique+uniqueKey).Result()
+	if err != nil {
+		return fmt.Errorf("failed to check unique key: %w", err)
+	}
+	if exists > 0 {
+		return jobs.ErrDuplicateJob
+	}
+	return nil
+}
+
+// scheduleOrEnqueue adds the job to the scheduled set or immediate priority queue
+func (q *RedisQueue) scheduleOrEnqueue(ctx context.Context, job *jobs.JobPayload) error {
+	if job.ScheduledAt != nil && job.ScheduledAt.After(time.Now()) {
+		score := float64(job.ScheduledAt.Unix())
+		return q.client.ZAdd(ctx, keyPrefixScheduled, redis.Z{Score: score, Member: job.ID}).Err()
+	}
+	return q.client.LPush(ctx, job.Priority.QueueName(), job.ID).Err()
+}
+
+// setUniqueKey stores the unique key with the appropriate TTL
+func (q *RedisQueue) setUniqueKey(ctx context.Context, job *jobs.JobPayload) error {
+	ttl := 24 * time.Hour
+	if job.ScheduledAt != nil {
+		ttl = time.Until(*job.ScheduledAt) + 24*time.Hour
+	}
+	return q.client.Set(ctx, keyPrefixUnique+job.UniqueKey, job.ID, ttl).Err()
+}
+
 // Enqueue adds a job to the queue
 func (q *RedisQueue) Enqueue(ctx context.Context, job *jobs.JobPayload) error {
-	// Check for duplicate if unique key is set
 	if job.UniqueKey != "" {
-		exists, err := q.client.Exists(ctx, keyPrefixUnique+job.UniqueKey).Result()
-		if err != nil {
-			return fmt.Errorf("failed to check unique key: %w", err)
-		}
-		if exists > 0 {
-			return jobs.ErrDuplicateJob
+		if err := q.checkDuplicate(ctx, job.UniqueKey); err != nil {
+			return err
 		}
 	}
 
-	// Serialize job
 	data, err := json.Marshal(job)
 	if err != nil {
 		return fmt.Errorf("failed to serialize job: %w", err)
 	}
-
-	// Store job data
-	jobKey := keyPrefixJob + job.ID
-	if err := q.client.Set(ctx, jobKey, data, 24*time.Hour).Err(); err != nil {
+	if err := q.client.Set(ctx, keyPrefixJob+job.ID, data, 24*time.Hour).Err(); err != nil {
 		return fmt.Errorf("failed to store job: %w", err)
 	}
 
-	// Handle scheduled jobs
-	if job.ScheduledAt != nil && job.ScheduledAt.After(time.Now()) {
-		score := float64(job.ScheduledAt.Unix())
-		if err := q.client.ZAdd(ctx, keyPrefixScheduled, redis.Z{
-			Score:  score,
-			Member: job.ID,
-		}).Err(); err != nil {
-			return fmt.Errorf("failed to schedule job: %w", err)
-		}
-	} else {
-		// Add to priority queue
-		queueKey := job.Priority.QueueName()
-		if err := q.client.LPush(ctx, queueKey, job.ID).Err(); err != nil {
-			return fmt.Errorf("failed to enqueue job: %w", err)
-		}
+	if err := q.scheduleOrEnqueue(ctx, job); err != nil {
+		return fmt.Errorf("failed to queue job: %w", err)
 	}
 
-	// Set unique key if provided
 	if job.UniqueKey != "" {
-		ttl := 24 * time.Hour
-		if job.ScheduledAt != nil {
-			ttl = time.Until(*job.ScheduledAt) + 24*time.Hour
-		}
-		if err := q.client.Set(ctx, keyPrefixUnique+job.UniqueKey, job.ID, ttl).Err(); err != nil {
+		if err := q.setUniqueKey(ctx, job); err != nil {
 			return fmt.Errorf("failed to set unique key: %w", err)
 		}
 	}
 
-	// Update stats
 	q.client.HIncrBy(ctx, keyPrefixStats, "enqueued_total", 1)
 	q.client.HIncrBy(ctx, keyPrefixStats, "pending", 1)
-
 	return nil
 }
 

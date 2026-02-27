@@ -23,6 +23,8 @@ const (
 	StateError    PluginState = "ERROR"
 )
 
+const errFmtPluginNotFound = "plugin %s not found"
+
 // ManagedPlugin represents a loaded plugin
 type ManagedPlugin struct {
 	Info    pluginapi.PluginInfo
@@ -139,7 +141,7 @@ func (m *Manager) StartPlugin(ctx context.Context, key string, config map[string
 	m.mutex.Unlock()
 
 	if !exists {
-		return fmt.Errorf("plugin %s not found", key)
+		return fmt.Errorf(errFmtPluginNotFound, key)
 	}
 
 	if managed.State == StateStarted {
@@ -175,7 +177,7 @@ func (m *Manager) StopPlugin(ctx context.Context, key string) error {
 	m.mutex.Unlock()
 
 	if !exists {
-		return fmt.Errorf("plugin %s not found", key)
+		return fmt.Errorf(errFmtPluginNotFound, key)
 	}
 
 	if managed.State != StateStarted {
@@ -202,7 +204,7 @@ func (m *Manager) UnloadPlugin(ctx context.Context, key string) error {
 
 	managed, exists := m.plugins[key]
 	if !exists {
-		return fmt.Errorf("plugin %s not found", key)
+		return fmt.Errorf(errFmtPluginNotFound, key)
 	}
 
 	if managed.State == StateStarted {
@@ -278,6 +280,28 @@ func (m *Manager) GetMiddlewares() []pluginapi.MiddlewarePlugin {
 	return middlewares
 }
 
+// pluginListensToEvent checks if a plugin is interested in the given event type
+func pluginListensToEvent(plugin pluginapi.EventListenerPlugin, eventType string) bool {
+	for _, e := range plugin.Events() {
+		if e == eventType || e == "*" {
+			return true
+		}
+	}
+	return false
+}
+
+// dispatchEventToPlugin dispatches an event to a plugin in a goroutine
+func (m *Manager) dispatchEventToPlugin(ctx context.Context, p pluginapi.EventListenerPlugin, event pluginapi.Event) {
+	go func() {
+		if err := p.HandleEvent(ctx, event); err != nil {
+			m.logger.Error("plugin event handler error",
+				zap.String("event", event.Type),
+				zap.Error(err),
+			)
+		}
+	}()
+}
+
 // EmitEvent emits an event to all event listener plugins
 func (m *Manager) EmitEvent(ctx context.Context, event pluginapi.Event) error {
 	m.mutex.RLock()
@@ -287,22 +311,12 @@ func (m *Manager) EmitEvent(ctx context.Context, event pluginapi.Event) error {
 		if managed.State != StateStarted {
 			continue
 		}
-
-		if elPlugin, ok := managed.Plugin.(pluginapi.EventListenerPlugin); ok {
-			// Check if plugin listens to this event
-			for _, e := range elPlugin.Events() {
-				if e == event.Type || e == "*" {
-					go func(p pluginapi.EventListenerPlugin, e pluginapi.Event) {
-						if err := p.HandleEvent(ctx, e); err != nil {
-							m.logger.Error("plugin event handler error",
-								zap.String("event", e.Type),
-								zap.Error(err),
-							)
-						}
-					}(elPlugin, event)
-					break
-				}
-			}
+		elPlugin, ok := managed.Plugin.(pluginapi.EventListenerPlugin)
+		if !ok {
+			continue
+		}
+		if pluginListensToEvent(elPlugin, event.Type) {
+			m.dispatchEventToPlugin(ctx, elPlugin, event)
 		}
 	}
 

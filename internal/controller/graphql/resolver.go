@@ -17,6 +17,13 @@ import (
 type ContextKey string
 
 const (
+	errInvalidInput         = "invalid input"
+	errNotAuthenticated     = "not authenticated"
+	errPluginSystemDisabled = "plugin system not enabled"
+	errInvalidPluginKey     = "invalid plugin key"
+)
+
+const (
 	ContextKeyUserID   ContextKey = "userID"
 	ContextKeyUsername ContextKey = "username"
 	ContextKeyToken    ContextKey = "token"
@@ -48,7 +55,7 @@ func NewResolver(
 func (r *Resolver) Register(p graphql.ResolveParams) (interface{}, error) {
 	input, ok := p.Args["input"].(map[string]interface{})
 	if !ok {
-		return nil, errors.New("invalid input")
+		return nil, errors.New(errInvalidInput)
 	}
 
 	req := &request.RegisterRequest{
@@ -71,7 +78,7 @@ func (r *Resolver) Register(p graphql.ResolveParams) (interface{}, error) {
 func (r *Resolver) Login(p graphql.ResolveParams) (interface{}, error) {
 	input, ok := p.Args["input"].(map[string]interface{})
 	if !ok {
-		return nil, errors.New("invalid input")
+		return nil, errors.New(errInvalidInput)
 	}
 
 	req := &request.LoginRequest{
@@ -100,7 +107,7 @@ func (r *Resolver) RefreshToken(p graphql.ResolveParams) (interface{}, error) {
 func (r *Resolver) Logout(p graphql.ResolveParams) (interface{}, error) {
 	token := getTokenFromContext(p.Context)
 	if token == "" {
-		return false, errors.New("not authenticated")
+		return false, errors.New(errNotAuthenticated)
 	}
 
 	err := r.authService.Logout(p.Context, token)
@@ -113,7 +120,7 @@ func (r *Resolver) Logout(p graphql.ResolveParams) (interface{}, error) {
 func (r *Resolver) Me(p graphql.ResolveParams) (interface{}, error) {
 	userID := getUserIDFromContext(p.Context)
 	if userID == 0 {
-		return nil, errors.New("not authenticated")
+		return nil, errors.New(errNotAuthenticated)
 	}
 
 	return r.userService.GetByID(p.Context, userID)
@@ -161,12 +168,12 @@ func (r *Resolver) Users(p graphql.ResolveParams) (interface{}, error) {
 func (r *Resolver) UpdateProfile(p graphql.ResolveParams) (interface{}, error) {
 	userID := getUserIDFromContext(p.Context)
 	if userID == 0 {
-		return nil, errors.New("not authenticated")
+		return nil, errors.New(errNotAuthenticated)
 	}
 
 	input, ok := p.Args["input"].(map[string]interface{})
 	if !ok {
-		return nil, errors.New("invalid input")
+		return nil, errors.New(errInvalidInput)
 	}
 
 	req := &request.UpdateProfileRequest{}
@@ -187,7 +194,7 @@ func (r *Resolver) UpdateProfile(p graphql.ResolveParams) (interface{}, error) {
 func (r *Resolver) ChangePassword(p graphql.ResolveParams) (interface{}, error) {
 	userID := getUserIDFromContext(p.Context)
 	if userID == 0 {
-		return false, errors.New("not authenticated")
+		return false, errors.New(errNotAuthenticated)
 	}
 
 	currentPassword, _ := p.Args["currentPassword"].(string)
@@ -231,12 +238,12 @@ func (r *Resolver) Plugins(p graphql.ResolveParams) (interface{}, error) {
 // Plugin returns a plugin by key
 func (r *Resolver) Plugin(p graphql.ResolveParams) (interface{}, error) {
 	if r.pluginManager == nil {
-		return nil, errors.New("plugin system not enabled")
+		return nil, errors.New(errPluginSystemDisabled)
 	}
 
 	key, ok := p.Args["key"].(string)
 	if !ok {
-		return nil, errors.New("invalid plugin key")
+		return nil, errors.New(errInvalidPluginKey)
 	}
 
 	plugin, exists := r.pluginManager.GetPlugin(key)
@@ -258,12 +265,12 @@ func (r *Resolver) Plugin(p graphql.ResolveParams) (interface{}, error) {
 // EnablePlugin enables a plugin
 func (r *Resolver) EnablePlugin(p graphql.ResolveParams) (interface{}, error) {
 	if r.pluginManager == nil {
-		return nil, errors.New("plugin system not enabled")
+		return nil, errors.New(errPluginSystemDisabled)
 	}
 
 	key, ok := p.Args["key"].(string)
 	if !ok {
-		return nil, errors.New("invalid plugin key")
+		return nil, errors.New(errInvalidPluginKey)
 	}
 
 	if err := r.pluginManager.StartPlugin(p.Context, key, nil); err != nil {
@@ -276,12 +283,12 @@ func (r *Resolver) EnablePlugin(p graphql.ResolveParams) (interface{}, error) {
 // DisablePlugin disables a plugin
 func (r *Resolver) DisablePlugin(p graphql.ResolveParams) (interface{}, error) {
 	if r.pluginManager == nil {
-		return nil, errors.New("plugin system not enabled")
+		return nil, errors.New(errPluginSystemDisabled)
 	}
 
 	key, ok := p.Args["key"].(string)
 	if !ok {
-		return nil, errors.New("invalid plugin key")
+		return nil, errors.New(errInvalidPluginKey)
 	}
 
 	if err := r.pluginManager.StopPlugin(p.Context, key); err != nil {

@@ -154,22 +154,12 @@ func createExporter(config *TracingConfig) (sdktrace.SpanExporter, error) {
 }
 
 // createPropagator creates the appropriate propagator
-func createPropagator(propagatorType string) propagation.TextMapPropagator {
-	switch propagatorType {
-	case "b3":
-		// B3 propagation (Zipkin style)
-		return propagation.NewCompositeTextMapPropagator(
-			propagation.TraceContext{},
-			propagation.Baggage{},
-		)
-	case "tracecontext":
-		fallthrough
-	default:
-		return propagation.NewCompositeTextMapPropagator(
-			propagation.TraceContext{},
-			propagation.Baggage{},
-		)
-	}
+func createPropagator(_ string) propagation.TextMapPropagator {
+	// All supported propagator types (b3, tracecontext) use W3C composite format
+	return propagation.NewCompositeTextMapPropagator(
+		propagation.TraceContext{},
+		propagation.Baggage{},
+	)
 }
 
 // Tracer returns the tracer

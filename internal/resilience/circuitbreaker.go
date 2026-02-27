@@ -222,12 +222,8 @@ func (cb *CircuitBreaker) allowRequest() error {
 	return nil
 }
 
-// recordOutcome records the outcome of a call
-func (cb *CircuitBreaker) recordOutcome(success bool, duration time.Duration) {
-	cb.mutex.Lock()
-	defer cb.mutex.Unlock()
-
-	cb.slidingWindow.Record(success, duration)
+// updateMetrics updates call metrics counters
+func (cb *CircuitBreaker) updateMetrics(success bool, duration time.Duration) {
 	cb.metrics.mutex.Lock()
 	cb.metrics.TotalCalls++
 	if success {
@@ -239,27 +235,46 @@ func (cb *CircuitBreaker) recordOutcome(success bool, duration time.Duration) {
 		cb.metrics.SlowCalls++
 	}
 	cb.metrics.mutex.Unlock()
+}
+
+// updateStateClosed handles state transitions for the Closed state
+func (cb *CircuitBreaker) updateStateClosed(success bool) {
+	if success {
+		cb.failures = 0
+		return
+	}
+	cb.failures++
+	cb.lastFailure = time.Now()
+	if cb.failures >= cb.config.FailureThreshold {
+		cb.transitionTo(StateOpen)
+	}
+}
+
+// updateStateHalfOpen handles state transitions for the HalfOpen state
+func (cb *CircuitBreaker) updateStateHalfOpen(success bool) {
+	if success {
+		cb.successes++
+		if cb.successes >= cb.config.SuccessThreshold {
+			cb.transitionTo(StateClosed)
+		}
+	} else {
+		cb.transitionTo(StateOpen)
+	}
+}
+
+// recordOutcome records the outcome of a call
+func (cb *CircuitBreaker) recordOutcome(success bool, duration time.Duration) {
+	cb.mutex.Lock()
+	defer cb.mutex.Unlock()
+
+	cb.slidingWindow.Record(success, duration)
+	cb.updateMetrics(success, duration)
 
 	switch cb.state {
 	case StateClosed:
-		if success {
-			cb.failures = 0
-		} else {
-			cb.failures++
-			cb.lastFailure = time.Now()
-			if cb.failures >= cb.config.FailureThreshold {
-				cb.transitionTo(StateOpen)
-			}
-		}
+		cb.updateStateClosed(success)
 	case StateHalfOpen:
-		if success {
-			cb.successes++
-			if cb.successes >= cb.config.SuccessThreshold {
-				cb.transitionTo(StateClosed)
-			}
-		} else {
-			cb.transitionTo(StateOpen)
-		}
+		cb.updateStateHalfOpen(success)
 	}
 }
 

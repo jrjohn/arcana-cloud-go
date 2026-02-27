@@ -16,6 +16,8 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/middleware"
 )
 
+const msgJobIDRequired = "job ID required"
+
 // JobController handles job management endpoints
 type JobController struct {
 	jobService     jobs.Service
@@ -147,7 +149,7 @@ func (c *JobController) EnqueueJob(ctx *gin.Context) {
 func (c *JobController) GetJob(ctx *gin.Context) {
 	jobID := ctx.Param("id")
 	if jobID == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("job ID required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgJobIDRequired))
 		return
 	}
 
@@ -172,7 +174,7 @@ func (c *JobController) GetJob(ctx *gin.Context) {
 func (c *JobController) CancelJob(ctx *gin.Context) {
 	jobID := ctx.Param("id")
 	if jobID == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("job ID required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgJobIDRequired))
 		return
 	}
 
@@ -196,7 +198,7 @@ func (c *JobController) CancelJob(ctx *gin.Context) {
 func (c *JobController) RetryJob(ctx *gin.Context) {
 	jobID := ctx.Param("id")
 	if jobID == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("job ID required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgJobIDRequired))
 		return
 	}
 
@@ -298,7 +300,7 @@ func (c *JobController) GetDLQJobs(ctx *gin.Context) {
 func (c *JobController) RetryDLQJob(ctx *gin.Context) {
 	jobID := ctx.Param("id")
 	if jobID == "" {
-		ctx.JSON(http.StatusBadRequest, response.NewError[any]("job ID required"))
+		ctx.JSON(http.StatusBadRequest, response.NewError[any](msgJobIDRequired))
 		return
 	}
 

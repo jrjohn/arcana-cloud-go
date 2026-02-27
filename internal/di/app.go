@@ -7,6 +7,8 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/config"
 )
 
+const bannerSeparator = "==========================================="
+
 // AppModule aggregates all application modules
 var AppModule = fx.Options(
 	ConfigModule,
@@ -27,9 +29,9 @@ var AppModule = fx.Options(
 
 // PrintBanner prints the application startup banner
 func PrintBanner(cfg *config.Config, logger *zap.Logger) {
-	logger.Info("===========================================")
+	logger.Info(bannerSeparator)
 	logger.Info("   Arcana Cloud Go - Enterprise Platform   ")
-	logger.Info("===========================================")
+	logger.Info(bannerSeparator)
 	logger.Info("Application Info",
 		zap.String("name", cfg.App.Name),
 		zap.String("version", cfg.App.Version),
@@ -40,5 +42,5 @@ func PrintBanner(cfg *config.Config, logger *zap.Logger) {
 		zap.String("layer", string(cfg.Deployment.Layer)),
 		zap.String("protocol", string(cfg.Deployment.Protocol)),
 	)
-	logger.Info("===========================================")
+	logger.Info(bannerSeparator)
 }
