@@ -47,7 +47,11 @@ func DefaultTestConfig() TestConfig {
 
 	postgresDSN := os.Getenv("TEST_POSTGRES_DSN")
 	if postgresDSN == "" {
-		postgresDSN = "host=localhost port=5433 user=arcana_test password=arcana_test dbname=arcana_test sslmode=disable"
+		pgPassword := os.Getenv("TEST_DB_PASSWORD")
+		postgresDSN = fmt.Sprintf(
+			"host=localhost port=5433 user=arcana_test password=%s dbname=arcana_test sslmode=disable",
+			pgPassword,
+		)
 	}
 
 	mongoURI := os.Getenv("TEST_MONGO_URI")
