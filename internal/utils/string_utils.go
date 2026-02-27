@@ -23,3 +23,4 @@ func ContainsAny(s string, substrings []string) bool {
     }
     return false
 }
+
