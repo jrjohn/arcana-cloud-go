@@ -24,3 +24,8 @@ func ContainsAny(s string, substrings []string) bool {
     return false
 }
 
+
+// IsValidEmail checks if email format is valid (simplified)
+func IsValidEmail(email string) bool {
+    return strings.Contains(email, "@")
+}
