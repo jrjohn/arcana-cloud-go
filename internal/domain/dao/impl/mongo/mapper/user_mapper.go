@@ -4,7 +4,7 @@ package mapper
 import (
 	"gorm.io/gorm"
 
-	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/mongo/document"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
 )
 

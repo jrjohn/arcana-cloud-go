@@ -5,8 +5,8 @@ import (
 
 	"github.com/jrjohn/arcana-cloud-go/internal/config"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao"
-	gormdao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm"
-	mongodao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo"
+	gormdao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/gorm"
+	mongodao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/mongo"
 )
 
 // DAOModule provides DAO dependencies based on database driver configuration.

@@ -9,8 +9,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao"
-	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/document"
-	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo/mapper"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/mongo/document"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/mongo/mapper"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
 )
 
