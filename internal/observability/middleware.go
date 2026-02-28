@@ -15,6 +15,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+const attrGRPCStatusCode = "rpc.grpc.status_code"
+
 // TracingMiddleware returns a Gin middleware for HTTP tracing
 func TracingMiddleware(serviceName string) gin.HandlerFunc {
 	tracer := otel.Tracer(serviceName)
@@ -215,8 +217,6 @@ func UnaryClientInterceptor(serviceName string) grpc.UnaryClientInterceptor {
 		span.SetAttributes(
 			attribute.Int64("rpc.response_time_ms", duration.Milliseconds()),
 		)
-
-const attrGRPCStatusCode = "rpc.grpc.status_code"
 
 		if err != nil {
 			s, _ := status.FromError(err)
