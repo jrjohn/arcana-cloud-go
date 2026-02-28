@@ -1,4 +1,4 @@
-package service
+package impl
 
 import (
 	"context"
@@ -6,12 +6,13 @@ import (
 	"testing"
 
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/service"
 	"github.com/jrjohn/arcana-cloud-go/internal/dto/request"
 	"github.com/jrjohn/arcana-cloud-go/internal/security"
 	"github.com/jrjohn/arcana-cloud-go/internal/testutil/mocks"
 )
 
-func setupUserService(t *testing.T) (UserService, *mocks.MockUserRepository) {
+func setupUserService(t *testing.T) (service.UserService, *mocks.MockUserRepository) {
 	userRepo := mocks.NewMockUserRepository()
 	passwordHasher := security.NewPasswordHasher()
 	userService := NewUserService(userRepo, passwordHasher)
@@ -57,7 +58,7 @@ func TestUserService_GetByID_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	_, err := userService.GetByID(ctx, 999)
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, service.ErrUserNotFound) {
 		t.Errorf("GetByID() error = %v, want ErrUserNotFound", err)
 	}
 }
@@ -104,7 +105,7 @@ func TestUserService_GetByUsername_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	_, err := userService.GetByUsername(ctx, "nonexistent")
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, service.ErrUserNotFound) {
 		t.Errorf("GetByUsername() error = %v, want ErrUserNotFound", err)
 	}
 }
@@ -151,7 +152,7 @@ func TestUserService_GetByEmail_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	_, err := userService.GetByEmail(ctx, "nonexistent@example.com")
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, service.ErrUserNotFound) {
 		t.Errorf("GetByEmail() error = %v, want ErrUserNotFound", err)
 	}
 }
@@ -344,7 +345,7 @@ func TestUserService_Update_EmailExists(t *testing.T) {
 	}
 
 	_, err := userService.Update(ctx, user1.ID, req)
-	if !errors.Is(err, ErrUserAlreadyExists) {
+	if !errors.Is(err, service.ErrUserAlreadyExists) {
 		t.Errorf("Update() error = %v, want ErrUserAlreadyExists", err)
 	}
 }
@@ -358,7 +359,7 @@ func TestUserService_Update_UserNotFound(t *testing.T) {
 	}
 
 	_, err := userService.Update(ctx, 999, req)
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, service.ErrUserNotFound) {
 		t.Errorf("Update() error = %v, want ErrUserNotFound", err)
 	}
 }
@@ -466,7 +467,7 @@ func TestUserService_ChangePassword_UserNotFound(t *testing.T) {
 	}
 
 	err := userService.ChangePassword(ctx, 999, req)
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, service.ErrUserNotFound) {
 		t.Errorf("ChangePassword() error = %v, want ErrUserNotFound", err)
 	}
 }
@@ -492,7 +493,7 @@ func TestUserService_ChangePassword_WrongOldPassword(t *testing.T) {
 	}
 
 	err := userService.ChangePassword(ctx, user.ID, req)
-	if !errors.Is(err, ErrInvalidCredentials) {
+	if !errors.Is(err, service.ErrInvalidCredentials) {
 		t.Errorf("ChangePassword() error = %v, want ErrInvalidCredentials", err)
 	}
 }

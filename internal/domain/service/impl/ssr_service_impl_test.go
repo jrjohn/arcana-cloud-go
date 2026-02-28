@@ -1,9 +1,11 @@
-package service
+package impl
 
 import (
 	"context"
 	"testing"
 	"time"
+
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/service"
 )
 
 func TestNewSSRService(t *testing.T) {
@@ -263,7 +265,7 @@ func TestSSRService_ConcurrentRenders(t *testing.T) {
 }
 
 func TestSSRRenderResult_Fields(t *testing.T) {
-	result := &SSRRenderResult{
+	result := &service.SSRRenderResult{
 		HTML:       "<div>Test</div>",
 		CSS:        ".test { color: red; }",
 		Scripts:    []string{"/js/app.js"},
@@ -293,7 +295,7 @@ func TestSSRRenderResult_Fields(t *testing.T) {
 }
 
 func TestSSRCacheEntry_Fields(t *testing.T) {
-	result := &SSRRenderResult{HTML: "<div>Test</div>"}
+	result := &service.SSRRenderResult{HTML: "<div>Test</div>"}
 	entry := &SSRCacheEntry{
 		Result:    result,
 		ExpiresAt: time.Now().Add(time.Hour),
@@ -308,7 +310,7 @@ func TestSSRCacheEntry_Fields(t *testing.T) {
 }
 
 func TestSSRStatus_Fields(t *testing.T) {
-	status := &SSRStatus{
+	status := &service.SSRStatus{
 		Status:       "ready",
 		ReactReady:   true,
 		AngularReady: false,
@@ -344,9 +346,9 @@ func TestSSRServiceErrors(t *testing.T) {
 		err      error
 		expected string
 	}{
-		{"ErrSSREngineNotReady", ErrSSREngineNotReady, "SSR engine is not ready"},
-		{"ErrSSRRenderFailed", ErrSSRRenderFailed, "SSR rendering failed"},
-		{"ErrComponentNotFound", ErrComponentNotFound, "component not found"},
+		{"ErrSSREngineNotReady", service.ErrSSREngineNotReady, "SSR engine is not ready"},
+		{"ErrSSRRenderFailed", service.ErrSSRRenderFailed, "SSR rendering failed"},
+		{"ErrComponentNotFound", service.ErrComponentNotFound, "component not found"},
 	}
 
 	for _, tt := range tests {

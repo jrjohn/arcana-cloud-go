@@ -1,4 +1,4 @@
-package service
+package impl
 
 import (
 	"bytes"
@@ -9,11 +9,12 @@ import (
 	"testing"
 
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/service"
 	"github.com/jrjohn/arcana-cloud-go/internal/dto/request"
 	"github.com/jrjohn/arcana-cloud-go/internal/testutil/mocks"
 )
 
-func setupPluginService(t *testing.T) (PluginService, *mocks.MockPluginRepository, *mocks.MockPluginExtensionRepository, string) {
+func setupPluginService(t *testing.T) (service.PluginService, *mocks.MockPluginRepository, *mocks.MockPluginExtensionRepository, string) {
 	pluginRepo := mocks.NewMockPluginRepository()
 	extensionRepo := mocks.NewMockPluginExtensionRepository()
 
@@ -304,7 +305,7 @@ func TestPluginService_GetByKey_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	_, err := pluginService.GetByKey(ctx, "nonexistent")
-	if !errors.Is(err, ErrPluginNotFound) {
+	if !errors.Is(err, service.ErrPluginNotFound) {
 		t.Errorf("GetByKey() error = %v, want ErrPluginNotFound", err)
 	}
 }
@@ -525,7 +526,7 @@ func TestPluginService_Enable_InvalidState(t *testing.T) {
 	})
 
 	_, err := pluginService.Enable(ctx, "test-plugin")
-	if !errors.Is(err, ErrPluginInvalidState) {
+	if !errors.Is(err, service.ErrPluginInvalidState) {
 		t.Errorf("Enable() error = %v, want ErrPluginInvalidState", err)
 	}
 }
@@ -536,7 +537,7 @@ func TestPluginService_Enable_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	_, err := pluginService.Enable(ctx, "nonexistent")
-	if !errors.Is(err, ErrPluginNotFound) {
+	if !errors.Is(err, service.ErrPluginNotFound) {
 		t.Errorf("Enable() error = %v, want ErrPluginNotFound", err)
 	}
 }
@@ -627,7 +628,7 @@ func TestPluginService_Disable_InvalidState(t *testing.T) {
 	})
 
 	_, err := pluginService.Disable(ctx, "test-plugin")
-	if !errors.Is(err, ErrPluginInvalidState) {
+	if !errors.Is(err, service.ErrPluginInvalidState) {
 		t.Errorf("Disable() error = %v, want ErrPluginInvalidState", err)
 	}
 }
@@ -638,7 +639,7 @@ func TestPluginService_Disable_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	_, err := pluginService.Disable(ctx, "nonexistent")
-	if !errors.Is(err, ErrPluginNotFound) {
+	if !errors.Is(err, service.ErrPluginNotFound) {
 		t.Errorf("Disable() error = %v, want ErrPluginNotFound", err)
 	}
 }
@@ -710,7 +711,7 @@ func TestPluginService_Uninstall_NotFound(t *testing.T) {
 	ctx := context.Background()
 
 	err := pluginService.Uninstall(ctx, "nonexistent")
-	if !errors.Is(err, ErrPluginNotFound) {
+	if !errors.Is(err, service.ErrPluginNotFound) {
 		t.Errorf("Uninstall() error = %v, want ErrPluginNotFound", err)
 	}
 }
@@ -855,10 +856,10 @@ func TestPluginServiceErrors(t *testing.T) {
 		err      error
 		expected string
 	}{
-		{"ErrPluginNotFound", ErrPluginNotFound, "plugin not found"},
-		{"ErrPluginAlreadyExists", ErrPluginAlreadyExists, "plugin already exists"},
-		{"ErrPluginInvalidState", ErrPluginInvalidState, "invalid plugin state"},
-		{"ErrPluginLoadFailed", ErrPluginLoadFailed, "failed to load plugin"},
+		{"ErrPluginNotFound", service.ErrPluginNotFound, "plugin not found"},
+		{"ErrPluginAlreadyExists", service.ErrPluginAlreadyExists, "plugin already exists"},
+		{"ErrPluginInvalidState", service.ErrPluginInvalidState, "invalid plugin state"},
+		{"ErrPluginLoadFailed", service.ErrPluginLoadFailed, "failed to load plugin"},
 	}
 
 	for _, tt := range tests {

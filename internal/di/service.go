@@ -8,6 +8,7 @@ import (
 	"github.com/jrjohn/arcana-cloud-go/internal/config"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/repository"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/service"
+	serviceimpl "github.com/jrjohn/arcana-cloud-go/internal/domain/service/impl"
 	"github.com/jrjohn/arcana-cloud-go/internal/security"
 )
 
@@ -27,14 +28,14 @@ func provideAuthService(
 	jwtProvider *security.JWTProvider,
 	passwordHasher *security.PasswordHasher,
 ) service.AuthService {
-	return service.NewAuthService(userRepo, refreshTokenRepo, jwtProvider, passwordHasher)
+	return serviceimpl.NewAuthService(userRepo, refreshTokenRepo, jwtProvider, passwordHasher)
 }
 
 func provideUserService(
 	userRepo repository.UserRepository,
 	passwordHasher *security.PasswordHasher,
 ) service.UserService {
-	return service.NewUserService(userRepo, passwordHasher)
+	return serviceimpl.NewUserService(userRepo, passwordHasher)
 }
 
 func providePluginService(
@@ -42,9 +43,9 @@ func providePluginService(
 	extensionRepo repository.PluginExtensionRepository,
 	cfg *config.PluginConfig,
 ) service.PluginService {
-	return service.NewPluginService(pluginRepo, extensionRepo, cfg.PluginsDirectory)
+	return serviceimpl.NewPluginService(pluginRepo, extensionRepo, cfg.PluginsDirectory)
 }
 
 func provideSSRService(cfg *config.SSRConfig) service.SSRService {
-	return service.NewSSRService(cfg.CacheEnabled, time.Duration(cfg.CacheTTL)*time.Second)
+	return serviceimpl.NewSSRService(cfg.CacheEnabled, time.Duration(cfg.CacheTTL)*time.Second)
 }

@@ -1,4 +1,4 @@
-package service
+package impl
 
 import (
 	"context"
@@ -8,12 +8,13 @@ import (
 
 	"github.com/jrjohn/arcana-cloud-go/internal/config"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/service"
 	"github.com/jrjohn/arcana-cloud-go/internal/dto/request"
 	"github.com/jrjohn/arcana-cloud-go/internal/security"
 	"github.com/jrjohn/arcana-cloud-go/internal/testutil/mocks"
 )
 
-func setupAuthService(t *testing.T) (AuthService, *mocks.MockUserRepository, *mocks.MockRefreshTokenRepository) {
+func setupAuthService(t *testing.T) (service.AuthService, *mocks.MockUserRepository, *mocks.MockRefreshTokenRepository) {
 	userRepo := mocks.NewMockUserRepository()
 	refreshTokenRepo := mocks.NewMockRefreshTokenRepository()
 
@@ -90,7 +91,7 @@ func TestAuthService_Register_UsernameExists(t *testing.T) {
 	}
 
 	_, err := authService.Register(ctx, req)
-	if !errors.Is(err, ErrUserAlreadyExists) {
+	if !errors.Is(err, service.ErrUserAlreadyExists) {
 		t.Errorf("Register() error = %v, want ErrUserAlreadyExists", err)
 	}
 }
@@ -115,7 +116,7 @@ func TestAuthService_Register_EmailExists(t *testing.T) {
 	}
 
 	_, err := authService.Register(ctx, req)
-	if !errors.Is(err, ErrUserAlreadyExists) {
+	if !errors.Is(err, service.ErrUserAlreadyExists) {
 		t.Errorf("Register() error = %v, want ErrUserAlreadyExists", err)
 	}
 }
@@ -275,7 +276,7 @@ func TestAuthService_Login_UserNotFound(t *testing.T) {
 	}
 
 	_, err := authService.Login(ctx, req)
-	if !errors.Is(err, ErrInvalidCredentials) {
+	if !errors.Is(err, service.ErrInvalidCredentials) {
 		t.Errorf("Login() error = %v, want ErrInvalidCredentials", err)
 	}
 }
@@ -300,7 +301,7 @@ func TestAuthService_Login_InvalidPassword(t *testing.T) {
 	}
 
 	_, err := authService.Login(ctx, req)
-	if !errors.Is(err, ErrInvalidCredentials) {
+	if !errors.Is(err, service.ErrInvalidCredentials) {
 		t.Errorf("Login() error = %v, want ErrInvalidCredentials", err)
 	}
 }
@@ -325,7 +326,7 @@ func TestAuthService_Login_UserInactive(t *testing.T) {
 	}
 
 	_, err := authService.Login(ctx, req)
-	if !errors.Is(err, ErrUserInactive) {
+	if !errors.Is(err, service.ErrUserInactive) {
 		t.Errorf("Login() error = %v, want ErrUserInactive", err)
 	}
 }
@@ -363,7 +364,7 @@ func TestAuthService_RefreshToken_Success(t *testing.T) {
 
 	// Generate a valid refresh token
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -404,7 +405,7 @@ func TestAuthService_RefreshToken_InvalidToken(t *testing.T) {
 	}
 
 	_, err := authService.RefreshToken(ctx, req)
-	if !errors.Is(err, ErrInvalidToken) {
+	if !errors.Is(err, service.ErrInvalidToken) {
 		t.Errorf("RefreshToken() error = %v, want ErrInvalidToken", err)
 	}
 }
@@ -424,7 +425,7 @@ func TestAuthService_RefreshToken_TokenNotInDB(t *testing.T) {
 
 	// Generate valid JWT but don't add to repo
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -437,7 +438,7 @@ func TestAuthService_RefreshToken_TokenNotInDB(t *testing.T) {
 	}
 
 	_, err := authService.RefreshToken(ctx, req)
-	if !errors.Is(err, ErrInvalidToken) {
+	if !errors.Is(err, service.ErrInvalidToken) {
 		t.Errorf("RefreshToken() error = %v, want ErrInvalidToken", err)
 	}
 }
@@ -455,7 +456,7 @@ func TestAuthService_RefreshToken_RevokedToken(t *testing.T) {
 	userRepo.AddUser(user)
 
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -476,7 +477,7 @@ func TestAuthService_RefreshToken_RevokedToken(t *testing.T) {
 	}
 
 	_, err := authService.RefreshToken(ctx, req)
-	if !errors.Is(err, ErrInvalidToken) {
+	if !errors.Is(err, service.ErrInvalidToken) {
 		t.Errorf("RefreshToken() error = %v, want ErrInvalidToken", err)
 	}
 }
@@ -495,7 +496,7 @@ func TestAuthService_RefreshToken_UserNotFound(t *testing.T) {
 	// Don't add user to repo
 
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -523,7 +524,7 @@ func TestAuthService_RefreshToken_UserNotFound(t *testing.T) {
 	}
 
 	_, err := authService.RefreshToken(ctx, req)
-	if !errors.Is(err, ErrUserNotFound) {
+	if !errors.Is(err, service.ErrUserNotFound) {
 		t.Errorf("RefreshToken() error = %v, want ErrUserNotFound", err)
 	}
 }
@@ -541,7 +542,7 @@ func TestAuthService_RefreshToken_UserInactive(t *testing.T) {
 	userRepo.AddUser(user)
 
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -561,7 +562,7 @@ func TestAuthService_RefreshToken_UserInactive(t *testing.T) {
 	}
 
 	_, err := authService.RefreshToken(ctx, req)
-	if !errors.Is(err, ErrUserInactive) {
+	if !errors.Is(err, service.ErrUserInactive) {
 		t.Errorf("RefreshToken() error = %v, want ErrUserInactive", err)
 	}
 }
@@ -579,7 +580,7 @@ func TestAuthService_RefreshToken_GetByTokenError(t *testing.T) {
 	userRepo.AddUser(user)
 
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -613,7 +614,7 @@ func TestAuthService_RefreshToken_RevokeError(t *testing.T) {
 	userRepo.AddUser(user)
 
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -654,7 +655,7 @@ func TestAuthService_RefreshToken_GetUserError(t *testing.T) {
 	userRepo.AddUser(user)
 
 	jwtConfig := &config.JWTConfig{
-		Secret:            "test-secret-key-for-testing-purposes-only",
+		Secret:               "test-secret-key-for-testing-purposes-only",
 		AccessTokenDuration:  15 * time.Minute,
 		RefreshTokenDuration: 24 * time.Hour,
 		Issuer:               "test",
@@ -757,11 +758,11 @@ func TestServiceErrors(t *testing.T) {
 		err      error
 		expected string
 	}{
-		{"ErrUserNotFound", ErrUserNotFound, "user not found"},
-		{"ErrInvalidCredentials", ErrInvalidCredentials, "invalid credentials"},
-		{"ErrUserAlreadyExists", ErrUserAlreadyExists, "user already exists"},
-		{"ErrInvalidToken", ErrInvalidToken, "invalid or expired token"},
-		{"ErrUserInactive", ErrUserInactive, "user account is inactive"},
+		{"ErrUserNotFound", service.ErrUserNotFound, "user not found"},
+		{"ErrInvalidCredentials", service.ErrInvalidCredentials, "invalid credentials"},
+		{"ErrUserAlreadyExists", service.ErrUserAlreadyExists, "user already exists"},
+		{"ErrInvalidToken", service.ErrInvalidToken, "invalid or expired token"},
+		{"ErrUserInactive", service.ErrUserInactive, "user account is inactive"},
 	}
 
 	for _, tt := range tests {
