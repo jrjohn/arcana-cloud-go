@@ -12,14 +12,14 @@ import (
 )
 
 const (
-	testPluginName   = testPluginName
-	pluginName1      = pluginName1
-	pluginName2      = pluginName2
-	nonExistingPlugin = nonExistingPlugin
-	msgStateFormat   = msgStateFormat
-	msgLoadAllError  = msgLoadAllError
-	msgListLength    = msgListLength
-	msgGetPlugin     = msgGetPlugin
+	testPluginName    = "test-plugin"
+	pluginName1       = "plugin-1"
+	pluginName2       = "plugin-2"
+	nonExistingPlugin = "non-existing-plugin"
+	msgStateFormat    = "State = %v, want %v"
+	msgLoadAllError   = "LoadAll error: %v"
+	msgListLength     = "ListPlugins length = %v, want %v"
+	msgGetPlugin      = "GetPlugin key = %v, want %v"
 )
 
 func newTestManager(t *testing.T) (*Manager, string) {
