@@ -2,9 +2,9 @@
 # Go Multi-Stage Dockerfile (CI)
 # Go 1.24 / Gin / gRPC
 # ============================================
-FROM golang:1.24-alpine AS builder
+FROM golang:1.24-alpine AS tester
 WORKDIR /app
-RUN apk add --no-cache git ca-certificates protobuf
+RUN apk add --no-cache git ca-certificates protobuf build-base
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
     go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 COPY go.mod go.sum ./
@@ -14,6 +14,23 @@ RUN mkdir -p api/proto/pb && \
     protoc --go_out=api/proto/pb --go_opt=paths=source_relative \
            --go-grpc_out=api/proto/pb --go-grpc_opt=paths=source_relative \
            -I api/proto api/proto/*.proto
+RUN go test -tags !integration ./... -coverprofile=/tmp/coverage.out -covermode=atomic 2>&1 | tee /tmp/test-results.txt; \
+    go tool cover -func=/tmp/coverage.out | tail -5 || true
+
+FROM golang:1.24-alpine AS builder
+WORKDIR /app
+RUN apk add --no-cache git ca-certificates protobuf build-base
+RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@latest && \
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN mkdir -p api/proto/pb && \
+    protoc --go_out=api/proto/pb --go_opt=paths=source_relative \
+           --go-grpc_out=api/proto/pb --go-grpc_opt=paths=source_relative \
+           -I api/proto api/proto/*.proto
+COPY --from=tester /tmp/coverage.out /tmp/coverage.out
+COPY --from=tester /tmp/test-results.txt /tmp/test-results.txt
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o server ./cmd/server
 
 FROM alpine:3.21
