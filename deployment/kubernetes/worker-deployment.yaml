@@ -22,9 +22,10 @@ spec:
         prometheus.io/port: "9100"
         prometheus.io/path: "/metrics"
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: worker
-          image: arcana-cloud-go:latest
+          image: arcana-cloud-go:1.0.0
           imagePullPolicy: IfNotPresent
           args:
             - "--mode=worker"
@@ -62,9 +63,11 @@ spec:
             requests:
               cpu: "200m"
               memory: "256Mi"
+              ephemeral-storage: "256Mi"
             limits:
               cpu: "1000m"
               memory: "1Gi"
+              ephemeral-storage: "1Gi"
           livenessProbe:
             httpGet:
               path: /health

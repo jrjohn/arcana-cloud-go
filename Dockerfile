@@ -25,12 +25,10 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
 # Runtime stage
 FROM alpine:3.19
 
-# Install runtime dependencies
-RUN apk add --no-cache ca-certificates tzdata
-
-# Create non-root user
-RUN addgroup -g 1000 arcana && \
-    adduser -u 1000 -G arcana -s /bin/sh -D arcana
+# Install runtime dependencies and create non-root user
+RUN apk add --no-cache ca-certificates tzdata \
+    && addgroup -g 1000 arcana \
+    && adduser -u 1000 -G arcana -s /bin/sh -D arcana
 
 # Set working directory
 WORKDIR /app

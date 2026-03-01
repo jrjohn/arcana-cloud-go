@@ -18,9 +18,10 @@ spec:
         app.kubernetes.io/name: arcana-cloud
         app.kubernetes.io/component: api
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: arcana-cloud
-          image: arcana-cloud-go:latest
+          image: arcana-cloud-go:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -38,9 +39,11 @@ spec:
             requests:
               cpu: "100m"
               memory: "128Mi"
+              ephemeral-storage: "128Mi"
             limits:
               cpu: "500m"
               memory: "512Mi"
+              ephemeral-storage: "512Mi"
           livenessProbe:
             httpGet:
               path: /health
