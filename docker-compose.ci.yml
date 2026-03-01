@@ -4,3 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile.ci
     image: localhost:5000/arcana/go-app:${VERSION:-1.0.0}
+
+  # Extracts coverage.out from the built image to the host (for SonarQube)
+  coverage-extract:
+    image: localhost:5000/arcana/go-app:${VERSION:-1.0.0}
+    volumes:
+      - .:/host
+    command: sh -c "cp /tmp/coverage.out /host/coverage.out 2>/dev/null && echo 'Coverage extracted' || echo 'No coverage.out found'"
