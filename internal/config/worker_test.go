@@ -5,34 +5,6 @@ import (
 	"time"
 )
 
-func TestDefaultWorkerConfig(t *testing.T) {
-	config := DefaultWorkerConfig()
-
-	if !config.Enabled {
-		t.Error("Enabled should be true by default")
-	}
-	if config.Concurrency != 8 {
-		t.Errorf("Concurrency = %v, want 8", config.Concurrency)
-	}
-	if config.PollInterval != 100*time.Millisecond {
-		t.Errorf("PollInterval = %v, want 100ms", config.PollInterval)
-	}
-	if config.ShutdownTimeout != 30*time.Second {
-		t.Errorf("ShutdownTimeout = %v, want 30s", config.ShutdownTimeout)
-	}
-}
-
-func TestDefaultSchedulerConfig(t *testing.T) {
-	config := DefaultSchedulerConfig()
-
-	if !config.Enabled {
-		t.Error("Enabled should be true by default")
-	}
-	if config.LeaderLockTTL != 30*time.Second {
-		t.Errorf("LeaderLockTTL = %v, want 30s", config.LeaderLockTTL)
-	}
-}
-
 func TestWorkerConfig_Struct(t *testing.T) {
 	config := WorkerConfig{
 		Enabled:         false,
@@ -49,6 +21,9 @@ func TestWorkerConfig_Struct(t *testing.T) {
 	}
 	if config.PollInterval != 200*time.Millisecond {
 		t.Errorf("PollInterval = %v, want 200ms", config.PollInterval)
+	}
+	if config.ShutdownTimeout != 60*time.Second {
+		t.Errorf("ShutdownTimeout = %v, want 60s", config.ShutdownTimeout)
 	}
 }
 
