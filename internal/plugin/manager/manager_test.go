@@ -13,13 +13,13 @@ import (
 
 const (
 	testPluginName    = "test-plugin"
-	pluginName1       = "plugin-1"
-	pluginName2       = "plugin-2"
-	nonExistingPlugin = "non-existing-plugin"
+	pluginName1       = "plugin-one"
+	pluginName2       = "plugin-two"
+	nonExistingPlugin = "non-existing"
 	msgStateFormat    = "State = %v, want %v"
-	msgLoadAllError   = "LoadAll error: %v"
-	msgListLength     = "ListPlugins length = %v, want %v"
-	msgGetPlugin      = "GetPlugin key = %v, want %v"
+	msgLoadAllError   = "LoadAll() error = %v"
+	msgListLength     = "ListPlugins() length = %v, want %v"
+	msgGetPlugin      = "GetPlugin() error"
 )
 
 func newTestManager(t *testing.T) (*Manager, string) {
