@@ -12,6 +12,10 @@ func testHubLogger() *zap.Logger {
 	logger, _ := zap.NewDevelopment()
 	return logger
 }
+func newTestHub(t *testing.T) *Hub {
+	t.Helper()
+	return NewHub(testHubLogger())
+}
 
 // TestNewHub creates a hub and checks it's not nil
 func TestNewHub(t *testing.T) {
