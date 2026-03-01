@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
+	"github.com/jrjohn/arcana-cloud-go/internal/domain/service"
 	"github.com/jrjohn/arcana-cloud-go/internal/dto/request"
 	"github.com/jrjohn/arcana-cloud-go/internal/dto/response"
 	"github.com/jrjohn/arcana-cloud-go/internal/jobs"
@@ -409,3 +410,43 @@ var (
 	ErrMockUnauthorized  = errors.New("unauthorized")
 	ErrMockInternalError = errors.New("internal error")
 )
+
+// MockSSRService is a mock implementation of SSRService
+type MockSSRService struct {
+	RenderReactFunc  func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error)
+	RenderAngularFunc func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error)
+	GetStatusFunc    func(ctx context.Context) (*service.SSRStatus, error)
+	ClearCacheFunc   func(ctx context.Context) error
+}
+
+func NewMockSSRService() *MockSSRService {
+	return &MockSSRService{}
+}
+
+func (m *MockSSRService) RenderReact(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+	if m.RenderReactFunc != nil {
+		return m.RenderReactFunc(ctx, component, props)
+	}
+	return &service.SSRRenderResult{HTML: "<div>React</div>", CSS: "", Scripts: nil, State: nil, RenderTime: 1, Cached: false}, nil
+}
+
+func (m *MockSSRService) RenderAngular(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+	if m.RenderAngularFunc != nil {
+		return m.RenderAngularFunc(ctx, component, props)
+	}
+	return &service.SSRRenderResult{HTML: "<app-root></app-root>", CSS: "", Scripts: nil, State: nil, RenderTime: 1, Cached: false}, nil
+}
+
+func (m *MockSSRService) GetStatus(ctx context.Context) (*service.SSRStatus, error) {
+	if m.GetStatusFunc != nil {
+		return m.GetStatusFunc(ctx)
+	}
+	return &service.SSRStatus{Status: "ready", ReactReady: true, AngularReady: true, CacheEnabled: true, CacheSize: 0, Stats: nil}, nil
+}
+
+func (m *MockSSRService) ClearCache(ctx context.Context) error {
+	if m.ClearCacheFunc != nil {
+		return m.ClearCacheFunc(ctx)
+	}
+	return nil
+}
