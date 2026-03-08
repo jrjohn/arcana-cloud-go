@@ -32,6 +32,7 @@ MANIFEST="deployment/kubernetes/ci/kind-ci-grpc.yaml"
 # Unique cluster name per build (avoids collisions with parallel jobs)
 CLUSTER_NAME="arcana-ci-$(date +%s)"
 KUBECONFIG_FILE="/tmp/kind-kubeconfig-${CLUSTER_NAME}"
+JENKINS_ID=$(hostname)
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════╗"
@@ -43,7 +44,8 @@ echo "╚═══════════════════════�
 # ── Cleanup trap ─────────────────────────────────────────────
 cleanup() {
     echo ""
-    echo "▶ Cleanup: deleting Kind cluster '${CLUSTER_NAME}' ..."
+    echo "▶ Cleanup: disconnecting from kind network and deleting cluster ..."
+    docker network disconnect kind "${JENKINS_ID}" 2>/dev/null || true
     kind delete cluster --name "${CLUSTER_NAME}" 2>/dev/null || true
     rm -f "${KUBECONFIG_FILE}" 2>/dev/null || true
 }
@@ -55,30 +57,35 @@ echo "▶ [1/6] Creating Kind cluster '${CLUSTER_NAME}' ..."
 kind create cluster --name "${CLUSTER_NAME}" --wait 60s
 echo "  ✓ Cluster ready"
 
-# ── Fix kubeconfig for Docker-in-Docker networking ───────────
-# When Jenkins runs inside Docker, 127.0.0.1 in the kubeconfig refers to
-# the Jenkins container, not the host. We must use the Kind node's
-# internal Docker network IP (port 6443) instead.
+# ── Connect Jenkins container to the kind Docker network ─────
+# Kind uses a Docker network named 'kind'. Jenkins runs in its own
+# container, so we must attach it to the kind network to reach the
+# API server (port 6443) and NodePort.
+echo "  Connecting Jenkins container '${JENKINS_ID}' to kind network ..."
+docker network connect kind "${JENKINS_ID}" 2>/dev/null || true
+
+# Get the Kind node's IP address on the 'kind' network
 CONTROL_PLANE="${CLUSTER_NAME}-control-plane"
 KIND_NODE_IP=$(docker inspect "${CONTROL_PLANE}" \
-    --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null \
-    | head -1)
+    --format '{{.NetworkSettings.Networks.kind.IPAddress}}' 2>/dev/null || echo "")
 
 if [ -z "${KIND_NODE_IP}" ]; then
-    # Fallback: try getting from kind network
     KIND_NODE_IP=$(docker inspect "${CONTROL_PLANE}" \
-        --format '{{.NetworkSettings.Networks.kind.IPAddress}}' 2>/dev/null || echo "")
+        --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null | head -1)
 fi
+echo "  Kind node IP (kind network): ${KIND_NODE_IP}"
 
-echo "  Kind node IP: ${KIND_NODE_IP}"
-
-# Write kubeconfig with internal IP replacing 127.0.0.1:<port>
+# ── Build kubeconfig pointing to the internal network IP ─────
 kind get kubeconfig --name "${CLUSTER_NAME}" | \
     sed "s|server: https://127.0.0.1:[0-9]*|server: https://${KIND_NODE_IP}:6443|" \
     > "${KUBECONFIG_FILE}"
-
 export KUBECONFIG="${KUBECONFIG_FILE}"
-echo "  ✓ Kubeconfig configured for internal networking"
+echo "  ✓ Kubeconfig configured (using kind network IP)"
+
+# Verify connectivity to API server
+echo "  Verifying kubectl connectivity ..."
+kubectl cluster-info
+echo "  ✓ API server reachable"
 
 # ── 2. Tag and load image ─────────────────────────────────────
 echo ""
@@ -90,7 +97,7 @@ echo "  ✓ Image loaded"
 # ── 3. Apply manifest ────────────────────────────────────────
 echo ""
 echo "▶ [3/6] Applying manifest: ${MANIFEST} ..."
-kubectl apply -f "${MANIFEST}" --validate=false
+kubectl apply -f "${MANIFEST}"
 echo "  ✓ Manifest applied"
 
 # ── 4. Wait for MySQL and Redis to be ready ──────────────────
@@ -135,6 +142,7 @@ done
 # ── 6. Run smoke test via NodePort ───────────────────────────
 echo ""
 echo "▶ [6/6] Running integration smoke test via NodePort ${NODE_PORT} ..."
+# The Kind node is accessible via its Docker IP on the kind network
 BASE_URL="http://${KIND_NODE_IP}:${NODE_PORT}"
 echo "  Base URL: ${BASE_URL}"
 
