@@ -14,6 +14,20 @@ metadata:
   name: arcana-ci-kind-go
 
 ---
+# ── CI Credentials Secret ────────────────────────────────────
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ci-credentials
+  namespace: arcana-ci-kind-go
+type: Opaque
+data:
+  mysql-root-password: Y2lfcm9vdA==
+  mysql-password: Y2lfYXJjYW5h
+  database-password: Y2lfYXJjYW5h
+  jwt-secret: Y2ktc2VjcmV0LWtleS1taW4tMzItY2hhcmFjdGVycy1mb3ItdGVzdGluZyE=
+
+---
 # ── MySQL ────────────────────────────────────────────────────
 apiVersion: apps/v1
 kind: Deployment
@@ -40,13 +54,19 @@ spec:
             - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "ci_root"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: mysql-root-password
             - name: MYSQL_DATABASE
               value: "arcana_cloud"
             - name: MYSQL_USER
               value: "arcana"
             - name: MYSQL_PASSWORD
-              value: "ci_arcana"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: mysql-password
           args:
             - --default-authentication-plugin=mysql_native_password
             - --character-set-server=utf8mb4
@@ -180,13 +200,19 @@ spec:
             - name: ARCANA_DATABASE_USER
               value: "arcana"
             - name: ARCANA_DATABASE_PASSWORD
-              value: "ci_arcana"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: database-password
             - name: ARCANA_DATABASE_NAME
               value: "arcana_cloud"
             - name: ARCANA_REDIS_HOST
               value: "redis"
             - name: JWT_SECRET
-              value: "ci-secret-key-min-32-characters-for-testing!"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: jwt-secret
           readinessProbe:
             httpGet:
               path: /health
@@ -278,13 +304,19 @@ spec:
             - name: ARCANA_DATABASE_USER
               value: "arcana"
             - name: ARCANA_DATABASE_PASSWORD
-              value: "ci_arcana"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: database-password
             - name: ARCANA_DATABASE_NAME
               value: "arcana_cloud"
             - name: ARCANA_REDIS_HOST
               value: "redis"
             - name: JWT_SECRET
-              value: "ci-secret-key-min-32-characters-for-testing!"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: jwt-secret
           readinessProbe:
             httpGet:
               path: /health
@@ -372,13 +404,19 @@ spec:
             - name: ARCANA_DATABASE_USER
               value: "arcana"
             - name: ARCANA_DATABASE_PASSWORD
-              value: "ci_arcana"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: database-password
             - name: ARCANA_DATABASE_NAME
               value: "arcana_cloud"
             - name: ARCANA_REDIS_HOST
               value: "redis"
             - name: JWT_SECRET
-              value: "ci-secret-key-min-32-characters-for-testing!"
+              valueFrom:
+                secretKeyRef:
+                  name: ci-credentials
+                  key: jwt-secret
           readinessProbe:
             httpGet:
               path: /health
