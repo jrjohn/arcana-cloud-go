@@ -1,0 +1,129 @@
+# arcana-cloud-go — 3-layer gRPC CI compose
+# Usage: GO_IMAGE=localhost:5000/arcana/go-app:build-N docker compose -p arcana-ci-go-grpc -f docker-compose-ci-grpc.yml up -d
+version: '3.8'
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: arcana-ci-go-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ci_root
+      MYSQL_DATABASE: arcana_cloud
+      MYSQL_USER: arcana
+      MYSQL_PASSWORD: ci_arcana
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    networks:
+      - arcana-ci-go-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: arcana-ci-go-redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - arcana-ci-go-net
+
+  repository:
+    image: ${GO_IMAGE:-localhost:5000/arcana/go-app:latest}
+    container_name: arcana-ci-go-repository
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      ARCANA_APP_ENVIRONMENT: ci
+      ARCANA_DEPLOYMENT_MODE: layered
+      ARCANA_DEPLOYMENT_LAYER: repository
+      ARCANA_DEPLOYMENT_PROTOCOL: grpc
+      ARCANA_SERVER_PORT: "8082"
+      ARCANA_GRPC_PORT: "9090"
+      ARCANA_DATABASE_HOST: mysql
+      ARCANA_DATABASE_USER: arcana
+      ARCANA_DATABASE_PASSWORD: ci_arcana
+      ARCANA_DATABASE_NAME: arcana_cloud
+      ARCANA_REDIS_HOST: redis
+      JWT_SECRET: "ci-secret-key-min-32-characters-for-testing!"
+      MANAGEMENT_HEALTH_DEFAULTS_ENABLED: "false"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8082/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - arcana-ci-go-net
+
+  service:
+    image: ${GO_IMAGE:-localhost:5000/arcana/go-app:latest}
+    container_name: arcana-ci-go-service
+    depends_on:
+      repository:
+        condition: service_healthy
+    environment:
+      ARCANA_APP_ENVIRONMENT: ci
+      ARCANA_DEPLOYMENT_MODE: layered
+      ARCANA_DEPLOYMENT_LAYER: service
+      ARCANA_DEPLOYMENT_PROTOCOL: grpc
+      ARCANA_SERVER_PORT: "8083"
+      ARCANA_GRPC_PORT: "9091"
+      REPOSITORY_GRPC_HOST: repository
+      REPOSITORY_GRPC_PORT: "9090"
+      ARCANA_DATABASE_HOST: mysql
+      ARCANA_DATABASE_USER: arcana
+      ARCANA_DATABASE_PASSWORD: ci_arcana
+      ARCANA_DATABASE_NAME: arcana_cloud
+      ARCANA_REDIS_HOST: redis
+      JWT_SECRET: "ci-secret-key-min-32-characters-for-testing!"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8083/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    networks:
+      - arcana-ci-go-net
+
+  controller:
+    image: ${GO_IMAGE:-localhost:5000/arcana/go-app:latest}
+    container_name: arcana-ci-go-controller
+    depends_on:
+      service:
+        condition: service_healthy
+    environment:
+      ARCANA_APP_ENVIRONMENT: ci
+      ARCANA_DEPLOYMENT_MODE: layered
+      ARCANA_DEPLOYMENT_LAYER: controller
+      ARCANA_DEPLOYMENT_PROTOCOL: grpc
+      ARCANA_SERVER_PORT: "8090"
+      SERVICE_GRPC_HOST: service
+      SERVICE_GRPC_PORT: "9091"
+      ARCANA_DATABASE_HOST: mysql
+      ARCANA_DATABASE_USER: arcana
+      ARCANA_DATABASE_PASSWORD: ci_arcana
+      ARCANA_DATABASE_NAME: arcana_cloud
+      ARCANA_REDIS_HOST: redis
+      JWT_SECRET: "ci-secret-key-min-32-characters-for-testing!"
+    ports:
+      - "18092:8090"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8090/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - arcana-ci-go-net
+
+networks:
+  arcana-ci-go-net:
+    driver: bridge
