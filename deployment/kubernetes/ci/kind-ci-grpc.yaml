@@ -1,0 +1,419 @@
+# ============================================================
+# Kind CI: arcana-cloud-go — Layered gRPC 3-layer
+# Namespace: arcana-ci-kind-go
+# Pods: arcana-ci-repository (gRPC:9090, HTTP:8082)
+#        arcana-ci-service    (gRPC:9091, HTTP:8083)
+#        arcana-ci-controller (HTTP:8090, NodePort:30092)
+# Image: arcana-cloud-go:ci  (loaded via kind load docker-image)
+# ============================================================
+
+# ── Namespace ────────────────────────────────────────────────
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: arcana-ci-kind-go
+
+---
+# ── MySQL ────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: arcana-ci-kind-go
+  labels:
+    app: mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: mysql
+          image: mysql:8.0
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "ci_root"
+            - name: MYSQL_DATABASE
+              value: "arcana_cloud"
+            - name: MYSQL_USER
+              value: "arcana"
+            - name: MYSQL_PASSWORD
+              value: "ci_arcana"
+          args:
+            - --default-authentication-plugin=mysql_native_password
+            - --character-set-server=utf8mb4
+            - --collation-server=utf8mb4_unicode_ci
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pci_root"]
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 20
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+              ephemeral-storage: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+              ephemeral-storage: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: arcana-ci-kind-go
+spec:
+  selector:
+    app: mysql
+  ports:
+    - port: 3306
+      targetPort: 3306
+
+---
+# ── Redis ────────────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: arcana-ci-kind-go
+  labels:
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          ports:
+            - containerPort: 6379
+          command: ["redis-server", "--appendonly", "no"]
+          readinessProbe:
+            exec:
+              command: ["redis-cli", "ping"]
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 10
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "64Mi"
+              ephemeral-storage: "64Mi"
+            limits:
+              cpu: "200m"
+              memory: "128Mi"
+              ephemeral-storage: "128Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: arcana-ci-kind-go
+spec:
+  selector:
+    app: redis
+  ports:
+    - port: 6379
+      targetPort: 6379
+
+---
+# ── Repository Layer ─────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcana-ci-repository
+  namespace: arcana-ci-kind-go
+  labels:
+    app: arcana-ci-repository
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arcana-ci-repository
+  template:
+    metadata:
+      labels:
+        app: arcana-ci-repository
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: repository
+          image: arcana-cloud-go:ci
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8082
+            - name: grpc
+              containerPort: 9090
+          env:
+            - name: ARCANA_APP_ENVIRONMENT
+              value: "ci"
+            - name: ARCANA_DEPLOYMENT_MODE
+              value: "layered"
+            - name: ARCANA_DEPLOYMENT_PROTOCOL
+              value: "grpc"
+            - name: ARCANA_DEPLOYMENT_LAYER
+              value: "repository"
+            - name: ARCANA_SERVER_PORT
+              value: "8082"
+            - name: ARCANA_GRPC_PORT
+              value: "9090"
+            - name: ARCANA_DATABASE_HOST
+              value: "mysql"
+            - name: ARCANA_DATABASE_USER
+              value: "arcana"
+            - name: ARCANA_DATABASE_PASSWORD
+              value: "ci_arcana"
+            - name: ARCANA_DATABASE_NAME
+              value: "arcana_cloud"
+            - name: ARCANA_REDIS_HOST
+              value: "redis"
+            - name: JWT_SECRET
+              value: "ci-secret-key-min-32-characters-for-testing!"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 24
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8082
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+              ephemeral-storage: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arcana-ci-repository
+  namespace: arcana-ci-kind-go
+spec:
+  selector:
+    app: arcana-ci-repository
+  ports:
+    - name: http
+      port: 8082
+      targetPort: 8082
+    - name: grpc
+      port: 9090
+      targetPort: 9090
+
+---
+# ── Service Layer ────────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcana-ci-service
+  namespace: arcana-ci-kind-go
+  labels:
+    app: arcana-ci-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arcana-ci-service
+  template:
+    metadata:
+      labels:
+        app: arcana-ci-service
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: service
+          image: arcana-cloud-go:ci
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8083
+            - name: grpc
+              containerPort: 9091
+          env:
+            - name: ARCANA_APP_ENVIRONMENT
+              value: "ci"
+            - name: ARCANA_DEPLOYMENT_MODE
+              value: "layered"
+            - name: ARCANA_DEPLOYMENT_PROTOCOL
+              value: "grpc"
+            - name: ARCANA_DEPLOYMENT_LAYER
+              value: "service"
+            - name: ARCANA_SERVER_PORT
+              value: "8083"
+            - name: ARCANA_GRPC_PORT
+              value: "9091"
+            - name: REPOSITORY_GRPC_HOST
+              value: "arcana-ci-repository"
+            - name: REPOSITORY_GRPC_PORT
+              value: "9090"
+            - name: ARCANA_DATABASE_HOST
+              value: "mysql"
+            - name: ARCANA_DATABASE_USER
+              value: "arcana"
+            - name: ARCANA_DATABASE_PASSWORD
+              value: "ci_arcana"
+            - name: ARCANA_DATABASE_NAME
+              value: "arcana_cloud"
+            - name: ARCANA_REDIS_HOST
+              value: "redis"
+            - name: JWT_SECRET
+              value: "ci-secret-key-min-32-characters-for-testing!"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 24
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8083
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+              ephemeral-storage: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arcana-ci-service
+  namespace: arcana-ci-kind-go
+spec:
+  selector:
+    app: arcana-ci-service
+  ports:
+    - name: http
+      port: 8083
+      targetPort: 8083
+    - name: grpc
+      port: 9091
+      targetPort: 9091
+
+---
+# ── Controller Layer ─────────────────────────────────────────
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: arcana-ci-controller
+  namespace: arcana-ci-kind-go
+  labels:
+    app: arcana-ci-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: arcana-ci-controller
+  template:
+    metadata:
+      labels:
+        app: arcana-ci-controller
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: controller
+          image: arcana-cloud-go:ci
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8090
+          env:
+            - name: ARCANA_APP_ENVIRONMENT
+              value: "ci"
+            - name: ARCANA_DEPLOYMENT_MODE
+              value: "layered"
+            - name: ARCANA_DEPLOYMENT_PROTOCOL
+              value: "grpc"
+            - name: ARCANA_DEPLOYMENT_LAYER
+              value: "controller"
+            - name: ARCANA_SERVER_PORT
+              value: "8090"
+            - name: SERVICE_GRPC_HOST
+              value: "arcana-ci-service"
+            - name: SERVICE_GRPC_PORT
+              value: "9091"
+            - name: ARCANA_DATABASE_HOST
+              value: "mysql"
+            - name: ARCANA_DATABASE_USER
+              value: "arcana"
+            - name: ARCANA_DATABASE_PASSWORD
+              value: "ci_arcana"
+            - name: ARCANA_DATABASE_NAME
+              value: "arcana_cloud"
+            - name: ARCANA_REDIS_HOST
+              value: "redis"
+            - name: JWT_SECRET
+              value: "ci-secret-key-min-32-characters-for-testing!"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 24
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 6
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+              ephemeral-storage: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: arcana-ci-controller
+  namespace: arcana-ci-kind-go
+spec:
+  type: NodePort
+  selector:
+    app: arcana-ci-controller
+  ports:
+    - name: http
+      port: 8090
+      targetPort: 8090
+      nodePort: 30092
