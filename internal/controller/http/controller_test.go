@@ -1654,3 +1654,291 @@ func TestPluginController_RegisterRoutes(t *testing.T) {
 		t.Error("RegisterRoutes() should register routes")
 	}
 }
+
+// ─── SSR Controller Tests ────────────────────────────────────────────────────
+
+func TestNewSSRController(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+	if ctrl == nil {
+		t.Fatal("NewSSRController() returned nil")
+	}
+}
+
+func TestSSRController_GetStatus_Success(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.GET("/ssr/status", ctrl.GetStatus)
+
+	req := httptest.NewRequest(http.MethodGet, "/ssr/status", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("GetStatus() status = %v, want 200", w.Code)
+	}
+}
+
+func TestSSRController_GetStatus_Error(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.GetStatusFunc = func(ctx context.Context) (*service.SSRStatus, error) {
+		return nil, errors.New("engine unavailable")
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.GET("/ssr/status", ctrl.GetStatus)
+
+	req := httptest.NewRequest(http.MethodGet, "/ssr/status", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusInternalServerError {
+		t.Errorf("GetStatus() error status = %v, want 500", w.Code)
+	}
+}
+
+func TestSSRController_RenderReact_Success(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/react/:component", ctrl.RenderReact)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/react/HomePage", bytes.NewBufferString(`{"props":{}}`))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("RenderReact() status = %v, want 200", w.Code)
+	}
+}
+
+func TestSSRController_RenderReact_EngineNotReady(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.RenderReactFunc = func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+		return nil, service.ErrSSREngineNotReady
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/react/:component", ctrl.RenderReact)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/react/HomePage", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusServiceUnavailable {
+		t.Errorf("RenderReact() engine not ready status = %v, want 503", w.Code)
+	}
+}
+
+func TestSSRController_RenderReact_ComponentNotFound(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.RenderReactFunc = func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+		return nil, service.ErrComponentNotFound
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/react/:component", ctrl.RenderReact)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/react/Unknown", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusNotFound {
+		t.Errorf("RenderReact() not found status = %v, want 404", w.Code)
+	}
+}
+
+func TestSSRController_RenderReact_InternalError(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.RenderReactFunc = func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+		return nil, errors.New("render failed")
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/react/:component", ctrl.RenderReact)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/react/HomePage", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusInternalServerError {
+		t.Errorf("RenderReact() error status = %v, want 500", w.Code)
+	}
+}
+
+func TestSSRController_RenderAngular_Success(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/angular/:component", ctrl.RenderAngular)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/angular/AppComponent", bytes.NewBufferString(`{}`))
+	req.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("RenderAngular() status = %v, want 200", w.Code)
+	}
+}
+
+func TestSSRController_RenderAngular_EngineNotReady(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.RenderAngularFunc = func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+		return nil, service.ErrSSREngineNotReady
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/angular/:component", ctrl.RenderAngular)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/angular/AppComponent", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusServiceUnavailable {
+		t.Errorf("RenderAngular() not ready status = %v, want 503", w.Code)
+	}
+}
+
+func TestSSRController_RenderAngular_ComponentNotFound(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.RenderAngularFunc = func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+		return nil, service.ErrComponentNotFound
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/angular/:component", ctrl.RenderAngular)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/angular/Unknown", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusNotFound {
+		t.Errorf("RenderAngular() not found status = %v, want 404", w.Code)
+	}
+}
+
+func TestSSRController_RenderAngular_InternalError(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.RenderAngularFunc = func(ctx context.Context, component string, props map[string]any) (*service.SSRRenderResult, error) {
+		return nil, errors.New("angular render failed")
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/angular/:component", ctrl.RenderAngular)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/angular/AppComponent", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusInternalServerError {
+		t.Errorf("RenderAngular() error status = %v, want 500", w.Code)
+	}
+}
+
+func TestSSRController_ClearCache_Success(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/cache/clear", ctrl.ClearCache)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/cache/clear", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("ClearCache() status = %v, want 200", w.Code)
+	}
+}
+
+func TestSSRController_ClearCache_Error(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	ssrService.ClearCacheFunc = func(ctx context.Context) error {
+		return errors.New("cache clear failed")
+	}
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	router.POST("/ssr/cache/clear", ctrl.ClearCache)
+
+	req := httptest.NewRequest(http.MethodPost, "/ssr/cache/clear", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusInternalServerError {
+		t.Errorf("ClearCache() error status = %v, want 500", w.Code)
+	}
+}
+
+func TestSSRController_RegisterRoutes(t *testing.T) {
+	ssrService := mocks.NewMockSSRService()
+	_, jwtProvider := setupSecurityService(t)
+	securityService, _ := setupSecurityService(t)
+	authMiddleware := setupAuthMiddleware(t, jwtProvider, securityService)
+	ctrl := NewSSRController(ssrService, authMiddleware)
+
+	router := setupTestRouter()
+	v1 := router.Group("/api/v1")
+	ctrl.RegisterRoutes(v1)
+
+	// Verify status route works
+	req := httptest.NewRequest(http.MethodGet, "/api/v1/ssr/status", nil)
+	w := httptest.NewRecorder()
+	router.ServeHTTP(w, req)
+
+	if w.Code != http.StatusOK {
+		t.Errorf("RegisterRoutes() status route = %v, want 200", w.Code)
+	}
+}
