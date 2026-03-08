@@ -127,3 +127,4 @@ services:
 networks:
   arcana-ci-go-net:
     driver: bridge
+    name: arcana-ci-go-net
