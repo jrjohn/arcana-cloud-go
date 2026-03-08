@@ -31,6 +31,7 @@ MANIFEST="deployment/kubernetes/ci/kind-ci-grpc.yaml"
 
 # Unique cluster name per build (avoids collisions with parallel jobs)
 CLUSTER_NAME="arcana-ci-$(date +%s)"
+KUBECONFIG_FILE="/tmp/kind-kubeconfig-${CLUSTER_NAME}"
 
 echo ""
 echo "╔══════════════════════════════════════════════════════════╗"
@@ -44,6 +45,7 @@ cleanup() {
     echo ""
     echo "▶ Cleanup: deleting Kind cluster '${CLUSTER_NAME}' ..."
     kind delete cluster --name "${CLUSTER_NAME}" 2>/dev/null || true
+    rm -f "${KUBECONFIG_FILE}" 2>/dev/null || true
 }
 trap cleanup EXIT INT TERM
 
@@ -53,7 +55,30 @@ echo "▶ [1/6] Creating Kind cluster '${CLUSTER_NAME}' ..."
 kind create cluster --name "${CLUSTER_NAME}" --wait 60s
 echo "  ✓ Cluster ready"
 
-KUBE_CTX="kind-${CLUSTER_NAME}"
+# ── Fix kubeconfig for Docker-in-Docker networking ───────────
+# When Jenkins runs inside Docker, 127.0.0.1 in the kubeconfig refers to
+# the Jenkins container, not the host. We must use the Kind node's
+# internal Docker network IP (port 6443) instead.
+CONTROL_PLANE="${CLUSTER_NAME}-control-plane"
+KIND_NODE_IP=$(docker inspect "${CONTROL_PLANE}" \
+    --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null \
+    | head -1)
+
+if [ -z "${KIND_NODE_IP}" ]; then
+    # Fallback: try getting from kind network
+    KIND_NODE_IP=$(docker inspect "${CONTROL_PLANE}" \
+        --format '{{.NetworkSettings.Networks.kind.IPAddress}}' 2>/dev/null || echo "")
+fi
+
+echo "  Kind node IP: ${KIND_NODE_IP}"
+
+# Write kubeconfig with internal IP replacing 127.0.0.1:<port>
+kind get kubeconfig --name "${CLUSTER_NAME}" | \
+    sed "s|server: https://127.0.0.1:[0-9]*|server: https://${KIND_NODE_IP}:6443|" \
+    > "${KUBECONFIG_FILE}"
+
+export KUBECONFIG="${KUBECONFIG_FILE}"
+echo "  ✓ Kubeconfig configured for internal networking"
 
 # ── 2. Tag and load image ─────────────────────────────────────
 echo ""
@@ -65,16 +90,16 @@ echo "  ✓ Image loaded"
 # ── 3. Apply manifest ────────────────────────────────────────
 echo ""
 echo "▶ [3/6] Applying manifest: ${MANIFEST} ..."
-kubectl apply -f "${MANIFEST}" --context "${KUBE_CTX}"
+kubectl apply -f "${MANIFEST}" --validate=false
 echo "  ✓ Manifest applied"
 
 # ── 4. Wait for MySQL and Redis to be ready ──────────────────
 echo ""
 echo "▶ [4/6] Waiting for MySQL and Redis pods ..."
 kubectl wait deployment/mysql -n "${NS}" \
-    --for=condition=Available --timeout=120s --context "${KUBE_CTX}" || true
+    --for=condition=Available --timeout=120s || true
 kubectl wait deployment/redis -n "${NS}" \
-    --for=condition=Available --timeout=60s --context "${KUBE_CTX}" || true
+    --for=condition=Available --timeout=60s || true
 echo "  ✓ Infrastructure pods up"
 
 # ── 5. Wait for app pods to be ready ────────────────────────
@@ -84,7 +109,6 @@ ELAPSED=0
 INTERVAL=10
 while true; do
     READY=$(kubectl get pods -n "${NS}" -l "${APP_LABELS}" \
-        --context "${KUBE_CTX}" \
         --field-selector=status.phase=Running \
         -o jsonpath='{.items[*].status.containerStatuses[*].ready}' 2>/dev/null \
         | tr ' ' '\n' | grep -c "^true$" || echo "0")
@@ -99,8 +123,8 @@ while true; do
     if [ "${ELAPSED}" -ge "${TIMEOUT_SEC}" ]; then
         echo "  ✗ Pods not ready after ${TIMEOUT_SEC}s"
         echo "  --- Pod status ---"
-        kubectl get pods -n "${NS}" --context "${KUBE_CTX}" || true
-        kubectl describe pods -n "${NS}" -l "${APP_LABELS}" --context "${KUBE_CTX}" | tail -40 || true
+        kubectl get pods -n "${NS}" || true
+        kubectl describe pods -n "${NS}" -l "${APP_LABELS}" | tail -60 || true
         exit 1
     fi
 
@@ -111,9 +135,7 @@ done
 # ── 6. Run smoke test via NodePort ───────────────────────────
 echo ""
 echo "▶ [6/6] Running integration smoke test via NodePort ${NODE_PORT} ..."
-NODE_IP=$(kubectl get nodes --context "${KUBE_CTX}" \
-    -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}')
-BASE_URL="http://${NODE_IP}:${NODE_PORT}"
+BASE_URL="http://${KIND_NODE_IP}:${NODE_PORT}"
 echo "  Base URL: ${BASE_URL}"
 
 bash scripts/integration-smoke-test.sh "${BASE_URL}" "k8s-grpc" 120
