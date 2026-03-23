@@ -63,8 +63,12 @@ echo "[kind] Cluster ready"
 # ── 2. Tag and load image ───────────────────────────────────
 echo "[kind] Loading image ${SRC_IMAGE} as ${CI_IMAGE} ..."
 if ! docker image inspect "${SRC_IMAGE}" > /dev/null 2>&1; then
-    echo "[kind] Pulling ${SRC_IMAGE} from registry ..."
-    docker pull "${SRC_IMAGE}"
+    # Jenkins container can't reach localhost:5000 (that's the host's registry)
+    # Try pulling via Docker bridge gateway instead
+    BRIDGE_IMAGE=$(echo "${SRC_IMAGE}" | sed 's|localhost:5000|172.17.0.1:5000|')
+    echo "[kind] Pulling ${BRIDGE_IMAGE} from registry ..."
+    docker pull "${BRIDGE_IMAGE}"
+    docker tag "${BRIDGE_IMAGE}" "${SRC_IMAGE}"
 fi
 docker tag "${SRC_IMAGE}" "${CI_IMAGE}"
 kind load docker-image "${CI_IMAGE}" --name "${CLUSTER_NAME}"
