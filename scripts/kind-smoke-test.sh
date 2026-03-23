@@ -62,13 +62,18 @@ echo "[kind] Cluster ready"
 
 # ── 2. Tag and load image ───────────────────────────────────
 echo "[kind] Loading image ${SRC_IMAGE} as ${CI_IMAGE} ..."
+# Image may be gone if a concurrent build rebuilt with the same base tag.
+# Fall back to the :VERSION tag (always exists) if the build-N tag was removed.
 if ! docker image inspect "${SRC_IMAGE}" > /dev/null 2>&1; then
-    # Jenkins container can't reach localhost:5000 (that's the host's registry)
-    # Try pulling via Docker bridge gateway instead
-    BRIDGE_IMAGE=$(echo "${SRC_IMAGE}" | sed 's|localhost:5000|172.17.0.1:5000|')
-    echo "[kind] Pulling ${BRIDGE_IMAGE} from registry ..."
-    docker pull "${BRIDGE_IMAGE}"
-    docker tag "${BRIDGE_IMAGE}" "${SRC_IMAGE}"
+    VERSION_TAG=$(echo "${SRC_IMAGE}" | sed 's|:build-[0-9]*$|:1.0.0|')
+    echo "[kind] Build tag gone (concurrent rebuild?), falling back to ${VERSION_TAG} ..."
+    if docker image inspect "${VERSION_TAG}" > /dev/null 2>&1; then
+        docker tag "${VERSION_TAG}" "${SRC_IMAGE}"
+    else
+        echo "[kind] Neither build tag nor version tag found — pulling from registry ..."
+        docker pull "${SRC_IMAGE}" || docker pull "${VERSION_TAG}"
+        docker tag "${VERSION_TAG}" "${SRC_IMAGE}" 2>/dev/null || true
+    fi
 fi
 docker tag "${SRC_IMAGE}" "${CI_IMAGE}"
 kind load docker-image "${CI_IMAGE}" --name "${CLUSTER_NAME}"
