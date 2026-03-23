@@ -40,10 +40,13 @@ trap cleanup EXIT
 
 # ── Pre-cleanup: remove any leftover arcana-ci clusters ──────
 echo "[kind] Cleaning up leftover clusters ..."
-kind get clusters 2>/dev/null | grep "^arcana-ci" | while read cl; do
-    echo "[kind] Deleting leftover cluster: ${cl}"
-    kind delete cluster --name "${cl}" 2>/dev/null || true
-done
+LEFTOVER=$(kind get clusters 2>/dev/null | grep "^arcana-ci" || true)
+if [ -n "${LEFTOVER}" ]; then
+    echo "${LEFTOVER}" | while read cl; do
+        echo "[kind] Deleting leftover cluster: ${cl}"
+        kind delete cluster --name "${cl}" 2>/dev/null || true
+    done
+fi
 docker network disconnect kind "$(hostname)" 2>/dev/null || true
 
 # ── 1. Create Kind cluster ───────────────────────────────────
