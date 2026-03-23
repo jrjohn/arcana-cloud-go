@@ -173,18 +173,6 @@ spec:
         app: arcana-ci-repository
     spec:
       automountServiceAccountToken: false
-      initContainers:
-        - name: wait-mysql
-          image: arcana-cloud-go:ci
-          imagePullPolicy: Never
-          command: ["sh", "-c", "for i in $(seq 1 60); do echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1"]
-          resources:
-            requests:
-              cpu: "10m"
-              memory: "16Mi"
-            limits:
-              cpu: "50m"
-              memory: "32Mi"
       containers:
         - name: repository
           image: arcana-cloud-go:ci
@@ -285,18 +273,6 @@ spec:
         app: arcana-ci-service
     spec:
       automountServiceAccountToken: false
-      initContainers:
-        - name: wait-mysql
-          image: arcana-cloud-go:ci
-          imagePullPolicy: Never
-          command: ["sh", "-c", "for i in $(seq 1 60); do echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1"]
-          resources:
-            requests:
-              cpu: "10m"
-              memory: "16Mi"
-            limits:
-              cpu: "50m"
-              memory: "32Mi"
       containers:
         - name: service
           image: arcana-cloud-go:ci
@@ -401,18 +377,6 @@ spec:
         app: arcana-ci-controller
     spec:
       automountServiceAccountToken: false
-      initContainers:
-        - name: wait-mysql
-          image: arcana-cloud-go:ci
-          imagePullPolicy: Never
-          command: ["sh", "-c", "for i in $(seq 1 60); do echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1"]
-          resources:
-            requests:
-              cpu: "10m"
-              memory: "16Mi"
-            limits:
-              cpu: "50m"
-              memory: "32Mi"
       containers:
         - name: controller
           image: arcana-cloud-go:ci

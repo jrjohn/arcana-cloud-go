@@ -9,184 +9,226 @@
 # Usage:
 #   bash scripts/kind-smoke-test.sh <SRC_IMAGE> [PROTOCOL] [TIMEOUT_SEC]
 #   bash scripts/kind-smoke-test.sh localhost:5000/arcana/go-app:build-42 grpc 480
-#
-# Args:
-#   SRC_IMAGE    Full Docker image tag built by Jenkins (required)
-#   PROTOCOL     Label for smoke test output (default: grpc)
-#   TIMEOUT_SEC  Max seconds to wait for pods (default: 480)
 # ============================================================
 set -euo pipefail
 
 SRC_IMAGE="${1:?Usage: $0 <image> [protocol] [timeout]}"
 PROTOCOL="${2:-grpc}"
-TIMEOUT_SEC="${3:-480}"
+TIMEOUT="${3:-480}"
 
 # ── Config ────────────────────────────────────────────────────
+CLUSTER_NAME="arcana-ci-go-${PROTOCOL}"
+CI_IMAGE="arcana-cloud-go:ci"
 NS="arcana-ci-kind-go"
 NODE_PORT=30092
-EXPECTED_PODS=3
-APP_LABELS="app in (arcana-ci-repository,arcana-ci-service,arcana-ci-controller)"
-CI_IMAGE="arcana-cloud-go:ci"
 MANIFEST="deployment/kubernetes/ci/kind-ci-grpc.yaml"
 
-# Unique cluster name per build (avoids collisions with parallel jobs)
-CLUSTER_NAME="arcana-ci-$(date +%s)"
-KUBECONFIG_FILE="/tmp/kind-kubeconfig-${CLUSTER_NAME}"
-JENKINS_ID=$(hostname)
-
-echo ""
-echo "╔══════════════════════════════════════════════════════════╗"
-echo "║  Kind Smoke Test — arcana-cloud-go K8s gRPC              ║"
-echo "║  Image : ${SRC_IMAGE}"
-echo "║  Cluster: ${CLUSTER_NAME}"
-echo "╚══════════════════════════════════════════════════════════╝"
+echo "=== Kind K8s Smoke Test: ${PROTOCOL} ==="
+echo "    Cluster:  ${CLUSTER_NAME}"
+echo "    Image:    ${SRC_IMAGE} → ${CI_IMAGE}"
+echo "    Manifest: ${MANIFEST}"
+echo "    Timeout:  ${TIMEOUT}s"
 
 # ── Cleanup trap ─────────────────────────────────────────────
 cleanup() {
-    echo ""
-    echo "▶ Cleanup: disconnecting from kind network and deleting cluster ..."
-    docker network disconnect kind "${JENKINS_ID}" 2>/dev/null || true
+    echo "[cleanup] Disconnecting from kind network ..."
+    docker network disconnect kind "$(hostname)" 2>/dev/null || true
+    echo "[cleanup] Deleting kind cluster ${CLUSTER_NAME} ..."
     kind delete cluster --name "${CLUSTER_NAME}" 2>/dev/null || true
-    rm -f "${KUBECONFIG_FILE}" 2>/dev/null || true
 }
-trap cleanup EXIT INT TERM
+trap cleanup EXIT
 
-# ── 1. Create Kind cluster ────────────────────────────────────
-echo ""
-echo "▶ [1/6] Creating Kind cluster '${CLUSTER_NAME}' ..."
+# ── 1. Create Kind cluster ───────────────────────────────────
+echo "[kind] Creating cluster ${CLUSTER_NAME} ..."
 kind create cluster --name "${CLUSTER_NAME}" --wait 60s
-echo "  ✓ Cluster ready"
 
-# ── Connect Jenkins container to the kind Docker network ─────
-# Kind uses a Docker network named 'kind'. Jenkins runs in its own
-# container, so we must attach it to the kind network to reach the
-# API server (port 6443) and NodePort.
-echo "  Connecting Jenkins container '${JENKINS_ID}' to kind network ..."
-docker network connect kind "${JENKINS_ID}" 2>/dev/null || true
+# Connect Jenkins container to kind network so kubectl can reach the control plane
+JENKINS_CONTAINER=$(hostname)
+docker network connect kind "${JENKINS_CONTAINER}" 2>/dev/null || true
 
-# Get the Kind node's IP address on the 'kind' network
-CONTROL_PLANE="${CLUSTER_NAME}-control-plane"
-KIND_NODE_IP=$(docker inspect "${CONTROL_PLANE}" \
+# Rewrite kubeconfig: 127.0.0.1 → kind control-plane container IP
+CP_IP=$(docker inspect "${CLUSTER_NAME}-control-plane" \
     --format '{{.NetworkSettings.Networks.kind.IPAddress}}' 2>/dev/null || echo "")
-
-if [ -z "${KIND_NODE_IP}" ]; then
-    KIND_NODE_IP=$(docker inspect "${CONTROL_PLANE}" \
-        --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 2>/dev/null | head -1)
+if [ -n "${CP_IP}" ]; then
+    echo "[kind] Rewriting kubeconfig server to ${CP_IP} (Jenkins joined kind network) ..."
+    kubectl config set-cluster "kind-${CLUSTER_NAME}" \
+        --server="https://${CP_IP}:6443" \
+        --insecure-skip-tls-verify=true
 fi
-echo "  Kind node IP (kind network): ${KIND_NODE_IP}"
 
-# ── Build kubeconfig pointing to the internal network IP ─────
-kind get kubeconfig --name "${CLUSTER_NAME}" > "${KUBECONFIG_FILE}"
-export KUBECONFIG="${KUBECONFIG_FILE}"
-kubectl config set-cluster "kind-${CLUSTER_NAME}" \
-    --server="https://${KIND_NODE_IP}:6443" \
-    --insecure-skip-tls-verify=true
-echo "  ✓ Kubeconfig configured (using kind network IP)"
-
-# Verify connectivity to API server
-echo "  Verifying kubectl connectivity ..."
+# Verify connectivity
 kubectl cluster-info
-echo "  ✓ API server reachable"
+echo "[kind] Cluster ready"
 
-# ── 2. Tag and load image ─────────────────────────────────────
-echo ""
-echo "▶ [2/6] Tagging '${SRC_IMAGE}' → '${CI_IMAGE}' and loading into Kind ..."
+# ── 2. Tag and load image ───────────────────────────────────
+echo "[kind] Loading image ${SRC_IMAGE} as ${CI_IMAGE} ..."
+if ! docker image inspect "${SRC_IMAGE}" > /dev/null 2>&1; then
+    echo "[kind] Pulling ${SRC_IMAGE} from registry ..."
+    docker pull "${SRC_IMAGE}"
+fi
 docker tag "${SRC_IMAGE}" "${CI_IMAGE}"
 kind load docker-image "${CI_IMAGE}" --name "${CLUSTER_NAME}"
-echo "  ✓ Image loaded"
+echo "[kind] Image loaded"
 
-# ── Re-verify API connectivity (image loading can disrupt Docker networking) ──
-echo "  Verifying API server still reachable ..."
+# ── Re-verify API connectivity after image load ──────────────
+# Image loading can briefly disrupt Docker networking
+echo "[kind] Verifying API server after image load ..."
 for attempt in $(seq 1 6); do
     if kubectl cluster-info >/dev/null 2>&1; then
-        echo "  ✓ API server OK"
+        echo "[kind] API server OK"
         break
     fi
-    echo "  ... API server unreachable, reconnecting (attempt ${attempt}/6) ..."
-    # Reconnect Jenkins to kind network (fixes stale connections)
-    docker network disconnect kind "${JENKINS_ID}" 2>/dev/null || true
+    echo "[kind] API server unreachable, reconnecting (attempt ${attempt}/6) ..."
+    docker network disconnect kind "${JENKINS_CONTAINER}" 2>/dev/null || true
     sleep 2
-    docker network connect kind "${JENKINS_ID}" 2>/dev/null || true
-    # Re-resolve Kind node IP (may change after reconnect)
-    NEW_IP=$(docker inspect "${CONTROL_PLANE}" \
+    docker network connect kind "${JENKINS_CONTAINER}" 2>/dev/null || true
+    # Re-resolve IP in case it changed
+    NEW_IP=$(docker inspect "${CLUSTER_NAME}-control-plane" \
         --format '{{.NetworkSettings.Networks.kind.IPAddress}}' 2>/dev/null || echo "")
-    if [ -n "${NEW_IP}" ] && [ "${NEW_IP}" != "${KIND_NODE_IP}" ]; then
-        echo "  Kind node IP changed: ${KIND_NODE_IP} → ${NEW_IP}"
-        KIND_NODE_IP="${NEW_IP}"
+    if [ -n "${NEW_IP}" ]; then
+        CP_IP="${NEW_IP}"
         kubectl config set-cluster "kind-${CLUSTER_NAME}" \
-            --server="https://${KIND_NODE_IP}:6443" \
+            --server="https://${CP_IP}:6443" \
             --insecure-skip-tls-verify=true >/dev/null 2>&1
     fi
     sleep 3
 done
-kubectl cluster-info >/dev/null 2>&1 || { echo "  ✗ API server unreachable after retries"; exit 1; }
+kubectl cluster-info >/dev/null 2>&1 || { echo "[kind] API server unreachable after retries"; exit 1; }
 
-# ── 3. Apply manifest ────────────────────────────────────────
-echo ""
-echo "▶ [3/6] Applying manifest: ${MANIFEST} ..."
-# Retry kubectl apply (network may be briefly unstable after image load)
+# ── 3. Apply manifest ───────────────────────────────────────
+echo "[k8s] Applying manifest ${MANIFEST} ..."
 for attempt in $(seq 1 3); do
     if kubectl apply -f "${MANIFEST}" 2>&1; then
         break
     fi
-    echo "  ... kubectl apply attempt ${attempt}/3 failed, retrying in 5s ..."
+    echo "[k8s] kubectl apply attempt ${attempt}/3 failed, retrying in 5s ..."
     sleep 5
 done
-echo "  ✓ Manifest applied"
 
-# ── 4. Wait for MySQL and Redis to be ready ──────────────────
-echo ""
-echo "▶ [4/6] Waiting for MySQL and Redis pods ..."
+# ── 4. Wait for pods to be ready ────────────────────────────
+# Wait per-deployment like the Node.js project does (more robust than counting)
+wait_pods() {
+    local label="$1"
+    local elapsed=0
+    local interval=10
+
+    echo "[k8s] Waiting for pods (${label}) to be ready ..."
+    while true; do
+        local ready
+        ready=$(kubectl get pods -n "${NS}" -l "app=${label}" \
+            --field-selector=status.phase=Running \
+            -o jsonpath='{.items[*].status.conditions[?(@.type=="Ready")].status}' 2>/dev/null || echo "")
+
+        if [[ "${ready}" == *"True"* ]]; then
+            echo "[k8s] Pod ${label} is ready after ${elapsed}s"
+            return 0
+        fi
+
+        if [[ ${elapsed} -ge ${TIMEOUT} ]]; then
+            echo "[k8s] TIMEOUT waiting for ${label} pods"
+            kubectl get pods -n "${NS}" 2>/dev/null || true
+            kubectl describe pods -n "${NS}" -l "app=${label}" 2>/dev/null | tail -30 || true
+            return 1
+        fi
+
+        sleep ${interval}
+        elapsed=$((elapsed + interval))
+        echo "[k8s] ...${elapsed}s elapsed, waiting for ${label}"
+    done
+}
+
+echo "[k8s] Waiting for infrastructure pods ..."
 kubectl wait deployment/mysql -n "${NS}" \
     --for=condition=Available --timeout=120s || true
 kubectl wait deployment/redis -n "${NS}" \
     --for=condition=Available --timeout=60s || true
-echo "  ✓ Infrastructure pods up"
+echo "[k8s] Infrastructure pods up"
 
-# ── 5. Wait for app pods to be ready ────────────────────────
-echo ""
-echo "▶ [5/6] Waiting for ${EXPECTED_PODS} app pods (timeout: ${TIMEOUT_SEC}s) ..."
-ELAPSED=0
-INTERVAL=10
+# Wait for all 3 app layers in order
+wait_pods "arcana-ci-repository"
+wait_pods "arcana-ci-service"
+wait_pods "arcana-ci-controller"
+
+# ── 5. Get NodePort address ──────────────────────────────────
+NODE_IP=$(kubectl get nodes -o jsonpath='{.items[0].status.addresses[?(@.type=="InternalIP")].address}' 2>/dev/null || echo "${CP_IP}")
+BASE_URL="http://${NODE_IP}:${NODE_PORT}"
+
+echo "[test] Smoke testing ${BASE_URL} ..."
+
+# ── 6. Wait for controller health ────────────────────────────
+elapsed=0
+interval=10
+echo "[test] Waiting for controller health endpoint ..."
 while true; do
-    RAW_READY=$(kubectl get pods -n "${NS}" -l "${APP_LABELS}" \
-        --field-selector=status.phase=Running \
-        -o jsonpath='{.items[*].status.containerStatuses[*].ready}' 2>/dev/null || echo "")
-    READY=$(echo "${RAW_READY}" | tr ' ' '\n' | grep -c "^true$" 2>/dev/null || true)
-    READY="${READY:-0}"
-    # Ensure READY is a pure integer (strip whitespace/newlines)
-    READY=$(echo "${READY}" | tr -d '[:space:]')
-
-    echo "  ... ${READY}/${EXPECTED_PODS} pods ready (${ELAPSED}s elapsed)"
-
-    if [ "${READY}" -ge "${EXPECTED_PODS}" ]; then
-        echo "  ✓ All ${EXPECTED_PODS} pods ready"
+    if curl -sf --max-time 5 "${BASE_URL}/health" > /dev/null 2>&1; then
+        echo "[test] Controller is healthy after ${elapsed}s"
         break
     fi
-
-    if [ "${ELAPSED}" -ge "${TIMEOUT_SEC}" ]; then
-        echo "  ✗ Pods not ready after ${TIMEOUT_SEC}s"
-        echo "  --- Pod status ---"
-        kubectl get pods -n "${NS}" || true
-        kubectl describe pods -n "${NS}" -l "${APP_LABELS}" | tail -60 || true
+    if [[ ${elapsed} -ge ${TIMEOUT} ]]; then
+        echo "[test] TIMEOUT waiting for health endpoint"
+        kubectl get pods -n "${NS}" 2>/dev/null || true
         exit 1
     fi
-
-    sleep "${INTERVAL}"
-    ELAPSED=$((ELAPSED + INTERVAL))
+    sleep ${interval}
+    elapsed=$((elapsed + interval))
+    echo "[test] ...${elapsed}s elapsed"
 done
 
-# ── 6. Run smoke test via NodePort ───────────────────────────
-echo ""
-echo "▶ [6/6] Running integration smoke test via NodePort ${NODE_PORT} ..."
-# The Kind node is accessible via its Docker IP on the kind network
-BASE_URL="http://${KIND_NODE_IP}:${NODE_PORT}"
-echo "  Base URL: ${BASE_URL}"
+# ── 7. Smoke tests ───────────────────────────────────────────
+PASS=0
+FAIL=0
 
-bash scripts/integration-smoke-test.sh "${BASE_URL}" "k8s-grpc" 120
+run_test() {
+    local desc="$1"
+    local expected="$2"
+    local actual="$3"
+    if echo "${actual}" | grep -qF "${expected}"; then
+        echo "[PASS] ${desc}"
+        PASS=$((PASS + 1))
+    else
+        echo "[FAIL] ${desc} — expected '${expected}' in: ${actual}"
+        FAIL=$((FAIL + 1))
+    fi
+}
 
+HEALTH=$(curl -sf --max-time 10 "${BASE_URL}/health" || echo '{}')
+run_test "GET /health" "healthy" "${HEALTH}"
+
+TIMESTAMP=$(date +%s%3N)
+TEST_USER="kindsmoke${TIMESTAMP}"
+TEST_EMAIL="${TEST_USER}@test.arcana"
+TEST_PASS="KindSmoke@123!"
+
+REGISTER=$(curl -sf --max-time 15 \
+    -X POST "${BASE_URL}/api/v1/auth/register" \
+    -H "Content-Type: application/json" \
+    -d "{\"username\":\"${TEST_USER}\",\"email\":\"${TEST_EMAIL}\",\"password\":\"${TEST_PASS}\"}" \
+    || echo '{"error":"register_failed"}')
+run_test "POST /api/v1/auth/register" "access_token" "${REGISTER}"
+
+ACCESS_TOKEN=$(echo "${REGISTER}" | grep -o '"access_token":"[^"]*"' | head -1 | cut -d'"' -f4 || echo "")
+
+if [[ -n "${ACCESS_TOKEN}" ]]; then
+    LOGIN=$(curl -sf --max-time 15 \
+        -X POST "${BASE_URL}/api/v1/auth/login" \
+        -H "Content-Type: application/json" \
+        -d "{\"username_or_email\":\"${TEST_USER}\",\"password\":\"${TEST_PASS}\"}" \
+        || echo '{"error":"login_failed"}')
+    run_test "POST /api/v1/auth/login" "access_token" "${LOGIN}"
+else
+    echo "[SKIP] Skipping login test (no token from register)"
+    FAIL=$((FAIL + 1))
+fi
+
+# ── Summary ──────────────────────────────────────────────────
+TOTAL=$((PASS + FAIL))
 echo ""
-echo "╔══════════════════════════════════════════════════════════╗"
-echo "║  ✅ Kind K8s gRPC smoke test PASSED                      ║"
-echo "╚══════════════════════════════════════════════════════════╝"
-echo ""
+echo "=== Kind Results [${PROTOCOL}]: ${PASS}/${TOTAL} passed ==="
+
+if [[ ${FAIL} -gt 0 ]]; then
+    echo "KIND SMOKE TEST FAILED"
+    exit 1
+else
+    echo "KIND SMOKE TEST PASSED"
+    exit 0
+fi
