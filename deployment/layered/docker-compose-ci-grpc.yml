@@ -41,7 +41,7 @@ services:
       sh -c "
         echo 'Waiting for MySQL on mysql:3306 ...';
         for i in $$(seq 1 60); do
-          nc -z mysql 3306 2>/dev/null && break;
+          echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && break;
           sleep 2;
         done;
         echo 'MySQL is reachable, starting server ...';
@@ -82,7 +82,7 @@ services:
       sh -c "
         echo 'Waiting for MySQL on mysql:3306 ...';
         for i in $$(seq 1 60); do
-          nc -z mysql 3306 2>/dev/null && break;
+          echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && break;
           sleep 2;
         done;
         sleep 2;
@@ -122,7 +122,7 @@ services:
       sh -c "
         echo 'Waiting for MySQL on mysql:3306 ...';
         for i in $$(seq 1 60); do
-          nc -z mysql 3306 2>/dev/null && break;
+          echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && break;
           sleep 2;
         done;
         sleep 2;

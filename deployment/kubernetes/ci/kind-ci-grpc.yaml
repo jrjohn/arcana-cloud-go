@@ -177,7 +177,7 @@ spec:
         - name: wait-mysql
           image: arcana-cloud-go:ci
           imagePullPolicy: Never
-          command: ["sh", "-c", "for i in $(seq 1 60); do nc -z mysql 3306 2>/dev/null && exit 0; sleep 2; done; exit 1"]
+          command: ["sh", "-c", "for i in $(seq 1 60); do echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1"]
           resources:
             requests:
               cpu: "10m"
@@ -289,7 +289,7 @@ spec:
         - name: wait-mysql
           image: arcana-cloud-go:ci
           imagePullPolicy: Never
-          command: ["sh", "-c", "for i in $(seq 1 60); do nc -z mysql 3306 2>/dev/null && exit 0; sleep 2; done; exit 1"]
+          command: ["sh", "-c", "for i in $(seq 1 60); do echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1"]
           resources:
             requests:
               cpu: "10m"
@@ -405,7 +405,7 @@ spec:
         - name: wait-mysql
           image: arcana-cloud-go:ci
           imagePullPolicy: Never
-          command: ["sh", "-c", "for i in $(seq 1 60); do nc -z mysql 3306 2>/dev/null && exit 0; sleep 2; done; exit 1"]
+          command: ["sh", "-c", "for i in $(seq 1 60); do echo quit | timeout 2 nc mysql 3306 >/dev/null 2>&1 && exit 0; sleep 2; done; exit 1"]
           resources:
             requests:
               cpu: "10m"
