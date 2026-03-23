@@ -48,7 +48,7 @@ docker network disconnect kind "$(hostname)" 2>/dev/null || true
 
 # ── 1. Create Kind cluster ───────────────────────────────────
 echo "[kind] Creating cluster ${CLUSTER_NAME} ..."
-kind create cluster --name "${CLUSTER_NAME}" --wait 60s
+kind create cluster --name "${CLUSTER_NAME}" --wait 180s
 
 # Connect Jenkins container to kind network so kubectl can reach the control plane
 JENKINS_CONTAINER=$(hostname)
