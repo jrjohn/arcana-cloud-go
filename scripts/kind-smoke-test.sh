@@ -76,10 +76,11 @@ fi
 echo "  Kind node IP (kind network): ${KIND_NODE_IP}"
 
 # ── Build kubeconfig pointing to the internal network IP ─────
-kind get kubeconfig --name "${CLUSTER_NAME}" | \
-    sed "s|server: https://127.0.0.1:[0-9]*|server: https://${KIND_NODE_IP}:6443|" \
-    > "${KUBECONFIG_FILE}"
+kind get kubeconfig --name "${CLUSTER_NAME}" > "${KUBECONFIG_FILE}"
 export KUBECONFIG="${KUBECONFIG_FILE}"
+kubectl config set-cluster "kind-${CLUSTER_NAME}" \
+    --server="https://${KIND_NODE_IP}:6443" \
+    --insecure-skip-tls-verify=true
 echo "  ✓ Kubeconfig configured (using kind network IP)"
 
 # Verify connectivity to API server
@@ -115,10 +116,13 @@ echo "▶ [5/6] Waiting for ${EXPECTED_PODS} app pods (timeout: ${TIMEOUT_SEC}s)
 ELAPSED=0
 INTERVAL=10
 while true; do
-    READY=$(kubectl get pods -n "${NS}" -l "${APP_LABELS}" \
+    RAW_READY=$(kubectl get pods -n "${NS}" -l "${APP_LABELS}" \
         --field-selector=status.phase=Running \
-        -o jsonpath='{.items[*].status.containerStatuses[*].ready}' 2>/dev/null \
-        | tr ' ' '\n' | grep -c "^true$" || echo "0")
+        -o jsonpath='{.items[*].status.containerStatuses[*].ready}' 2>/dev/null || echo "")
+    READY=$(echo "${RAW_READY}" | tr ' ' '\n' | grep -c "^true$" 2>/dev/null || true)
+    READY="${READY:-0}"
+    # Ensure READY is a pure integer (strip whitespace/newlines)
+    READY=$(echo "${READY}" | tr -d '[:space:]')
 
     echo "  ... ${READY}/${EXPECTED_PODS} pods ready (${ELAPSED}s elapsed)"
 

@@ -56,8 +56,12 @@ if [ "${LOGIN_HTTP_CODE}" != "200" ]; then
   exit 1
 fi
 
-TOKEN=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('data',{}).get('access_token',''))" \
-    < /tmp/smoke-login-${LABEL}.json 2>/dev/null || echo "")
+# Use node (available in Jenkins) instead of python3 (not available)
+TOKEN=$(node -e "
+const d=JSON.parse(require('fs').readFileSync('/tmp/smoke-login-${LABEL}.json','utf8'));
+const dd=d.data||{};
+process.stdout.write(dd.access_token||'');
+" 2>/dev/null || echo "")
 if [ -z "${TOKEN}" ]; then
   echo "  ✗ No access_token in login response"
   cat /tmp/smoke-login-${LABEL}.json 2>/dev/null || true
@@ -79,8 +83,10 @@ if [ "${ME_HTTP_CODE}" != "200" ]; then
   exit 1
 fi
 
-ME_USER=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('data',{}).get('username','?'))" \
-    < /tmp/smoke-me-${LABEL}.json 2>/dev/null || echo "?")
+ME_USER=$(node -e "
+const d=JSON.parse(require('fs').readFileSync('/tmp/smoke-me-${LABEL}.json','utf8'));
+process.stdout.write((d.data||{}).username||'?');
+" 2>/dev/null || echo "?")
 echo "  ✓ Auth call OK — user: ${ME_USER}"
 
 echo ""

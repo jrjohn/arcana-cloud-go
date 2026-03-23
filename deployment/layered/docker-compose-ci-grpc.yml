@@ -35,6 +35,19 @@ services:
   repository:
     image: ${GO_IMAGE:-localhost:5000/arcana/go-app:latest}
     container_name: arcana-ci-go-repository
+    # Wait for MySQL TCP readiness before starting Go server
+    # (mysqladmin ping healthcheck passes before client connections are fully accepted)
+    command: >
+      sh -c "
+        echo 'Waiting for MySQL on mysql:3306 ...';
+        for i in $$(seq 1 60); do
+          nc -z mysql 3306 2>/dev/null && break;
+          sleep 2;
+        done;
+        echo 'MySQL is reachable, starting server ...';
+        sleep 2;
+        exec /app/server
+      "
     depends_on:
       mysql:
         condition: service_healthy
@@ -53,19 +66,28 @@ services:
       ARCANA_DATABASE_NAME: arcana_cloud
       ARCANA_REDIS_HOST: redis
       JWT_SECRET: "ci-secret-key-min-32-characters-for-testing!"
-      MANAGEMENT_HEALTH_DEFAULTS_ENABLED: "false"
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost:8082/health"]
       interval: 10s
       timeout: 5s
       retries: 12
-      start_period: 20s
+      start_period: 30s
     networks:
       - arcana-ci-go-net
 
   service:
     image: ${GO_IMAGE:-localhost:5000/arcana/go-app:latest}
     container_name: arcana-ci-go-service
+    command: >
+      sh -c "
+        echo 'Waiting for MySQL on mysql:3306 ...';
+        for i in $$(seq 1 60); do
+          nc -z mysql 3306 2>/dev/null && break;
+          sleep 2;
+        done;
+        sleep 2;
+        exec /app/server
+      "
     depends_on:
       repository:
         condition: service_healthy
@@ -89,13 +111,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 12
-      start_period: 15s
+      start_period: 30s
     networks:
       - arcana-ci-go-net
 
   controller:
     image: ${GO_IMAGE:-localhost:5000/arcana/go-app:latest}
     container_name: arcana-ci-go-controller
+    command: >
+      sh -c "
+        echo 'Waiting for MySQL on mysql:3306 ...';
+        for i in $$(seq 1 60); do
+          nc -z mysql 3306 2>/dev/null && break;
+          sleep 2;
+        done;
+        sleep 2;
+        exec /app/server
+      "
     depends_on:
       service:
         condition: service_healthy
@@ -120,7 +152,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 12
-      start_period: 20s
+      start_period: 30s
     networks:
       - arcana-ci-go-net
 
