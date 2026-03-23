@@ -17,7 +17,7 @@ PROTOCOL="${2:-grpc}"
 TIMEOUT="${3:-480}"
 
 # ── Config ────────────────────────────────────────────────────
-CLUSTER_NAME="arcana-ci-go-${PROTOCOL}"
+CLUSTER_NAME="arcana-ci-go-$(date +%s)"
 CI_IMAGE="arcana-cloud-go:ci"
 NS="arcana-ci-kind-go"
 NODE_PORT=30092
@@ -37,6 +37,14 @@ cleanup() {
     kind delete cluster --name "${CLUSTER_NAME}" 2>/dev/null || true
 }
 trap cleanup EXIT
+
+# ── Pre-cleanup: remove any leftover arcana-ci clusters ──────
+echo "[kind] Cleaning up leftover clusters ..."
+kind get clusters 2>/dev/null | grep "^arcana-ci" | while read cl; do
+    echo "[kind] Deleting leftover cluster: ${cl}"
+    kind delete cluster --name "${cl}" 2>/dev/null || true
+done
+docker network disconnect kind "$(hostname)" 2>/dev/null || true
 
 # ── 1. Create Kind cluster ───────────────────────────────────
 echo "[kind] Creating cluster ${CLUSTER_NAME} ..."
