@@ -14,7 +14,7 @@ import (
 	"go.opentelemetry.io/otel/propagation"
 	"go.opentelemetry.io/otel/sdk/resource"
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
-	semconv "go.opentelemetry.io/otel/semconv/v1.21.0"
+	semconv "go.opentelemetry.io/otel/semconv/v1.37.0"
 	"go.opentelemetry.io/otel/trace"
 	"go.uber.org/zap"
 )
@@ -72,7 +72,7 @@ func NewTracingProvider(config *TracingConfig, logger *zap.Logger) (*TracingProv
 			semconv.SchemaURL,
 			semconv.ServiceName(config.ServiceName),
 			semconv.ServiceVersion(config.ServiceVersion),
-			semconv.DeploymentEnvironment(config.Environment),
+			semconv.DeploymentEnvironmentName(config.Environment),
 		),
 	)
 	if err != nil {
