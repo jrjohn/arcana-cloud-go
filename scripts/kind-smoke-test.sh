@@ -95,10 +95,43 @@ docker tag "${SRC_IMAGE}" "${CI_IMAGE}"
 kind load docker-image "${CI_IMAGE}" --name "${CLUSTER_NAME}"
 echo "  ✓ Image loaded"
 
+# ── Re-verify API connectivity (image loading can disrupt Docker networking) ──
+echo "  Verifying API server still reachable ..."
+for attempt in $(seq 1 6); do
+    if kubectl cluster-info >/dev/null 2>&1; then
+        echo "  ✓ API server OK"
+        break
+    fi
+    echo "  ... API server unreachable, reconnecting (attempt ${attempt}/6) ..."
+    # Reconnect Jenkins to kind network (fixes stale connections)
+    docker network disconnect kind "${JENKINS_ID}" 2>/dev/null || true
+    sleep 2
+    docker network connect kind "${JENKINS_ID}" 2>/dev/null || true
+    # Re-resolve Kind node IP (may change after reconnect)
+    NEW_IP=$(docker inspect "${CONTROL_PLANE}" \
+        --format '{{.NetworkSettings.Networks.kind.IPAddress}}' 2>/dev/null || echo "")
+    if [ -n "${NEW_IP}" ] && [ "${NEW_IP}" != "${KIND_NODE_IP}" ]; then
+        echo "  Kind node IP changed: ${KIND_NODE_IP} → ${NEW_IP}"
+        KIND_NODE_IP="${NEW_IP}"
+        kubectl config set-cluster "kind-${CLUSTER_NAME}" \
+            --server="https://${KIND_NODE_IP}:6443" \
+            --insecure-skip-tls-verify=true >/dev/null 2>&1
+    fi
+    sleep 3
+done
+kubectl cluster-info >/dev/null 2>&1 || { echo "  ✗ API server unreachable after retries"; exit 1; }
+
 # ── 3. Apply manifest ────────────────────────────────────────
 echo ""
 echo "▶ [3/6] Applying manifest: ${MANIFEST} ..."
-kubectl apply -f "${MANIFEST}"
+# Retry kubectl apply (network may be briefly unstable after image load)
+for attempt in $(seq 1 3); do
+    if kubectl apply -f "${MANIFEST}" 2>&1; then
+        break
+    fi
+    echo "  ... kubectl apply attempt ${attempt}/3 failed, retrying in 5s ..."
+    sleep 5
+done
 echo "  ✓ Manifest applied"
 
 # ── 4. Wait for MySQL and Redis to be ready ──────────────────
