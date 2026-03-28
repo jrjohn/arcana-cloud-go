@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -94,5 +95,5 @@ func joinStrings(strs []string) string {
 }
 
 func formatMaxAge(d time.Duration) string {
-	return string(rune(int(d.Seconds())))
+	return strconv.Itoa(int(d.Seconds()))
 }

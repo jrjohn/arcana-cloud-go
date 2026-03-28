@@ -91,12 +91,11 @@ func TestCircuitBreakerRegistry_GetMetrics(t *testing.T) {
 	cb.Execute(ctx, func(ctx context.Context) error { return errors.New("err") })
 
 	metrics := registry.GetMetrics()
-	if m, ok := metrics["test"]; !ok {
+	m, ok := metrics["test"]
+	if !ok {
 		t.Error("GetMetrics() should contain 'test' entry")
-	} else {
-		if m.TotalCalls != 2 {
-			t.Errorf("TotalCalls = %v, want 2", m.TotalCalls)
-		}
+	} else if m.TotalCalls != 2 {
+		t.Errorf("TotalCalls = %v, want 2", m.TotalCalls)
 	}
 }
 

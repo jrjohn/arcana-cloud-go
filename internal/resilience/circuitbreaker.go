@@ -78,7 +78,7 @@ type CircuitBreaker struct {
 	slidingWindow    *SlidingWindow
 }
 
-// CircuitBreakerMetrics holds circuit breaker metrics
+// CircuitBreakerMetrics holds circuit breaker metrics (internal, contains mutex)
 type CircuitBreakerMetrics struct {
 	TotalCalls       int64
 	SuccessfulCalls  int64
@@ -87,6 +87,16 @@ type CircuitBreakerMetrics struct {
 	SlowCalls        int64
 	StateTransitions int64
 	mutex            sync.RWMutex
+}
+
+// CircuitBreakerMetricsSnapshot is a read-only snapshot of CircuitBreakerMetrics (safe to copy)
+type CircuitBreakerMetricsSnapshot struct {
+	TotalCalls       int64
+	SuccessfulCalls  int64
+	FailedCalls      int64
+	RejectedCalls    int64
+	SlowCalls        int64
+	StateTransitions int64
 }
 
 // SlidingWindow for tracking call outcomes
@@ -314,11 +324,18 @@ func (cb *CircuitBreaker) State() State {
 	return cb.state
 }
 
-// Metrics returns the current metrics
-func (cb *CircuitBreaker) Metrics() CircuitBreakerMetrics {
+// Metrics returns a snapshot of the current metrics
+func (cb *CircuitBreaker) Metrics() CircuitBreakerMetricsSnapshot {
 	cb.metrics.mutex.RLock()
 	defer cb.metrics.mutex.RUnlock()
-	return *cb.metrics
+	return CircuitBreakerMetricsSnapshot{
+		TotalCalls:       cb.metrics.TotalCalls,
+		SuccessfulCalls:  cb.metrics.SuccessfulCalls,
+		FailedCalls:      cb.metrics.FailedCalls,
+		RejectedCalls:    cb.metrics.RejectedCalls,
+		SlowCalls:        cb.metrics.SlowCalls,
+		StateTransitions: cb.metrics.StateTransitions,
+	}
 }
 
 // Reset resets the circuit breaker to closed state

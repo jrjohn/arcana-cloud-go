@@ -73,11 +73,11 @@ func (r *CircuitBreakerRegistry) GetAll() map[string]*CircuitBreaker {
 }
 
 // GetMetrics returns metrics for all circuit breakers
-func (r *CircuitBreakerRegistry) GetMetrics() map[string]CircuitBreakerMetrics {
+func (r *CircuitBreakerRegistry) GetMetrics() map[string]CircuitBreakerMetricsSnapshot {
 	r.mutex.RLock()
 	defer r.mutex.RUnlock()
 
-	result := make(map[string]CircuitBreakerMetrics)
+	result := make(map[string]CircuitBreakerMetricsSnapshot)
 	for name, cb := range r.breakers {
 		result[name] = cb.Metrics()
 	}

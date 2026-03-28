@@ -93,7 +93,14 @@ func (h *Handler) handleGraphQL(c *gin.Context) {
 		req.Query = c.Query("query")
 		req.OperationName = c.Query("operationName")
 		if variables := c.Query("variables"); variables != "" {
-			json.Unmarshal([]byte(variables), &req.Variables)
+			if err := json.Unmarshal([]byte(variables), &req.Variables); err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{
+					"errors": []map[string]string{
+						{"message": "Invalid variables JSON"},
+					},
+				})
+				return
+			}
 		}
 	}
 

@@ -79,7 +79,7 @@ func (c *JobController) RegisterRoutes(router *gin.RouterGroup) {
 func (c *JobController) EnqueueJob(ctx *gin.Context) {
 	var req request.EnqueueJobRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any]("validation failed", err.Error()))
+		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any](msgValidationFailed, err.Error()))
 		return
 	}
 

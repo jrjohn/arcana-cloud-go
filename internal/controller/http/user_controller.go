@@ -124,7 +124,7 @@ func (c *UserController) UpdateCurrentUser(ctx *gin.Context) {
 
 	var req request.UpdateProfileRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any]("validation failed", err.Error()))
+		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any](msgValidationFailed, err.Error()))
 		return
 	}
 
@@ -162,7 +162,7 @@ func (c *UserController) ChangePassword(ctx *gin.Context) {
 
 	var req request.ChangePasswordRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
-		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any]("validation failed", err.Error()))
+		ctx.JSON(http.StatusBadRequest, response.NewErrorWithDetails[any](msgValidationFailed, err.Error()))
 		return
 	}
 

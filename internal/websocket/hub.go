@@ -41,14 +41,23 @@ type Hub struct {
 	metrics *HubMetrics
 }
 
-// HubMetrics holds hub metrics
+// HubMetrics holds hub metrics (internal, contains mutex)
 type HubMetrics struct {
-	TotalConnections    int64
-	ActiveConnections   int64
-	TotalMessages       int64
-	TotalBroadcasts     int64
-	TotalRooms          int
-	mutex               sync.RWMutex
+	TotalConnections  int64
+	ActiveConnections int64
+	TotalMessages     int64
+	TotalBroadcasts   int64
+	TotalRooms        int
+	mutex             sync.RWMutex
+}
+
+// HubMetricsSnapshot is a read-only snapshot of HubMetrics (safe to copy)
+type HubMetricsSnapshot struct {
+	TotalConnections  int64
+	ActiveConnections int64
+	TotalMessages     int64
+	TotalBroadcasts   int64
+	TotalRooms        int
 }
 
 // RoomOperation represents a room join/leave operation
@@ -291,11 +300,17 @@ func (h *Hub) GetRoomClientCount(room string) int {
 	return 0
 }
 
-// GetMetrics returns hub metrics
-func (h *Hub) GetMetrics() HubMetrics {
+// GetMetrics returns a snapshot of hub metrics
+func (h *Hub) GetMetrics() HubMetricsSnapshot {
 	h.metrics.mutex.RLock()
 	defer h.metrics.mutex.RUnlock()
-	return *h.metrics
+	return HubMetricsSnapshot{
+		TotalConnections:  h.metrics.TotalConnections,
+		ActiveConnections: h.metrics.ActiveConnections,
+		TotalMessages:     h.metrics.TotalMessages,
+		TotalBroadcasts:   h.metrics.TotalBroadcasts,
+		TotalRooms:        h.metrics.TotalRooms,
+	}
 }
 
 // IsUserOnline checks if a user is online

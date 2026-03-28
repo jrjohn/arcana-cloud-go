@@ -1,6 +1,7 @@
 package jobs
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 	"sync"
@@ -108,15 +109,13 @@ func (m *Metrics) PrometheusHandler() http.HandlerFunc {
 }
 
 func writeMetric(w http.ResponseWriter, name, metricType, help string, value int64) {
-	w.Write([]byte("# HELP " + name + " " + help + "\n"))
-	w.Write([]byte("# TYPE " + name + " " + metricType + "\n"))
-	w.Write([]byte(name + " " + strconv.FormatInt(value, 10) + "\n"))
+	fmt.Fprintf(w, "# HELP %s %s\n# TYPE %s %s\n%s %s\n",
+		name, help, name, metricType, name, strconv.FormatInt(value, 10))
 }
 
 func writeMetricFloat(w http.ResponseWriter, name, metricType, help string, value float64) {
-	w.Write([]byte("# HELP " + name + " " + help + "\n"))
-	w.Write([]byte("# TYPE " + name + " " + metricType + "\n"))
-	w.Write([]byte(name + " " + strconv.FormatFloat(value, 'f', 2, 64) + "\n"))
+	fmt.Fprintf(w, "# HELP %s %s\n# TYPE %s %s\n%s %s\n",
+		name, help, name, metricType, name, strconv.FormatFloat(value, 'f', 2, 64))
 }
 
 // HealthCheck returns the health status of the job system

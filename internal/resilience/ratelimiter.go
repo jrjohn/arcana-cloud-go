@@ -42,13 +42,21 @@ type TokenBucketLimiter struct {
 	metrics     *RateLimiterMetrics
 }
 
-// RateLimiterMetrics holds rate limiter metrics
+// RateLimiterMetrics holds rate limiter metrics (internal, contains mutex)
 type RateLimiterMetrics struct {
-	TotalRequests   int64
-	AllowedRequests int64
+	TotalRequests    int64
+	AllowedRequests  int64
 	RejectedRequests int64
-	WaitedRequests  int64
-	mutex           sync.RWMutex
+	WaitedRequests   int64
+	mutex            sync.RWMutex
+}
+
+// RateLimiterMetricsSnapshot is a read-only snapshot of RateLimiterMetrics (safe to copy)
+type RateLimiterMetricsSnapshot struct {
+	TotalRequests    int64
+	AllowedRequests  int64
+	RejectedRequests int64
+	WaitedRequests   int64
 }
 
 // NewTokenBucketLimiter creates a new token bucket rate limiter
@@ -163,11 +171,16 @@ func (l *TokenBucketLimiter) refill() {
 	}
 }
 
-// Metrics returns current metrics
-func (l *TokenBucketLimiter) Metrics() RateLimiterMetrics {
+// Metrics returns a snapshot of the current metrics
+func (l *TokenBucketLimiter) Metrics() RateLimiterMetricsSnapshot {
 	l.metrics.mutex.RLock()
 	defer l.metrics.mutex.RUnlock()
-	return *l.metrics
+	return RateLimiterMetricsSnapshot{
+		TotalRequests:    l.metrics.TotalRequests,
+		AllowedRequests:  l.metrics.AllowedRequests,
+		RejectedRequests: l.metrics.RejectedRequests,
+		WaitedRequests:   l.metrics.WaitedRequests,
+	}
 }
 
 // SlidingWindowLimiter implements sliding window rate limiting
@@ -222,9 +235,14 @@ func (l *SlidingWindowLimiter) Allow() bool {
 	return false
 }
 
-// Metrics returns current metrics
-func (l *SlidingWindowLimiter) Metrics() RateLimiterMetrics {
+// Metrics returns a snapshot of the current metrics
+func (l *SlidingWindowLimiter) Metrics() RateLimiterMetricsSnapshot {
 	l.metrics.mutex.RLock()
 	defer l.metrics.mutex.RUnlock()
-	return *l.metrics
+	return RateLimiterMetricsSnapshot{
+		TotalRequests:    l.metrics.TotalRequests,
+		AllowedRequests:  l.metrics.AllowedRequests,
+		RejectedRequests: l.metrics.RejectedRequests,
+		WaitedRequests:   l.metrics.WaitedRequests,
+	}
 }

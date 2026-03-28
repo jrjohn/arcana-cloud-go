@@ -148,7 +148,9 @@ func (s *jobService) PurgeDLQ(ctx context.Context) error {
 	}
 
 	for _, job := range jobs {
-		s.queue.DeleteJob(ctx, job.ID)
+		if err := s.queue.DeleteJob(ctx, job.ID); err != nil {
+			return err
+		}
 	}
 
 	return nil

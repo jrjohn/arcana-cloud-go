@@ -321,15 +321,19 @@ func (cs *ConfigServer) Subscribe() <-chan ConfigChangeEvent {
 
 func (cs *ConfigServer) handleRoot(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(headerContentType, contentTypeJSON)
-	json.NewEncoder(w).Encode(map[string]string{
+	if err := json.NewEncoder(w).Encode(map[string]string{
 		"name":    "Arcana Config Server",
 		"version": "1.0.0",
-	})
+	}); err != nil {
+		cs.logger.Error("Failed to encode response", zap.Error(err))
+	}
 }
 
 func (cs *ConfigServer) handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(headerContentType, contentTypeJSON)
-	json.NewEncoder(w).Encode(map[string]string{"status": "UP"})
+	if err := json.NewEncoder(w).Encode(map[string]string{"status": "UP"}); err != nil {
+		cs.logger.Error("Failed to encode response", zap.Error(err))
+	}
 }
 
 func (cs *ConfigServer) handleConfig(w http.ResponseWriter, r *http.Request) {
@@ -354,7 +358,7 @@ func (cs *ConfigServer) handleConfig(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set(headerContentType, contentTypeJSON)
-	json.NewEncoder(w).Encode(map[string]interface{}{
+	if err := json.NewEncoder(w).Encode(map[string]interface{}{
 		"name":     application,
 		"profiles": []string{profile},
 		"propertySources": []map[string]interface{}{
@@ -363,7 +367,9 @@ func (cs *ConfigServer) handleConfig(w http.ResponseWriter, r *http.Request) {
 				"source": config,
 			},
 		},
-	})
+	}); err != nil {
+		cs.logger.Error("Failed to encode response", zap.Error(err))
+	}
 }
 
 func (cs *ConfigServer) handleRefresh(w http.ResponseWriter, r *http.Request) {
@@ -378,7 +384,9 @@ func (cs *ConfigServer) handleRefresh(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set(headerContentType, contentTypeJSON)
-	json.NewEncoder(w).Encode(map[string]string{"status": "refreshed"})
+	if err := json.NewEncoder(w).Encode(map[string]string{"status": "refreshed"}); err != nil {
+		cs.logger.Error("Failed to encode response", zap.Error(err))
+	}
 }
 
 func (cs *ConfigServer) handleEncrypt(w http.ResponseWriter, r *http.Request) {
