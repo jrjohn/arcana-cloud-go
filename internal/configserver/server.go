@@ -18,9 +18,10 @@ import (
 
 
 const (
-	headerContentType   = "Content-Type"
-	contentTypeJSON     = "application/json"
-	msgMethodNotAllowed = "Method not allowed"
+	headerContentType    = "Content-Type"
+	contentTypeJSON      = "application/json"
+	msgMethodNotAllowed  = "Method not allowed"
+	msgFailedToEncode    = "Failed to encode response"
 )
 
 // ConfigServerConfig holds configuration server settings
@@ -325,14 +326,14 @@ func (cs *ConfigServer) handleRoot(w http.ResponseWriter, r *http.Request) {
 		"name":    "Arcana Config Server",
 		"version": "1.0.0",
 	}); err != nil {
-		cs.logger.Error("Failed to encode response", zap.Error(err))
+		cs.logger.Error(msgFailedToEncode, zap.Error(err))
 	}
 }
 
 func (cs *ConfigServer) handleHealth(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set(headerContentType, contentTypeJSON)
 	if err := json.NewEncoder(w).Encode(map[string]string{"status": "UP"}); err != nil {
-		cs.logger.Error("Failed to encode response", zap.Error(err))
+		cs.logger.Error(msgFailedToEncode, zap.Error(err))
 	}
 }
 
@@ -368,7 +369,7 @@ func (cs *ConfigServer) handleConfig(w http.ResponseWriter, r *http.Request) {
 			},
 		},
 	}); err != nil {
-		cs.logger.Error("Failed to encode response", zap.Error(err))
+		cs.logger.Error(msgFailedToEncode, zap.Error(err))
 	}
 }
 
@@ -385,7 +386,7 @@ func (cs *ConfigServer) handleRefresh(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set(headerContentType, contentTypeJSON)
 	if err := json.NewEncoder(w).Encode(map[string]string{"status": "refreshed"}); err != nil {
-		cs.logger.Error("Failed to encode response", zap.Error(err))
+		cs.logger.Error(msgFailedToEncode, zap.Error(err))
 	}
 }
 
