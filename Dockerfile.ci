@@ -35,7 +35,7 @@ COPY --from=tester /tmp/coverage.out /tmp/coverage.out
 COPY --from=tester /tmp/test-results.txt /tmp/test-results.txt
 RUN CGO_ENABLED=0 go build -ldflags="-w -s" -o server ./cmd/server
 
-FROM alpine:3.21
+FROM alpine:3.23
 RUN apk add --no-cache ca-certificates \
     && addgroup --system appgroup \
     && adduser --system --ingroup appgroup appuser
