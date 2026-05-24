@@ -2,7 +2,7 @@
 # Go Multi-Stage Dockerfile (CI)
 # Go 1.24 / Gin / gRPC
 # ============================================
-FROM golang:1.24-alpine AS tester
+FROM golang:1.26-alpine AS tester
 WORKDIR /app
 RUN apk add --no-cache git ca-certificates protobuf build-base
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 && \
@@ -19,7 +19,7 @@ RUN go test -tags !integration ./... \
     2>&1 | tee /tmp/test-results.txt; \
     go tool cover -func=/tmp/coverage.out | tail -5 || true
 
-FROM golang:1.24-alpine AS builder
+FROM golang:1.26-alpine AS builder
 WORKDIR /app
 RUN apk add --no-cache git ca-certificates protobuf build-base
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 && \
