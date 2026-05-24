@@ -6,7 +6,7 @@ FROM golang:1.26-alpine AS tester
 WORKDIR /app
 RUN apk add --no-cache git ca-certificates protobuf build-base
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 && \
-    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
@@ -23,7 +23,7 @@ FROM golang:1.26-alpine AS builder
 WORKDIR /app
 RUN apk add --no-cache git ca-certificates protobuf build-base
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.36.11 && \
-    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.5.1
+    go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.6.2
 COPY go.mod go.sum ./
 RUN go mod download
 COPY . .
