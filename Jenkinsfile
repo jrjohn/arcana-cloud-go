@@ -6,13 +6,13 @@
 //   * `checkout scm` (no hardcoded branch=main)        — supports every branch + every PR
 //   * `pollSCM` trigger removed                        — Jenkins multibranch + GitHub webhook drive triggers
 //   * "Push to Registry" + "Arch Qube Metrics" gated   — only main pushes to registry; PR builds stay local
-//   * SonarQube gets pullrequest.* params on PRs       — PR-decoration in Sonar UI
+//   * SonarQube runs WITHOUT pullrequest.* params      — Community Build rejects them; gate polled via API
 //   * Build tag includes branch on non-main builds     — `pr-<changeId>` or `branch-<name>`
 //
 // Test plan for the pilot:
 //   1. Multibranch job picks up `main` first       → should match legacy build output
 //   2. Multibranch job picks up `renovate/*` PRs   → should run all stages except push
-//   3. PR decoration shows in SonarQube UI          → Sonar pullrequest params wired
+//   3. SonarQube quality gate polled via API        → build fails if gate != OK
 
 pipeline {
     agent any
@@ -75,8 +75,7 @@ pipeline {
 
         stage("Integration: Layered gRPC") {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh '''
+                sh '''
                         JENKINS_ID=$(hostname)
                         # Cleanup any leftover containers
                         GO_IMAGE=placeholder docker compose -p arcana-ci-go-grpc \
@@ -93,7 +92,6 @@ pipeline {
                             http://arcana-ci-go-controller:8090 grpc-layered 240
                         docker network disconnect arcana-ci-go-net $JENKINS_ID 2>/dev/null || true
                     '''
-                }
             }
             post {
                 always {
@@ -109,13 +107,11 @@ pipeline {
 
         stage("Integration: K8s gRPC") {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh '''#!/bin/bash
+                sh '''#!/bin/bash
                         export PATH="/var/jenkins_home/bin:${PATH}"
                         kind version || { echo "kind not found"; exit 1; }
                         bash scripts/kind-smoke-test.sh "${IMAGE_TAG}:build-${BUILD_NUMBER}" grpc 480
                     '''
-                }
             }
             post {
                 always {
@@ -131,45 +127,58 @@ pipeline {
 
         stage("SonarQube Analysis") {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    withSonarQubeEnv('SonarQube') {
-                        script {
-                            // PR builds get PR-decoration params so SonarQube
-                            // attaches the report to the GitHub PR instead of
-                            // overwriting the long-lived main branch report.
-                            def prArgs = env.CHANGE_ID ? """ \
-                                -Dsonar.pullrequest.key=${env.CHANGE_ID} \
-                                -Dsonar.pullrequest.branch=${env.BRANCH_NAME} \
-                                -Dsonar.pullrequest.base=${env.CHANGE_TARGET}""" : ''
-                            sh """sonar-scanner \
-                              -Dsonar.projectKey=go-app \
-                              -Dsonar.projectName="Go App" \
-                              -Dsonar.sources=. \
-                              -Dsonar.exclusions=vendor/**,*_test.go,internal/testutil/mocks/**,internal/jobs/scheduler/scheduler.go,api/proto/pb/**,**/*.pb.go \
-                              -Dsonar.text.inclusions.activate=false \
-                              -Dsonar.scm.disabled=true \
-                              -Dsonar.go.coverage.reportPaths=coverage.out${prArgs}"""
-                        }
-                    }
+                withSonarQubeEnv('SonarQube') {
+                    sh """sonar-scanner \
+                      -Dsonar.projectKey=go-app \
+                      -Dsonar.projectName="Go App" \
+                      -Dsonar.sources=. \
+                      -Dsonar.exclusions=vendor/**,*_test.go,internal/testutil/mocks/**,internal/jobs/scheduler/scheduler.go,api/proto/pb/**,**/*.pb.go \
+                      -Dsonar.text.inclusions.activate=false \
+                      -Dsonar.scm.disabled=true \
+                      -Dsonar.go.coverage.reportPaths=coverage.out"""
+                    sh '''
+                        set -e
+                        TOKEN="${SONAR_AUTH_TOKEN:-$SONAR_TOKEN}"
+                        RT=.scannerwork/report-task.txt
+                        [ -f "$RT" ] || { echo "report-task.txt missing"; exit 1; }
+                        CE_TASK_ID=$(grep '^ceTaskId=' "$RT" | cut -d= -f2-)
+                        ANALYSIS_ID=""
+                        for i in $(seq 1 60); do
+                            RESP=$(curl -s -u "$TOKEN:" "$SONAR_HOST_URL/api/ce/task?id=$CE_TASK_ID")
+                            ST=$(echo "$RESP" | grep -o '"status":"[A-Z_]*"' | head -1 | cut -d'"' -f4)
+                            echo "  CE status: ${ST:-?} (try $i)"
+                            if [ "$ST" = "SUCCESS" ]; then ANALYSIS_ID=$(echo "$RESP" | grep -o '"analysisId":"[^"]*"' | head -1 | cut -d'"' -f4); break;
+                            elif [ "$ST" = "FAILED" ] || [ "$ST" = "CANCELED" ]; then echo "CE $ST"; exit 1; fi
+                            sleep 5
+                        done
+                        [ -n "$ANALYSIS_ID" ] || { echo "CE timeout"; exit 1; }
+                        GATE=$(curl -s -u "$TOKEN:" "$SONAR_HOST_URL/api/qualitygates/project_status?analysisId=$ANALYSIS_ID")
+                        GST=$(echo "$GATE" | grep -o '"status":"[A-Z]*"' | head -1 | cut -d'"' -f4)
+                        echo "Quality gate: ${GST:-UNKNOWN}"
+                        if [ "$GST" != "OK" ]; then echo "$GATE"; exit 1; fi
+                    '''
                 }
             }
         }
 
         stage("Architecture Qube") {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
-                    sh '''
-                        mkdir -p arch-qube-reports
-                        docker run --rm \
-                            --network devops_default \
-                            -v $(pwd):/project \
-                            -v $(pwd)/arch-qube-reports:/output \
-                            arcana.boo/arcana/arch-qube:latest scan /project \
-                            --framework go --no-ai \
-                            --ci --format json,markdown \
-                            -o /output --threshold 90 || true
-                    '''
-                }
+                sh '''
+                    docker rm -f arcana-arch-qube-go 2>/dev/null || true
+                    docker create --name arcana-arch-qube-go --network devops_default \
+                        -v /src -v /output \
+                        arcana.boo/arcana/arch-qube:latest \
+                        scan /src --framework go --no-ai --ci \
+                        --format json,markdown -o /output --threshold 90 || exit 1
+                    tar --exclude=./.git --exclude=./arch-qube-reports -C . -cf - . \
+                        | docker cp - arcana-arch-qube-go:/src || exit 1
+                    docker start -a arcana-arch-qube-go
+                    AQ_RC=$?
+                    mkdir -p arch-qube-reports
+                    docker cp arcana-arch-qube-go:/output/. arch-qube-reports/ 2>/dev/null || true
+                    docker rm -f arcana-arch-qube-go 2>/dev/null || true
+                    exit $AQ_RC
+                '''
             }
         }
 
