@@ -5,6 +5,10 @@
 [![Build](https://arcana.boo/jenkins/buildStatus/icon?job=go-app-pipeline)](https://arcana.boo/jenkins/job/go-app-pipeline/)
 <!-- agent-managed badges END -->
 
+<!-- arch-rank START -->
+**Architecture**: arch-qube `100/100` · grade `A+` · `PASS`
+<!-- arch-rank END -->
+
 [![Go Version](https://img.shields.io/badge/Go-1.23+-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![gRPC](https://img.shields.io/badge/gRPC-1.60+-244C5A?style=flat&logo=grpc)](https://grpc.io/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
