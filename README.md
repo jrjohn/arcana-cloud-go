@@ -2,7 +2,7 @@
 
 <!-- agent-managed badges START -->
 [![Quality Gate](https://img.shields.io/badge/Quality_Gate-OK-brightgreen)](https://arcana.boo/sonarqube/dashboard?id=go-app)
-[![Build](https://img.shields.io/badge/Build-unknown-lightgrey)](https://arcana.boo/jenkins/job/go-app-pipeline/)
+[![Build](https://img.shields.io/badge/Build-passing-brightgreen)](https://arcana.boo/jenkins/job/go-app-pipeline-mb/job/main/)
 <!-- agent-managed badges END -->
 
 <!-- arch-rank START -->
