@@ -1,18 +1,23 @@
 # Arcana Cloud Go: Enterprise Go Microservices Platform
 
-<!-- agent-managed badges START -->
-[![Quality Gate](https://img.shields.io/badge/Quality_Gate-OK-brightgreen)](https://arcana.boo/sonarqube/dashboard?id=go-app)
-[![Build](https://img.shields.io/badge/Build-passing-brightgreen)](https://arcana.boo/jenkins/job/go-app-pipeline-mb/job/main/)
-<!-- agent-managed badges END -->
-
-<!-- arch-rank START -->
-**Architecture**: arch-qube `100/100` · grade `A+` · `PASS`
-<!-- arch-rank END -->
-
 [![Go Version](https://img.shields.io/badge/Go-1.23+-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![gRPC](https://img.shields.io/badge/gRPC-1.60+-244C5A?style=flat&logo=grpc)](https://grpc.io/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-428%20passing-brightgreen)](tests/)
+
+<!-- agent-managed badges START -->
+<p align="center">
+  <a href="https://arcana.boo/sonarqube/dashboard?id=go-app"><img src="https://img.shields.io/badge/Quality_Gate-OK-brightgreen?style=for-the-badge" alt="Quality Gate"></a>
+  <a href="https://arcana.boo/jenkins/job/go-app-pipeline-mb/job/main/"><img src="https://img.shields.io/badge/Build-passing-brightgreen?style=for-the-badge" alt="Build"></a>
+</p>
+<!-- agent-managed badges END -->
+<!-- arch-rank START -->
+<p align="center">
+  <img src="https://img.shields.io/badge/arch--qube-100%2F100-blue?style=for-the-badge" alt="arch-qube">
+  <img src="https://img.shields.io/badge/Grade-A%2B-brightgreen?style=for-the-badge" alt="Grade">
+  <img src="https://img.shields.io/badge/Arch_Gate-PASS-brightgreen?style=for-the-badge" alt="Architecture Gate">
+</p>
+<!-- arch-rank END -->
 
 ## Overview
 
