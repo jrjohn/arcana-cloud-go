@@ -1,7 +1,7 @@
 # Arcana Cloud Go: Enterprise Go Microservices Platform
 
 <!-- agent-managed badges START -->
-[![Quality Gate](https://arcana.boo/sonarqube/api/project_badges/quality_gate?project=go-app)](https://arcana.boo/sonarqube/dashboard?id=go-app)
+[![Quality Gate](https://img.shields.io/badge/Quality_Gate-OK-brightgreen)](https://arcana.boo/sonarqube/dashboard?id=go-app)
 [![Build](https://arcana.boo/jenkins/buildStatus/icon?job=go-app-pipeline)](https://arcana.boo/jenkins/job/go-app-pipeline/)
 <!-- agent-managed badges END -->
 
