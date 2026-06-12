@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.1...v1.0.2) (2026-06-12)
+
+
+### Bug Fixes
+
+* **deps:** update module golang.org/x/crypto to v0.53.0 ([#24](https://github.com/jrjohn/arcana-cloud-go/issues/24)) ([5d79aaf](https://github.com/jrjohn/arcana-cloud-go/commit/5d79aaf4f831f5495eca638c6739bf7acb73279b))
+
 ## [1.0.1](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.0...v1.0.1) (2026-06-12)
 
 
