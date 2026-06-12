@@ -14,7 +14,7 @@ services:
       - arcana-test-network
 
   mysql-test:
-    image: mysql:8.4
+    image: mysql:9.7
     container_name: arcana-mysql-test
     ports:
       - "3307:3306"
