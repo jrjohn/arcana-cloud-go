@@ -54,7 +54,7 @@ services:
       - arcana-test-network
 
   mongo-test:
-    image: mongo:7.0
+    image: mongo:8.3
     container_name: arcana-mongo-test
     ports:
       - "27018:27017"
