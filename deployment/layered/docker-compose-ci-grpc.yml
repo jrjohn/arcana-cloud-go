@@ -22,7 +22,7 @@ services:
       - arcana-ci-go-net
 
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: arcana-ci-go-redis
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]

@@ -1,6 +1,6 @@
 services:
   redis-test:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: arcana-redis-test
     ports:
       - "6380:6379"
