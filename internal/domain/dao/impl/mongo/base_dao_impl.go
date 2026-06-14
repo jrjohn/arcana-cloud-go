@@ -5,9 +5,9 @@ import (
 	"context"
 	"sync"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 // IDCounter manages auto-incrementing IDs for MongoDB documents.
@@ -108,7 +108,7 @@ func (d *baseMongoDAO[T, D]) findOneByFilter(ctx context.Context, filter bson.M,
 }
 
 // findManyByFilter finds all documents matching the filter.
-func (d *baseMongoDAO[T, D]) findManyByFilter(ctx context.Context, filter bson.M, opts *options.FindOptions, results any) error {
+func (d *baseMongoDAO[T, D]) findManyByFilter(ctx context.Context, filter bson.M, opts *options.FindOptionsBuilder, results any) error {
 	cursor, err := d.collection.Find(ctx, filter, opts)
 	if err != nil {
 		return err

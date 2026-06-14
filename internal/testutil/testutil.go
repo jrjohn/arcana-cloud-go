@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/redis/go-redis/v9"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zaptest"
 	"gorm.io/driver/mysql"
@@ -272,7 +272,7 @@ func NewTestMongoDB(t *testing.T, config TestConfig) (*mongo.Client, *mongo.Data
 	defer cancel()
 
 	clientOptions := options.Client().ApplyURI(config.MongoURI)
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		t.Skipf("MongoDB not available: %v", err)
 	}
@@ -299,7 +299,7 @@ func SkipIfNoMongo(t *testing.T) {
 	defer cancel()
 
 	clientOptions := options.Client().ApplyURI(config.MongoURI)
-	client, err := mongo.Connect(ctx, clientOptions)
+	client, err := mongo.Connect(clientOptions)
 	if err != nil {
 		t.Skip("MongoDB not available")
 	}
