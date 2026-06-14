@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.3](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.2...v1.0.3) (2026-06-14)
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.81.1 ([#32](https://github.com/jrjohn/arcana-cloud-go/issues/32)) ([eced208](https://github.com/jrjohn/arcana-cloud-go/commit/eced2085c155f107dadbfe1aa98c66996d8e9bcd))
+* **deps:** update module gorm.io/driver/mysql to v1.6.0 ([#33](https://github.com/jrjohn/arcana-cloud-go/issues/33)) ([046d3a0](https://github.com/jrjohn/arcana-cloud-go/commit/046d3a09fa86a80e965cdcd2876aa39d8442953e))
+
 ## [1.0.2](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.1...v1.0.2) (2026-06-12)
 
 
