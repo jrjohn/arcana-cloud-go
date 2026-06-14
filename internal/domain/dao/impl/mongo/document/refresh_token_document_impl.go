@@ -3,19 +3,19 @@ package document
 import (
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 // RefreshTokenDocument represents a refresh token in MongoDB.
 type RefreshTokenDocument struct {
-	ID        primitive.ObjectID `bson:"_id,omitempty"`
-	NumericID uint               `bson:"numeric_id"` // For compatibility with SQL-based IDs
-	UserID    uint               `bson:"user_id"`    // References UserDocument.NumericID
-	Token     string             `bson:"token"`
-	ExpiresAt time.Time          `bson:"expires_at"`
-	Revoked   bool               `bson:"revoked"`
-	CreatedAt time.Time          `bson:"created_at"`
-	DeletedAt *time.Time         `bson:"deleted_at,omitempty"`
+	ID        bson.ObjectID `bson:"_id,omitempty"`
+	NumericID uint          `bson:"numeric_id"` // For compatibility with SQL-based IDs
+	UserID    uint          `bson:"user_id"`    // References UserDocument.NumericID
+	Token     string        `bson:"token"`
+	ExpiresAt time.Time     `bson:"expires_at"`
+	Revoked   bool          `bson:"revoked"`
+	CreatedAt time.Time     `bson:"created_at"`
+	DeletedAt *time.Time    `bson:"deleted_at,omitempty"`
 }
 
 // CollectionName returns the MongoDB collection name for refresh tokens.
