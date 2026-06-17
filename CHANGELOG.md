@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.6](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.5...v1.0.6) (2026-06-17)
+
+
+### Bug Fixes
+
+* **deps:** update module go.mongodb.org/mongo-driver/v2 to v2.6.1 ([#40](https://github.com/jrjohn/arcana-cloud-go/issues/40)) ([770820c](https://github.com/jrjohn/arcana-cloud-go/commit/770820cb7eed1b8dfedcbcc978e4991335d3e92e))
+* **deps:** update opentelemetry-go monorepo ([#39](https://github.com/jrjohn/arcana-cloud-go/issues/39)) ([4d0a20b](https://github.com/jrjohn/arcana-cloud-go/commit/4d0a20bfae20e97765e43d147d8b8a6fa1e1c89f))
+
 ## [1.0.5](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.4...v1.0.5) (2026-06-14)
 
 
