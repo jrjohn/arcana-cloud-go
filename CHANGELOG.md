@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.7...v1.0.8) (2026-06-24)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/redis/go-redis/v9 to v9.21.0 ([#44](https://github.com/jrjohn/arcana-cloud-go/issues/44)) ([37dcb3e](https://github.com/jrjohn/arcana-cloud-go/commit/37dcb3eb85e7418af99e5567f3170cf983d974bd))
+
 ## [1.0.7](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.6...v1.0.7) (2026-06-18)
 
 
