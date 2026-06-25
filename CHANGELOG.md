@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.9](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.8...v1.0.9) (2026-06-25)
+
+
+### Bug Fixes
+
+* **deps:** update module gorm.io/gorm to v1.31.2 ([#46](https://github.com/jrjohn/arcana-cloud-go/issues/46)) ([56c756a](https://github.com/jrjohn/arcana-cloud-go/commit/56c756a43223509f40807b87ef0c51ed596a15c1))
+
 ## [1.0.8](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.7...v1.0.8) (2026-06-24)
 
 
