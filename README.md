@@ -1,7 +1,7 @@
 # Arcana Cloud Go: Enterprise Go Microservices Platform
 
 [![Go Version](https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go)](https://go.dev/)
-[![gRPC](https://img.shields.io/badge/gRPC-1.81+-244C5A?style=flat&logo=grpc)](https://grpc.io/)
+[![gRPC](https://img.shields.io/badge/gRPC-1.82+-244C5A?style=flat&logo=grpc)](https://grpc.io/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-428%20passing-brightgreen)](tests/)
 
@@ -155,7 +155,7 @@ type UserDAO interface {
 | Protocol Support | 9.0/10 | Dual-protocol with 1.80x gRPC performance gain |
 | Security | 8.5/10 | JWT + bcrypt, CORS, validation (no mTLS yet) |
 | Testing | 9.0/10 | 428+ tests, unit + integration + e2e |
-| Modern Stack | 9.5/10 | Go 1.25, gRPC 1.81, latest dependencies |
+| Modern Stack | 9.5/10 | Go 1.25, gRPC 1.82, latest dependencies |
 | Configuration | 8.0/10 | Viper config, env vars, YAML (no centralized config) |
 | Observability | 7.5/10 | Zap logging, health probes, request ID tracing |
 | Documentation | 8.0/10 | API docs, deployment guides |
