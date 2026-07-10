@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/dao"
-	gormdao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/gorm"
-	mongodao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/mongo"
+	gormdao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/gorm"
+	mongodao "github.com/jrjohn/arcana-cloud-go/internal/domain/dao/impl/mongo"
 	"github.com/jrjohn/arcana-cloud-go/internal/domain/entity"
 	"github.com/jrjohn/arcana-cloud-go/internal/testutil"
 	"github.com/stretchr/testify/assert"
