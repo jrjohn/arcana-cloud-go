@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.11](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.10...v1.0.11) (2026-07-18)
+
+
+### Bug Fixes
+
+* **deps:** update module golang.org/x/crypto to v0.54.0 ([#50](https://github.com/jrjohn/arcana-cloud-go/issues/50)) ([0f4b2ad](https://github.com/jrjohn/arcana-cloud-go/commit/0f4b2adc6694b98fc778ee663930d7f63c3cd761))
+* **test:** correct stale dao package import path in integration tests ([1147626](https://github.com/jrjohn/arcana-cloud-go/commit/1147626178c629cc127adbad58441fdd31685216))
+
 ## [1.0.10](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.9...v1.0.10) (2026-07-01)
 
 
