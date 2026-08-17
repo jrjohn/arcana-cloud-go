@@ -1,5 +1,6 @@
 # Arcana Cloud Go: Enterprise Go Microservices Platform
 
+[![Architecture Rating](https://img.shields.io/badge/Architecture%20Rating-⭐⭐⭐⭐%208.60%2F10-gold.svg)](#architecture-rating)
 [![Go Version](https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![gRPC](https://img.shields.io/badge/gRPC-1.82+-244C5A?style=flat&logo=grpc)](https://grpc.io/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
