@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.13](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.12...v1.0.13) (2026-08-21)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/prometheus/client_golang to v1.24.1 ([#55](https://github.com/jrjohn/arcana-cloud-go/issues/55)) ([5e3dc0a](https://github.com/jrjohn/arcana-cloud-go/commit/5e3dc0a2f071d7794d21f7f20092d7c30cda7bb5))
+
 ## [1.0.12](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.11...v1.0.12) (2026-08-03)
 
 
