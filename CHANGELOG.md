@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.15](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.14...v1.0.15) (2026-09-14)
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.83.2 ([#64](https://github.com/jrjohn/arcana-cloud-go/issues/64)) ([67be246](https://github.com/jrjohn/arcana-cloud-go/commit/67be24680119123d851247a731f168e256dffe14))
+* **deps:** update module google.golang.org/protobuf/cmd/protoc-gen-go to v1.36.12 ([#63](https://github.com/jrjohn/arcana-cloud-go/issues/63)) ([a51d94e](https://github.com/jrjohn/arcana-cloud-go/commit/a51d94e9f970bb04ba776729c2b929c0ee95d660))
+
 ## [1.0.14](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.13...v1.0.14) (2026-08-21)
 
 
