@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.18](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.17...v1.0.18) (2026-09-15)
+
+
+### Bug Fixes
+
+* **deps:** update golang docker tag to v1.27 ([#70](https://github.com/jrjohn/arcana-cloud-go/issues/70)) ([7f3e645](https://github.com/jrjohn/arcana-cloud-go/commit/7f3e6459d5eb2cbcc6f4b260ff91ceee294e7751))
+
 ## [1.0.17](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.16...v1.0.17) (2026-09-15)
 
 
