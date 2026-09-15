@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.17](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.16...v1.0.17) (2026-09-15)
+
+
+### Bug Fixes
+
+* **deps:** update module gorm.io/driver/postgres to v1.6.3 ([#67](https://github.com/jrjohn/arcana-cloud-go/issues/67)) ([b0b7a59](https://github.com/jrjohn/arcana-cloud-go/commit/b0b7a59ff1c1fae8dadfe43ac2c5f997eef95603))
+
 ## [1.0.16](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.15...v1.0.16) (2026-09-15)
 
 
