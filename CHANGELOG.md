@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.16](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.15...v1.0.16) (2026-09-15)
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/protobuf to v1.36.12 ([#66](https://github.com/jrjohn/arcana-cloud-go/issues/66)) ([b88e8fe](https://github.com/jrjohn/arcana-cloud-go/commit/b88e8fef074603f884549c8872680734f8b29353))
+
 ## [1.0.15](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.14...v1.0.15) (2026-09-14)
 
 
