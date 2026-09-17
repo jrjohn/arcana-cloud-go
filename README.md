@@ -1,7 +1,7 @@
 # Arcana Cloud Go: Enterprise Go Microservices Platform
 
 [![Architecture Rating](https://img.shields.io/badge/Architecture%20Rating-⭐⭐⭐⭐%208.60%2F10-gold.svg)](#architecture-rating)
-[![Go Version](https://img.shields.io/badge/Go-1.25+-00ADD8?style=flat&logo=go)](https://go.dev/)
+[![Go Version](https://img.shields.io/badge/Go-1.26+-00ADD8?style=flat&logo=go)](https://go.dev/)
 [![gRPC](https://img.shields.io/badge/gRPC-1.83+-244C5A?style=flat&logo=grpc)](https://grpc.io/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Tests](https://img.shields.io/badge/Tests-29%20passing-brightgreen)](tests/)
@@ -22,7 +22,7 @@
 
 ## Overview
 
-Enterprise-grade cloud platform built with Go 1.25+, featuring a sophisticated architecture designed for maximum performance and flexibility. The platform achieves an **8.60/10 architecture rating** through its dual-protocol support, multi-database DAO layer, and native Go performance advantages.
+Enterprise-grade cloud platform built with Go 1.26+, featuring a sophisticated architecture designed for maximum performance and flexibility. The platform achieves an **8.60/10 architecture rating** through its dual-protocol support, multi-database DAO layer, and native Go performance advantages.
 
 ## Architecture Rating
 
@@ -156,7 +156,7 @@ type UserDAO interface {
 | Protocol Support | 9.0/10 | Dual-protocol with 1.80x gRPC performance gain |
 | Security | 8.5/10 | JWT + bcrypt, CORS, validation (no mTLS yet) |
 | Testing | 9.0/10 | 428+ tests, unit + integration + e2e |
-| Modern Stack | 9.5/10 | Go 1.25, gRPC 1.83, latest dependencies |
+| Modern Stack | 9.5/10 | Go 1.26, gRPC 1.83, latest dependencies |
 | Configuration | 8.0/10 | Viper config, env vars, YAML (no centralized config) |
 | Observability | 7.5/10 | Zap logging, health probes, request ID tracing |
 | Documentation | 8.0/10 | API docs, deployment guides |
@@ -194,7 +194,7 @@ type UserDAO interface {
 
 ### Prerequisites
 
-- Go 1.25+
+- Go 1.26+
 - Docker & Docker Compose
 - MySQL 8.0+ / PostgreSQL 15+ / MongoDB 7.0+
 - Redis 7.0+
