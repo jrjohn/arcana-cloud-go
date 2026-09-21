@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.22](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.21...v1.0.22) (2026-09-21)
+
+
+### Bug Fixes
+
+* **deps:** update module google.golang.org/grpc to v1.84.0 ([#79](https://github.com/jrjohn/arcana-cloud-go/issues/79)) ([5cc7170](https://github.com/jrjohn/arcana-cloud-go/commit/5cc7170166dafbd133aada75e4dcb77a07ea8281))
+
 ## [1.0.21](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.20...v1.0.21) (2026-09-17)
 
 
