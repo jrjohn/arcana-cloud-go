@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.24](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.23...v1.0.24) (2026-09-24)
+
+
+### Bug Fixes
+
+* **deps:** update module github.com/stretchr/testify to v1.12.1 ([#74](https://github.com/jrjohn/arcana-cloud-go/issues/74)) ([e4b2f3e](https://github.com/jrjohn/arcana-cloud-go/commit/e4b2f3e9daf4d918780b69b5f847a9c1af9dee93))
+
 ## [1.0.23](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.22...v1.0.23) (2026-09-23)
 
 
