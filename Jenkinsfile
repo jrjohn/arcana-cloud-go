@@ -65,9 +65,12 @@ pipeline {
                 sh "VERSION=${VERSION} DOCKER_REGISTRY=${REGISTRY} docker compose -f docker-compose.ci.yml build"
                 sh "docker tag ${IMAGE_TAG}:${VERSION} ${IMAGE_TAG}:build-${BUILD_NUMBER}"
                 sh '''
-                    docker create --name go-cov-tmp-${BUILD_NUMBER} ${IMAGE_TAG}:${VERSION}
-                    docker cp go-cov-tmp-${BUILD_NUMBER}:/tmp/coverage.out coverage.out || true
-                    docker rm go-cov-tmp-${BUILD_NUMBER} || true
+                    # Branch in the name: BUILD_NUMBER restarts at 1 on every branch, so concurrent builds of
+                    # two branches shared this name and one's `docker rm -f` removed the other's container.
+                    COV_CTR="go-cov-tmp-$(printf '%s' "${BRANCH_NAME}-${BUILD_NUMBER}" | tr -c 'A-Za-z0-9_.-' '-')"
+                    docker create --name "$COV_CTR" ${IMAGE_TAG}:${VERSION}
+                    docker cp "$COV_CTR":/tmp/coverage.out coverage.out || true
+                    docker rm "$COV_CTR" || true
                 '''
             }
         }
@@ -169,19 +172,23 @@ pipeline {
         stage("Architecture Qube") {
             steps {
                 sh '''
-                    docker rm -f arcana-arch-qube-go-${BUILD_NUMBER} 2>/dev/null || true
-                    docker create --name arcana-arch-qube-go-${BUILD_NUMBER} --network devops_default \
+                    # Branch in the name: BUILD_NUMBER restarts at 1 on every branch, so two branches building
+                    # at once used the same name and one's `docker rm -f` deleted the other's container
+                    # (arcana-ios PR-14/PR-15, 2026-09-30: "destination ...:/src must be a directory").
+                    AQ="arcana-arch-qube-go-$(printf '%s' "${BRANCH_NAME}-${BUILD_NUMBER}" | tr -c 'A-Za-z0-9_.-' '-')"
+                    docker rm -f "$AQ" 2>/dev/null || true
+                    docker create --name "$AQ" --network devops_default \
                         -v /src -v /output \
                         arcana.boo/arcana/arch-qube:latest \
                         scan /src --framework go --no-ai --ci \
                         --format json,markdown -o /output --threshold 90 || exit 1
                     tar --exclude=./.git --exclude=./arch-qube-reports -C . -cf - . \
-                        | docker cp - arcana-arch-qube-go-${BUILD_NUMBER}:/src || exit 1
-                    docker start -a arcana-arch-qube-go-${BUILD_NUMBER}
+                        | docker cp - "$AQ":/src || exit 1
+                    docker start -a "$AQ"
                     AQ_RC=$?
                     mkdir -p arch-qube-reports
-                    docker cp arcana-arch-qube-go-${BUILD_NUMBER}:/output/. arch-qube-reports/ 2>/dev/null || true
-                    docker rm -f arcana-arch-qube-go-${BUILD_NUMBER} 2>/dev/null || true
+                    docker cp "$AQ":/output/. arch-qube-reports/ 2>/dev/null || true
+                    docker rm -f "$AQ" 2>/dev/null || true
                     exit $AQ_RC
                 '''
             }
