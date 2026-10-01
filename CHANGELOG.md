@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.25](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.24...v1.0.25) (2026-10-01)
+
+
+### Bug Fixes
+
+* **deps:** update mongo docker tag to v9 ([#88](https://github.com/jrjohn/arcana-cloud-go/issues/88)) ([b2565ba](https://github.com/jrjohn/arcana-cloud-go/commit/b2565babd3f1a4c2cd0222e83893d1bea3779279))
+
 ## [1.0.24](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.23...v1.0.24) (2026-09-24)
 
 
