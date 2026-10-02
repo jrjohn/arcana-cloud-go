@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.26](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.25...v1.0.26) (2026-10-02)
+
+
+### Bug Fixes
+
+* **deps:** update opentelemetry-go monorepo ([#90](https://github.com/jrjohn/arcana-cloud-go/issues/90)) ([51e741d](https://github.com/jrjohn/arcana-cloud-go/commit/51e741d9d4496c0285b6f8d637860842a5ab671a))
+
 ## [1.0.25](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.24...v1.0.25) (2026-10-01)
 
 
