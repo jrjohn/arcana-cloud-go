@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.28](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.27...v1.0.28) (2026-10-07)
+
+
+### Bug Fixes
+
+* **deps:** update module go.mongodb.org/mongo-driver/v2 to v2.9.2 ([#94](https://github.com/jrjohn/arcana-cloud-go/issues/94)) ([5014aa1](https://github.com/jrjohn/arcana-cloud-go/commit/5014aa18129c578cc50005c93fd2f1a307e488c2))
+
 ## [1.0.27](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.26...v1.0.27) (2026-10-05)
 
 
