@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.31](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.30...v1.0.31) (2026-10-21)
+
+
+### Bug Fixes
+
+* **deps:** update mysql docker tag to v26.10 ([#100](https://github.com/jrjohn/arcana-cloud-go/issues/100)) ([ed3400a](https://github.com/jrjohn/arcana-cloud-go/commit/ed3400a3a29576234b87f12331cd01fb99b9df93))
+
 ## [1.0.30](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.29...v1.0.30) (2026-10-09)
 
 
