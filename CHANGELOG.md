@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.37](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.36...v1.0.37) (2026-11-20)
+
+
+### Bug Fixes
+
+* **deps:** update postgres docker tag to v19 ([#113](https://github.com/jrjohn/arcana-cloud-go/issues/113)) ([7859511](https://github.com/jrjohn/arcana-cloud-go/commit/7859511f925663bd310479d68e471da43de3dcd4))
+
 ## [1.0.36](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.35...v1.0.36) (2026-11-20)
 
 
