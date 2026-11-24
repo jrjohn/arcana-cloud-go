@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/jrjohn/arcana-cloud-go/compare/v1.1.0...v1.1.1) (2026-11-24)
+
+
+### Bug Fixes
+
+* **ci:** go test failures now fail the CI build; align OTel semconv with SDK ([#117](https://github.com/jrjohn/arcana-cloud-go/issues/117)) ([07d0750](https://github.com/jrjohn/arcana-cloud-go/commit/07d0750e5a250e1a54a63821ac81ea58ff2c582b))
+
 ## [1.1.0](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.37...v1.1.0) (2026-11-24)
 
 
