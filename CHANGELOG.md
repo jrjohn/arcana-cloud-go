@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.37...v1.1.0) (2026-11-24)
+
+
+### Features
+
+* AGENTS.md + scaffolding so any AI agent follows the layered architecture ([#115](https://github.com/jrjohn/arcana-cloud-go/issues/115)) ([f9dfea8](https://github.com/jrjohn/arcana-cloud-go/commit/f9dfea8ef6ad1b04c36d6e3d9b5b78c840654664))
+
 ## [1.0.37](https://github.com/jrjohn/arcana-cloud-go/compare/v1.0.36...v1.0.37) (2026-11-20)
 
 
