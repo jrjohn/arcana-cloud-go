@@ -57,7 +57,7 @@ printf '%s\n' "$ALL" | xargs perl -pi -e "
 "
 # CI / container infrastructure files: every remaining arcana-<x> name is a host-level resource.
 INFRA="$(printf '%s\n' "$ALL" | grep -E '(^\./Jenkinsfile$|^\./Makefile$|docker-compose[^/]*\.ya?ml$|^\./deployment/|^\./scripts/)' || true)"
-[ -z "$INFRA" ] || printf '%s\n' "$INFRA" | xargs perl -pi -e "s/(?<![\w.\/-])arcana-(?!cloud-(springboot|rust|python|nodejs|java)|ios\b)(?=[a-z])/${APP}-/g"
+[ -z "$INFRA" ] || printf '%s\n' "$INFRA" | xargs perl -pi -e "s/(?<![\w.-])arcana-(?!cloud-(springboot|rust|python|nodejs|java)|ios\b)(?=[a-z])/${APP}-/g"
 
 # Fail loudly if a load-bearing template identity survived.
 LEFT="$(grep -rIn --exclude-dir=.git --exclude-dir=tools --exclude=CHANGELOG.md -E "jrjohn/arcana-cloud-go|arcana-cloud-go|\\bgo-app\\b|arcana-ci|arcana-arch-qube-go|ci-go-layered" . || true)"
