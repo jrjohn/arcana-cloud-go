@@ -132,7 +132,8 @@ test-report:
 test-report-quick:
 	@echo "Generating quick test report..."
 	@mkdir -p docs/coverage docs/test-reports
-	$(GOTEST) -v -race -short -coverprofile=docs/coverage/coverage.out -covermode=atomic ./... 2>&1 | tee docs/test-reports/test-output.txt || true
+	@set -o pipefail; $(GOTEST) -v -race -short -coverprofile=docs/coverage/coverage.out -covermode=atomic ./... 2>&1 | tee docs/test-reports/test-output.txt; rc=$$?; \
+		[ $$rc -eq 0 ] || echo "WARNING: tests failed (exit $$rc); report still generated"
 	$(GOCMD) tool cover -html=docs/coverage/coverage.out -o docs/coverage/coverage.html
 	$(GOCMD) tool cover -func=docs/coverage/coverage.out > docs/coverage/coverage-func.txt
 	@echo "Report generated: docs/coverage/coverage.html"
