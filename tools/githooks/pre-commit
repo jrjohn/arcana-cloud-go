@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Fast layering check on every commit (no docker, no go toolchain). The full scan is
+# tools/arch-check.sh and the Jenkins stage "Architecture Qube". Rules: AGENTS.md §3.
+#
+# Regex, not `case` globs: in a case pattern `*` also matches `/`, so `internal/*.go` would
+# match every correctly layered file too (this exact bug false-blocked good files in an
+# earlier version of this hook in another template).
+# Only ADDED files / ADDED lines are checked, so editing legacy code never fails on old code.
+set -euo pipefail
+
+fail=0
+
+# R4 — a NEW .go file must live in a layer directory (AGENTS.md §2).
+LAYER_RE='^(cmd/[^/]+/|api/|pkg/[^/]+/|tests/|internal/(controller/(http|grpc|graphql)/|domain/(entity|dao|repository|service)/|dto/(request|response)/|di/|config/|configserver/|grpc/|jobs/|middleware/|observability/|plugin/|resilience/|security/|testutil/|websocket/))'
+while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    [[ "$f" =~ \.go$ ]] || continue
+    if [[ ! "$f" =~ $LAYER_RE ]]; then
+        echo "pre-commit: $f — new Go file outside the layer directories. Put it in a layer (AGENTS.md §2) or run tools/new-feature.sh" >&2
+        fail=1
+    fi
+done <<< "$(git diff --cached --name-only --diff-filter=AR)"
+
+# R2 — only the DI wiring (internal/di/) imports a concrete implementation package
+# (internal/domain/{dao,repository,service}/impl, impl/gorm, impl/mongo). Impl packages
+# themselves and black-box tests under tests/ are exempt.
+IMPL_IMPORT_RE='"[^"]*/internal/domain/[a-z_]+/impl(/[a-z_/]+)?"'
+while IFS= read -r f; do
+    [ -n "$f" ] || continue
+    [[ "$f" =~ \.go$ ]] || continue
+    if [[ "$f" =~ ^internal/di/ ]] || [[ "$f" =~ /impl/ ]] || [[ "$f" =~ ^tests/ ]]; then
+        continue
+    fi
+    hits="$(git diff --cached -U0 -- "$f" | grep -E '^\+[^+]' | sed 's/^+//' \
+        | grep -E "$IMPL_IMPORT_RE" | grep -vE '^\s*//' || true)"
+    [ -n "$hits" ] || continue
+    echo "pre-commit: $f imports a concrete impl package — depend on the interface and let internal/di wire it (AGENTS.md R2):" >&2
+    printf '    %s\n' "$hits" >&2
+    fail=1
+done <<< "$(git diff --cached --name-only --diff-filter=ACMR)"
+
+if [ "$fail" -ne 0 ]; then
+    echo "pre-commit: blocked. Full check: tools/arch-check.sh" >&2
+    exit 1
+fi

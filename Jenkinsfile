@@ -179,7 +179,7 @@ pipeline {
                     docker rm -f "$AQ" 2>/dev/null || true
                     docker create --name "$AQ" --network devops_default \
                         -v /src -v /output \
-                        arcana.boo/arcana/arch-qube:latest \
+                        arcana.boo/arcana/arch-qube:"$(tr -d "[:space:]" < tools/arch-qube.version)" \
                         scan /src --framework go --no-ai --ci \
                         --format json,markdown -o /output --threshold 90 || exit 1
                     tar --exclude=./.git --exclude=./arch-qube-reports -C . -cf - . \
