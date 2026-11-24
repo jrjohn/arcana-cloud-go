@@ -14,10 +14,17 @@ RUN mkdir -p api/proto/pb && \
     protoc --go_out=api/proto/pb --go_opt=paths=source_relative \
            --go-grpc_out=api/proto/pb --go-grpc_opt=paths=source_relative \
            -I api/proto api/proto/*.proto
-RUN go test -tags !integration ./... \
-    -coverprofile=/tmp/coverage.out -covermode=atomic \
-    2>&1 | tee /tmp/test-results.txt; \
-    go tool cover -func=/tmp/coverage.out | tail -5 || true
+# The exit status of `go test` must reach Docker: with a bare `| tee` the step's status was tee's
+# (always 0), so failing tests never failed the Jenkins "Docker Compose Build" stage.
+# Capture go test's own status, print the coverage summary, then exit with it.
+RUN set -o pipefail; \
+    go test -tags !integration ./... \
+      -coverprofile=/tmp/coverage.out -covermode=atomic \
+      2>&1 | tee /tmp/test-results.txt; \
+    rc=$?; \
+    go tool cover -func=/tmp/coverage.out 2>/dev/null | tail -5; \
+    if [ "$rc" -ne 0 ]; then echo "go test FAILED (exit $rc)"; grep -E '^(--- FAIL|FAIL)' /tmp/test-results.txt; fi; \
+    exit $rc
 
 FROM golang:1.27-alpine AS builder
 WORKDIR /app
