@@ -85,13 +85,15 @@ build — read the `FAIL` lines yourself; a passing build is not proof the tests
 
 arch-qube (https://github.com/jrjohn/arcana-arch-qube; usage skill
 https://github.com/jrjohn/arcana-skills/tree/main/arch-qube-skill) scores the layering
-rules of §3 statically. The version is pinned in `tools/arch-qube.version` (0.5.6); both
+rules of §3 statically. The version is pinned in `tools/arch-qube.version`; both
 `tools/arch-check.sh` and the Jenkinsfile read it.
+
+`tools/arch-qube.version` is bumped automatically by Renovate when arch-qube releases; do not edit the version anywhere else.
 
 - Run: `tools/arch-check.sh` — Docker image `ghcr.io/jrjohn/arch-qube:<version>` (public,
   multi-arch), then `arcana.boo/arcana/arch-qube:<version>`; no `:latest` fallback. Same
   `--framework go`, `--threshold 90` and exclusions as the Jenkins stage.
-- No Docker: `pipx run --spec "git+https://github.com/jrjohn/arcana-arch-qube.git@v0.5.6"
+- No Docker: `pipx run --spec "git+https://github.com/jrjohn/arcana-arch-qube.git@v$(cat tools/arch-qube.version)"
   arch-qube scan . --framework go --no-ai --ci --format json,markdown -o arch-qube-reports --threshold 90`.
 - Exit 0 = pass, 1 = fail, 2 = could not check (no Docker / no image). Exit 2 is NOT a pass.
 - Report: `arch-qube-reports/arch-qube.md` and `arch-qube.json`.
