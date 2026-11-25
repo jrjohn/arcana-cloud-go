@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/jrjohn/arcana-cloud-go/compare/v1.1.2...v1.2.0) (2026-11-25)
+
+
+### Features
+
+* enforce arch-check locally (Claude Code Stop hook + pre-push) ([#124](https://github.com/jrjohn/arcana-cloud-go/issues/124)) ([9a62d50](https://github.com/jrjohn/arcana-cloud-go/commit/9a62d505540263ece129e35e4e6add2460a2814c))
+
 ## [1.1.2](https://github.com/jrjohn/arcana-cloud-go/compare/v1.1.1...v1.1.2) (2026-11-24)
 
 
