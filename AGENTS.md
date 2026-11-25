@@ -85,18 +85,21 @@ build — read the `FAIL` lines yourself; a passing build is not proof the tests
 
 arch-qube (https://github.com/jrjohn/arcana-arch-qube; usage skill
 https://github.com/jrjohn/arcana-skills/tree/main/arch-qube-skill) scores the layering
-rules of §3 statically. The version is pinned in `tools/arch-qube.version` (0.5.5); both
+rules of §3 statically. The version is pinned in `tools/arch-qube.version` (0.5.6); both
 `tools/arch-check.sh` and the Jenkinsfile read it.
 
-- Run: `tools/arch-check.sh` — Docker image `arcana.boo/arcana/arch-qube:<version>`, same
+- Run: `tools/arch-check.sh` — Docker image `ghcr.io/jrjohn/arch-qube:<version>` (public,
+  multi-arch), then `arcana.boo/arcana/arch-qube:<version>`; no `:latest` fallback. Same
   `--framework go`, `--threshold 90` and exclusions as the Jenkins stage.
-- No Docker: `pipx run --spec "git+https://github.com/jrjohn/arcana-arch-qube.git@v0.5.5"
+- No Docker: `pipx run --spec "git+https://github.com/jrjohn/arcana-arch-qube.git@v0.5.6"
   arch-qube scan . --framework go --no-ai --ci --format json,markdown -o arch-qube-reports --threshold 90`.
 - Exit 0 = pass, 1 = fail, 2 = could not check (no Docker / no image). Exit 2 is NOT a pass.
 - Report: `arch-qube-reports/arch-qube.md` and `arch-qube.json`.
+- PASS = score ≥ threshold **and** zero violations in every CRITICAL rule — a 99 can still FAIL.
+- `--ci` prints nothing on failure. Rerun without `--ci` (or open `arch-qube.md`) to see why.
 
 Reading the report: the score alone is not enough. Read every FAIL row and its violations.
-A rule under "Not evaluated" checked nothing — it is not a pass for a layer you touched.
+A rule under "Not evaluated" checked nothing — NOT EVALUATED is not a pass for a layer you touched.
 Check `files_checked` in the JSON: a number far below the Go file count means the scan saw
 an empty or wrong tree. An unlayered project scores 0 on "Layer Direction Enforcement".
 
