@@ -108,6 +108,17 @@ an empty or wrong tree. An unlayered project scores 0 on "Layer Direction Enforc
 False positive: open an issue on https://github.com/jrjohn/arcana-arch-qube/issues with the
 report attached. NEVER lower `--threshold`, add exclusions, or move code to dodge a rule.
 
+### What enforces the check locally (there is no CI server)
+
+| Trigger | Mechanism | Blocks when |
+|---|---|---|
+| Claude Code finishes a turn | `.claude/settings.json` Stop hook → `tools/claude-stop-arch-check.sh` | source under `cmd/`, `internal/`, `pkg/`, `api/`, `tests/` changed and `tools/arch-check.sh` fails (gives up after 3 blocks, saying the work is NOT done) |
+| `git push` | `tools/githooks/pre-push` | pushed commits touch `cmd/`, `internal/`, `pkg/`, `api/`, `tests/` and the check fails or cannot run |
+| `git commit` | `tools/githooks/pre-commit` | fast layering checks (no Docker) |
+
+Claude Code asks once whether to trust this project's settings: answer yes, or the Stop hook never runs.
+Git hooks run only after `tools/install-hooks.sh`.
+
 ## 6. Reference
 
 - Optional detail: `arcana-go-developer-skill`
