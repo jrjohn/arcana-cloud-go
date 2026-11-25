@@ -177,15 +177,27 @@ pipeline {
                     # (arcana-ios PR-14/PR-15, 2026-09-30: "destination ...:/src must be a directory").
                     AQ="arcana-arch-qube-go-$(printf '%s' "${BRANCH_NAME}-${BUILD_NUMBER}" | tr -c 'A-Za-z0-9_.-' '-')"
                     docker rm -f "$AQ" 2>/dev/null || true
+                    # Version pinned in tools/arch-qube.version (shared with tools/arch-check.sh).
+                    # ghcr.io first (public, multi-arch), then arcana.boo. NO :latest fallback:
+                    # an unpinned image changes the verdict without a commit in this repo.
+                    AQ_VER="$(tr -d '[:space:]' < tools/arch-qube.version)"
+                    AQ_IMG=""
+                    for c in "ghcr.io/jrjohn/arch-qube:$AQ_VER" "arcana.boo/arcana/arch-qube:$AQ_VER"; do
+                        if docker image inspect "$c" >/dev/null 2>&1 || docker pull -q "$c" >/dev/null 2>&1; then AQ_IMG="$c"; break; fi
+                    done
+                    [ -n "$AQ_IMG" ] || { echo "arch-qube $AQ_VER image not pullable from ghcr.io or arcana.boo — NOT a pass"; exit 1; }
                     docker create --name "$AQ" --network devops_default \
                         -v /src -v /output \
-                        arcana.boo/arcana/arch-qube:"$(tr -d "[:space:]" < tools/arch-qube.version)" \
+                        "$AQ_IMG" \
                         scan /src --framework go --no-ai --ci \
                         --format json,markdown -o /output --threshold 90 || exit 1
                     tar --exclude=./.git --exclude=./arch-qube-reports -C . -cf - . \
                         | docker cp - "$AQ":/src || exit 1
+                    # sh runs with -e: without set +e a failing scan aborts before the reports are copied out.
+                    set +e
                     docker start -a "$AQ"
                     AQ_RC=$?
+                    set -e
                     mkdir -p arch-qube-reports
                     docker cp "$AQ":/output/. arch-qube-reports/ 2>/dev/null || true
                     docker rm -f "$AQ" 2>/dev/null || true
